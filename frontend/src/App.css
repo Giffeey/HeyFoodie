@@ -45,27 +45,41 @@
   align-items: center;
 }
 
-.col-md-2.button{
+.col-md-2.button {
   text-align: center;
   padding: 8%;
 }
 
 .btn.btn-primary {
-  width: 157 !important;
-  height: 64 !important;
   border-radius: 20 !important;
 }
 
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-  background-color: darkorange !important;
-  border-color: darkorange !important; 
-  outline-color: darkorange !important;
-  box-shadow: none !important;
-  -moz-box-shadow: none !important; 
+.btn-outline-primary {
+  border-color: darkorange !important;
+  width: 100%;
+  color:darkorange !important;
 }
 
-.card{
-  font-family:'Kanit', sans-serif;
+.btn-outline-primary:hover {
+  background-color: darkorange !important;
+  width: 100%;
+  color: white !important;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+  width: 100%;
+  background-color: darkorange !important;
+  border-color: darkorange !important;
+  outline-color: darkorange !important;
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
+.card {
+  font-family: "Kanit", sans-serif;
   width: 980px;
   height: 154;
   margin: 20px auto;
@@ -73,7 +87,7 @@
   justify-content: center;
 }
 
-.col-md-6{
+.col-md-6 {
   float: none;
   position: absolute;
   margin: 30px;
@@ -93,10 +107,10 @@
 }
 
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: "Material Icons";
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  font-size: 24px; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -114,63 +128,51 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Support for IE. */
-  font-feature-settings: 'liga';
+  font-feature-settings: "liga";
 }
 
-.navbar-expand-lg .navbar-brand{
-  font-family: 'Kanit', sans-serif !important;
+.navbar-brand {
+  font-family: "Kanit", sans-serif !important;
   font-size: 30px !important;
-  margin-left: 50px !important; 
-  color: white !important; 
-} 
-
-.navbar-expand-lg{
-  width: 100% !important;
-  height: 65px !important;
-  background-color: #FFAA00 !important; 
-}
-
-.navbar-expand-custom .navbar-nav {
-  flex-direction: row; 
-}
-.nav-item.nav-link{
-  font-family:'Kanit', sans-serif !important;
-  padding-right: .5rem;
-  padding-left: .5rem;
-  margin-top: 10px !important;
-  margin-right: 20px;
+  margin-left: 50px !important;
   color: white !important;
-  font-size: 20px;
 }
 
-.navbar-expand-custom .navbar-collapse {
-    display: flex  !important;
-    align-items: flex-end !important;
+.navbar-link {
+  font-family: "Kanit", sans-serif !important;
+  font-size: 16px !important;
+  /* margin: 15px; */
+  /* margin-right: 50px !important; */
+  color: white !important;
 }
 
-.nav-user{
+.btn-cart {
+  margin: 5px;
+}
+
+.food-navbar-expand-lg {
+  height: 65px !important;
+  background-color: #ffaa00 !important;
+}
+
+.nav-user {
   width: 25px;
   height: 25px;
-  margin-right: .5rem;
+  /* margin-right: 0.5rem; */
+  margin: 5px;
 }
 
-.nav-cart{
+.nav-cart {
   width: 25px;
   height: 25px;
 }
 
-.badge.badge-secondary.badge-pill{
-  background-color: #D4320E;
+.badge.badge-secondary.badge-pill {
+  background-color: #d4320e;
   color: white;
 }
 
-.collapse.navbar-collapse{
-  justify-content: end !important;
-  margin-right: 100px;
-}
-
-
-.d-block.w-100{
+.d-block.w-100 {
   width: 100% !important;
   height: 600px;
 }
@@ -179,142 +181,142 @@
   width: 100%;
   margin: auto;
   margin-bottom: 100px;
-  
 }
 
-.con{
+.con {
   width: 100% !important;
 }
+.min-vw {
+  width: 1024px !important;
+}
 
-.footer-foot{
-  font-family: 'Kanit', sans-serif;
+.footer-foot {
+  font-family: "Kanit", sans-serif;
   color: white;
   margin-top: 100px;
   padding-top: 40px;
   width: 100%;
   height: 265px;
-  background-color: #FFAA00;
+  background-color: #ffaa00;
 }
 
-.col-md-5.mt-md-0.mt-3{
+.col-md-5.mt-md-0.mt-3 {
   padding-left: 50px;
   padding-top: 25px;
 }
 
-.col-md-3.mb-md-0.mb-3{
+.col-md-3.mb-md-0.mb-3 {
   margin-left: 50px;
 }
-.text-store{
+.text-store {
   font-size: 36px;
 }
 
-.text-uppercase{
+.text-uppercase {
   font-size: 20px;
   padding-left: 30px;
   padding-top: 2px;
 }
 
-.img-footer{
+.img-footer {
   width: 20px;
   height: 20px;
   margin-right: 10px;
 }
 
-.list-unstyled.place li{
+.list-unstyled.place li {
   font-size: 20px;
 }
 
-.list-unstyled li{
+.list-unstyled li {
   margin-bottom: 5px;
 }
 
-.footer-hr{
+.footer-hr {
   border-top: 2px solid white;
   width: 93%;
 }
 
-.footer-copyright.text-left{
+.footer-copyright.text-left {
   padding-left: 50px;
   float: left;
 }
 
-.footer.text-right{
+.footer.text-right {
   float: right;
   padding-right: 50px;
 }
 
-
-.btn-cart, .btn-cart:hover, .btn-cart:active,
-.btn-del, .btn-del:hover, .btn-del:active{
+.btn-cart,
+.btn-cart:hover,
+.btn-cart:active,
+.btn-del,
+.btn-del:hover,
+.btn-del:active {
   background-color: Transparent !important;
   border: none !important;
-  cursor:pointer !important;
+  cursor: pointer !important;
   overflow: hidden !important;
-  outline:none !important;
+  outline: none !important;
   box-shadow: none !important;
-  -moz-box-shadow: none !important; 
+  -moz-box-shadow: none !important;
 }
 
-.btn-cart {
-  margin-top: -3px;
-}
-
-.text-left{
+.text-left {
   float: left;
   padding-top: 10px;
   padding-left: 5px;
 }
 
-.text-right{
+.text-right {
   float: right;
   padding-top: 10px;
   padding-right: 10px;
 }
 
-.total.text-right{
+.total.text-right {
   margin-top: 5px;
 }
 
-#popover-basic{
+#popover-basic {
   float: right !important;
   margin-right: auto;
   width: 100% !important;
-  background-color: #FEE8C6;
+  background-color: #fee8c6;
   border: none;
 }
 
-.card-block, .card.cart{
-  background-color: #FEE8C6 !important;
-  font-family: 'Kanit', sans-serif;
+.card-block,
+.card.cart {
+  background-color: #fee8c6 !important;
+  font-family: "Kanit", sans-serif;
   border: none;
   width: 250px;
 }
 
-.list-menu{
+.list-menu {
   width: 250px;
   margin-bottom: 10px;
 }
 
-.order{
+.order {
   text-align: center;
   margin-top: 10px;
 }
 
-.img-icon{
+.img-icon {
   width: 15px;
   height: 15px;
   margin-top: -2px;
   margin-left: -5px !important;
 }
 
-.shoppingCart{
+.shoppingCart {
   width: 100%;
-
 }
 
-.noItem{
+.noItem {
   height: 100px;
   text-align: center;
   padding: 45px;
 }
-

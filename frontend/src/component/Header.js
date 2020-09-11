@@ -1,54 +1,37 @@
-import React, { Component } from 'react';
-import user from '../img/icon/user.png';
+import React, { Component } from "react"
+import user from "../img/icon/user.png"
 // import MenuList from './MenuList';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Button from 'react-bootstrap/Button';
-import cart from '../img/icon/cart.png';
-import Cart from './Cart';
-import Popover from 'react-bootstrap/Popover';
+import Button from "react-bootstrap/Button"
+import cart from "../img/icon/cart.png"
+import Cart from "./Cart"
+import Popover from "react-bootstrap/Popover"
+import { Nav, Navbar } from "react-bootstrap"
 
-
-class Header extends Component {
-
-  render() {
-    const popover = (
-      <Popover id="popover-basic">
-        <Popover.Content className="pop-content">
-          <Cart
-            cart={this.props.cart}
-            handleRemoveSingleItemOnCart={this.props.handleRemoveSingleItemOnCart}
-            prices={this.props.prices}
-            quantity={this.props.quantity}
-          />
-        </Popover.Content>
-      </Popover>
-    )
-
-    return (
-      <nav className="navbar navbar-expand-lg navbar-light">
-        <a className="navbar-brand" href="/">{this.props.store.storename}</a>
-
-        <div className="collapse navbar-collapse">
-          <div className="nav ml-auto">
-            <a className="nav-item nav-link" href="/register">
+export default function Header(props) {
+  return (
+    <Navbar collapseOnSelect  expand="lg" className="food-navbar-expand-lg">
+      <a className="navbar-brand" href="/">
+        {props.store?.storename || "Hey!Foodie"}
+      </a>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="ml-auto">
+          <Nav.Item>
+            <a className="navbar-link" href="/login">
               <img className="nav-user" src={user} alt="img-user"></img>
-                เข้าสู่ระบบ/ลงทะเบียน</a>
-
-
-            <div className="nav-item nav-link">
-              <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
-                <Button className="btn-cart">
-                  <img className="nav-cart" src={cart} alt="img-cart"></img>
-                  <span className="badge badge-secondary badge-pill">{this.props.quantity}</span>
-                </Button>
-              </OverlayTrigger>
-            </div>
-
-          </div>
-        </div>
-      </nav>
-    )
-  }
+              Login
+            </a>
+            </Nav.Item>
+          <Nav.Item>
+            <Button className="btn-cart ml-auto">
+              <img className="nav-cart" src={cart} alt="img-cart"></img>
+              <span className="badge badge-secondary badge-pill">
+                {props.quantity}
+              </span>
+            </Button>
+          </Nav.Item>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  )
 }
-
-export default Header
