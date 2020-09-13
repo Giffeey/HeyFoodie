@@ -13,6 +13,9 @@ from .serializers import SalesizeSerializer
 import json
 import logging
 
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
+
 # Create your views here.
 
 class ListCategory(generics.ListCreateAPIView) :
@@ -71,6 +74,7 @@ class DetailSalesize(generics.RetrieveUpdateDestroyAPIView):
     queryset = SaleSize.objects.all()
     serializer_class = SalesizeSerializer
 
+
 # class ListCustomer(generics.ListCreateAPIView):
 #     queryset = Customer.objects.all()
 #     serializer_class = CustomerSerializer
@@ -82,3 +86,7 @@ class DetailSalesize(generics.RetrieveUpdateDestroyAPIView):
 # class ListOrderDetail(generics.ListCreateAPIView):
 #     queryset = Order_detail.objects.all()
 #     serializer_class = OrderDetailSerializer
+
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
