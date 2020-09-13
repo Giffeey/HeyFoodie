@@ -1,5 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\GIFS\\Documents\\HeyFoodie\\backend\\env\\Scripts\\python.exe",
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django",
         "--errors-only",
