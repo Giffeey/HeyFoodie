@@ -23,7 +23,7 @@ export default function Header(props) {
             </a>
             </Nav.Item>
           <Nav.Item>
-            <Button className="btn-cart ml-auto">
+            <Button className="btn-cart">
               <img className="nav-cart" src={cart} alt="img-cart"></img>
               <span className="badge badge-secondary badge-pill">
                 {props.quantity}
