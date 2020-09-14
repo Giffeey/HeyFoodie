@@ -28,6 +28,7 @@ export default function Header(props) {
       <a className="navbar-brand" href="/">
         {props.store?.storename || "Hey!Foodie"}
       </a>
+
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">
@@ -38,20 +39,6 @@ export default function Header(props) {
             </a>
           </Nav.Item>
           <Nav.Item className="m-3">
-          <Nav.Item>
-            {/* <a className="navbar-link" href="/login"> */}
-            {/* <img className="nav-user" src={user} alt="img-user"></img>
-              Login */}
-            <div className="Facebook">
-              <FacebookLogin
-                textButton="Login With Facebook"
-                appId="319223145838224"
-                fields="name,email,picture"
-                callback={fbResponse}
-              />
-            </div>
-            {/* </a> */}
-          </Nav.Item>
             <Button className="btn-cart" id="UncontrolledPopover" type="button">
               <img className="nav-cart" src={cart} alt="img-cart"></img>
               <span className="badge badge-secondary badge-pill">

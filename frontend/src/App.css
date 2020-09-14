@@ -284,6 +284,11 @@
   padding-right: 10px;
 }
 
+.facebook {
+  margin: auto;
+  width: 200px;
+}
+
 .total.text-right {
   margin-top: 5px;
 }
