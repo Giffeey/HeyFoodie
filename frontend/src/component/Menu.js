@@ -28,7 +28,7 @@ class Menu extends Component {
                         <ul className="list-unstyled inline">
                             {this.listIngredient()}
                         </ul>
-                        <p className="card-text">{this.props.menu.price} บาท</p>
+                        {/* <p className="card-text">{this.props.menu.price} บาท</p> */}
                     </div>
                     <div className="col-md-2 button">
                         <button type="submit" name="add_to_cart" className="btn btn-primary"

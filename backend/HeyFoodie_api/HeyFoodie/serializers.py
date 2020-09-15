@@ -25,9 +25,9 @@ class SalesizeSerializer(serializers.ModelSerializer):
 class MenuSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     ingredient = IngredientSerializer(many=True)
-    salesize = SalesizeSerializer(many=True)
+
     class Meta:
-        model = Menu, SaleSize
+        model = Menu
         fields = ('menu_id', 'name','category','ingredient', 'image')
 
 class StoreSerializer(serializers.HyperlinkedModelSerializer):

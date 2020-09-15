@@ -4,8 +4,7 @@ import home from "../img/home/home.jpg"
 import home2 from "../img/home/home2.png"
 import Menu from "../component/Menu"
 import Cart from "../component/Cart"
-import Header from "../component/Header"
-import Footer from "../component/Footer"
+
 // import Popover from 'react-bootstrap/Popover';
 
 function MenuList() {
@@ -15,12 +14,20 @@ function MenuList() {
   const [quantity, setQuantity] = useState(0)
   const [store, setStore] = useState([])
   const [owner, setOwner] = useState([])
+  const [salesize, setSaleSize] = useState([])
 
   const getItems = () =>
     fetch("http://127.0.0.1:8000/api/menu/").then((res) => res.json())
 
   useEffect(() => {
     getItems().then((data) => setMenus(data))
+  }, [])
+
+  const getSaleSize = () =>
+    fetch("http://127.0.0.1:8000/api/salesize/").then((res) => res.json())
+
+  useEffect(() => {
+    getSaleSize().then((data) => setSaleSize(data))
   }, [])
 
   const getStore = () =>
@@ -41,10 +48,11 @@ function MenuList() {
     const tempCart = [...cart]
     tempCart.push(menu)
     setCart(tempCart)
-    const amountTotal = prices + parseFloat(menu.price)
-    setTotalPrice(amountTotal)
+    // const amountTotal = prices + parseFloat(menu.price)
+    // setTotalPrice(amountTotal)
     const itemQuantity = quantity + 1
     setQuantity(itemQuantity)
+    console.log("add item")
   }
 
   const handleRemoveSingleItemOnCart = (index) => {
@@ -52,8 +60,8 @@ function MenuList() {
     const menu = tempCart[index]
     tempCart.splice(index, 1)
     setCart(tempCart)
-    const amountTotal = prices - parseFloat(menu.price)
-    setTotalPrice(amountTotal)
+    // const amountTotal = prices - parseFloat(menu.price)
+    // setTotalPrice(amountTotal)
     const itemQuantity = quantity - 1
     setQuantity(itemQuantity)
   }
@@ -62,8 +70,9 @@ function MenuList() {
     <div>
       <Cart
         cart={cart}
+        quantity = {quantity}
         handleRemoveSingleItemOnCart={handleRemoveSingleItemOnCart}
-        prices={prices}
+        // prices={prices}
       />
     </div>
   )

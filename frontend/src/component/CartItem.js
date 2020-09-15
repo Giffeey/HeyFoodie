@@ -12,7 +12,7 @@ class CartItem extends Component {
                         <img className="img-icon" src={del} alt="img-del" />
                     </button>
                     {this.props.menu.name}</div>
-                <div className="text-right">ราคา {this.props.menu.price} ฿</div>
+                {/* <div className="text-right">ราคา {this.props.menu.price} ฿</div> */}
             </li>
         );
     }

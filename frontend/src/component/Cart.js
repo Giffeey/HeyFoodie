@@ -41,9 +41,9 @@ class Cart extends Component {
             </ul>
           </div>
 
-          <div className="total text-right">
+          {/* <div className="total text-right">
             ราคารวม {this.props.prices}.00 ฿
-        </div>
+        </div> */}
           <div className="order">
             <button className="btn btn-primary order" onClick={this.routeChange} >สั่งซื้อ</button>
           </div>

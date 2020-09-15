@@ -4,8 +4,6 @@ import user from "../img/icon/user.png"
 import Button from "react-bootstrap/Button"
 import cart from "../img/icon/cart.png"
 import Cart from "./Cart"
-import Popover from "react-bootstrap/Popover"
-import FacebookLogin from "react-facebook-login"
 import {
   Nav,
   Navbar,
@@ -13,16 +11,12 @@ import {
   PopoverContent,
   PopoverTitle,
 } from "react-bootstrap"
-import ReactTooltip from "react-tooltip"
+
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap"
 
 
 export default function Header(props) {
   
-  const fbResponse = (response) => {
-    console.log(response);
-  }
-
   return (
     <Navbar collapseOnSelect expand="lg" className="food-navbar-expand-lg">
       <a className="navbar-brand" href="/">
