@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import Carousel from "react-bootstrap/Carousel"
 import home from "../img/home/home.jpg"
 import home2 from "../img/home/home2.png"
 import Menu from "../component/Menu"
 import Cart from "../component/Cart"
+import SlideMenu from "../component/SlideMenu"
+import { storesContext } from "../context"
 
 // import Popover from 'react-bootstrap/Popover';
 
 function MenuList() {
+  const { cartStore } = useContext(storesContext)
   const [cart, setCart] = useState([])
   const [menus, setMenus] = useState([])
   const [prices, setTotalPrice] = useState(0)
@@ -45,14 +48,13 @@ function MenuList() {
   }, [])
 
   const handleAddItemToCart = (menu) => {
-    const tempCart = [...cart]
+    const tempCart = [...cartStore.currentCart]
     tempCart.push(menu)
-    setCart(tempCart)
+    cartStore.setCart(tempCart)
     // const amountTotal = prices + parseFloat(menu.price)
     // setTotalPrice(amountTotal)
     const itemQuantity = quantity + 1
     setQuantity(itemQuantity)
-    console.log("add item")
   }
 
   const handleRemoveSingleItemOnCart = (index) => {
@@ -70,7 +72,7 @@ function MenuList() {
     <div>
       <Cart
         cart={cart}
-        quantity = {quantity}
+        quantity={quantity}
         handleRemoveSingleItemOnCart={handleRemoveSingleItemOnCart}
         // prices={prices}
       />
@@ -79,16 +81,7 @@ function MenuList() {
 
   return (
     <div>
-      <div className="ctn">
-        <Carousel className="carousel">
-          <Carousel.Item>
-            <img className="d-block w-100" src={home} alt="First slide" />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img className="d-block w-100" src={home2} alt="Second slide" />
-          </Carousel.Item>
-        </Carousel>
-      </div>
+      <SlideMenu></SlideMenu>
       <div className="ctn-menu">
         {menus.map((menu, index) => (
           <Menu

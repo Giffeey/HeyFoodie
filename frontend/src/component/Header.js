@@ -1,9 +1,14 @@
-import React, { Component } from "react"
+import React, {
+  Component,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
 import user from "../img/icon/user.png"
 // import MenuList from './MenuList';
 import Button from "react-bootstrap/Button"
 import cart from "../img/icon/cart.png"
-import Cart from "./Cart"
 import {
   Nav,
   Navbar,
@@ -13,10 +18,16 @@ import {
 } from "react-bootstrap"
 
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap"
-
+import { storesContext } from "../context"
 
 export default function Header(props) {
-  
+  const { cartStore } = useContext(storesContext)
+  const [showCart, setShowCart] = useState(cartStore.currentCart)
+
+  setInterval(() => {
+    setShowCart(cartStore.currentCart)
+  }, 150)
+
   return (
     <Navbar collapseOnSelect expand="lg" className="food-navbar-expand-lg">
       <a className="navbar-brand" href="/">
@@ -28,7 +39,7 @@ export default function Header(props) {
         <Nav className="ml-auto">
           <Nav.Item className="mt-3">
             <a className="navbar-link" href="/login">
-            <img className="nav-user" src={user} alt="img-user"></img>
+              <img className="nav-user" src={user} alt="img-user"></img>
               Login via Facebook
             </a>
           </Nav.Item>
@@ -42,12 +53,14 @@ export default function Header(props) {
           </Nav.Item>
           <NavItem>
             <UncontrolledPopover
-            className="popover"
+              className="popover"
               placement="bottom"
               target="UncontrolledPopover"
             >
               <PopoverBody className="text-center">
-                No Orders in your cart.
+                {showCart.length != 0
+                  ? showCart.length
+                  : "No Orders in your cart."}
               </PopoverBody>
             </UncontrolledPopover>
           </NavItem>

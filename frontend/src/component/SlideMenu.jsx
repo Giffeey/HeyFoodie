@@ -6,14 +6,15 @@ import Carousel from "react-bootstrap/esm/Carousel"
 export default function SlideMenu() {
   return (
 
-    <Carousel>
-      <Carousel.Item>
-      <img src={home} class="d-block w-100" alt="..."/>
-      </Carousel.Item>
-      <Carousel.Item>
-      <img src={home2} class="d-block w-100" alt="..."/>
-      </Carousel.Item>
-    </Carousel>
-
+    <div className="ctn">
+        <Carousel className="carousel">
+          <Carousel.Item>
+            <img className="d-block w-100" src={home} alt="First slide" />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img className="d-block w-100" src={home2} alt="Second slide" />
+          </Carousel.Item>
+        </Carousel>
+      </div>
   )
 }
