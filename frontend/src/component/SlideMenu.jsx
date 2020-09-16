@@ -15,6 +15,5 @@ export default function SlideMenu() {
       </Carousel.Item>
     </Carousel>
 
-
   )
 }
