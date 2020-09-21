@@ -19,6 +19,7 @@ import {
 
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap"
 import { storesContext } from "../context"
+import ModalLogin from "./Login/ModalLogin"
 
 export default function Header(props) {
   const { cartStore } = useContext(storesContext)
@@ -38,10 +39,16 @@ export default function Header(props) {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Item className="mt-3">
-            <a className="navbar-link" href="/login">
+            {/* <a
+              className="navbar-link"
+              href="/login"
+            >
               <img className="nav-user" src={user} alt="img-user"></img>
-              Login via Facebook
-            </a>
+              Login
+            </a> */}
+
+            <ModalLogin></ModalLogin>
+            
           </Nav.Item>
           <Nav.Item className="m-3">
             <Button className="btn-cart" id="UncontrolledPopover" type="button">
