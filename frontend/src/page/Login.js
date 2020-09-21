@@ -1,19 +1,24 @@
-import React from "react";
-import FormLogin from "../component/Login/FormLogin";
-import CommonCard from "../component/Common/CommonCard";
+import React from "react"
+import FormLogin from "../component/Login/FormLogin"
+import CommonCard from "../component/Common/CommonCard"
 import FacebookLogin from "react-facebook-login"
-
+import Modal from "react-modal"
+import { ModalBody, ModalDialog, ModalFooter } from "react-bootstrap"
+import { ModalHeader } from "reactstrap"
+import Button from 'react-bootstrap/Button'
+import ModalLogin from '../component/Login/ModalLogin'
 
 export default function Login() {
   function handleSubmit(event) {
-    event.preventDefault();
-    console.log(event.target.email.value);
-    console.log(event.target.password.value);
+    event.preventDefault()
+    console.log(event.target.email.value)
+    console.log(event.target.password.value)
   }
 
   const fbResponse = (response) => {
-    console.log(response);
+    console.log(response)
   }
+
 
   return (
     <div className="container min-vh-100 max-vw">
@@ -34,6 +39,7 @@ export default function Login() {
         </div>
         <div className="col-3"></div>
       </div>
+      
     </div>
-  );
+  )
 }
