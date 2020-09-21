@@ -18,10 +18,12 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
-from HeyFoodie.views import FacebookLogin
+from HeyFoodie.views import FacebookLogin, GoogleLogin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('HeyFoodie.urls')),
-    path('rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login')
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login'),
+    path('rest-auth/google/', GoogleLogin.as_view(), name='google_login')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

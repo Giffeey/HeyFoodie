@@ -25,7 +25,7 @@ SECRET_KEY = 'v)u0(e)0$6cd7f1-p!owdu@o75y*g@=x(0pbsayrz&wi$$_otf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,12 +45,11 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     'multiselectfield',
     'corsheaders',
     'HeyFoodie',
 ]
-
-SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -71,11 +70,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
     'http://localhost:8080',
+    'http://mydm.heyfoodie.com:3000',
+    'http://mydm.heyfoodie.com:8000'
 ]
 
 ROOT_URLCONF = 'HeyFoodie_api.urls'
@@ -159,3 +159,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+SITE_ID = 2
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
