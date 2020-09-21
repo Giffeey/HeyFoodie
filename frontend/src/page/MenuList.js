@@ -11,7 +11,6 @@ import { storesContext } from "../context"
 
 function MenuList() {
   const { cartStore } = useContext(storesContext)
-  const [cart, setCart] = useState([])
   const [menus, setMenus] = useState([])
   const [prices, setTotalPrice] = useState(0)
   const [quantity, setQuantity] = useState(0)
@@ -47,37 +46,30 @@ function MenuList() {
     getOwner().then((data) => setOwner(data))
   }, [])
 
-  const handleAddItemToCart = (menu) => {
-    const tempCart = [...cartStore.currentCart]
-    tempCart.push(menu)
+  const handleAddItemToCart = (data) => {
+    let tempCart = [...cartStore.currentCart]
+    const menu = {
+      ...data,
+      quantity: 1,
+    }
+    if (tempCart.length != 0) {
+      let hasMenu = false
+      tempCart.forEach((value) => {
+        if (value.menu_id === data.menu_id) {
+          value.quantity += 1
+          hasMenu = true
+          return
+        }
+      })
+      if (!hasMenu) {
+        tempCart.push(menu)
+      }
+    } else {
+      tempCart.push(menu)
+    }
+
     cartStore.setCart(tempCart)
-    // const amountTotal = prices + parseFloat(menu.price)
-    // setTotalPrice(amountTotal)
-    const itemQuantity = quantity + 1
-    setQuantity(itemQuantity)
   }
-
-  const handleRemoveSingleItemOnCart = (index) => {
-    const tempCart = [...cart]
-    const menu = tempCart[index]
-    tempCart.splice(index, 1)
-    setCart(tempCart)
-    // const amountTotal = prices - parseFloat(menu.price)
-    // setTotalPrice(amountTotal)
-    const itemQuantity = quantity - 1
-    setQuantity(itemQuantity)
-  }
-
-  const showCart = () => (
-    <div>
-      <Cart
-        cart={cart}
-        quantity={quantity}
-        handleRemoveSingleItemOnCart={handleRemoveSingleItemOnCart}
-        // prices={prices}
-      />
-    </div>
-  )
 
   return (
     <div>

@@ -32,17 +32,11 @@ export default function ModalTest() {
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="mx-auto justify">
           <LoginWithFacebook></LoginWithFacebook>
           <br></br>
           <LoginWithGoogle></LoginWithGoogle>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary">Understood</Button>
-        </Modal.Footer> */}
       </Modal>
     </>
   )
