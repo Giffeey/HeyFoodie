@@ -5,6 +5,7 @@ import { useState } from "react"
 import user from "../../img/icon/user.png"
 import LoginWithFacebook from "./LoginWithFacebook"
 import LoginWithGoogle from "./LoginWithGoogle"
+import GoogleBtn from "./googleBtn"
 
 export default function ModalTest() {
   const [show, setShow] = useState(false)
@@ -20,7 +21,7 @@ export default function ModalTest() {
 
       <a className="navbar-link" onClick={handleShow}>
         <img className="nav-user" src={user} alt="img-user"></img>
-        Login
+    Login
       </a>
 
       <Modal
@@ -33,9 +34,10 @@ export default function ModalTest() {
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body className="mx-auto justify">
-          <LoginWithFacebook></LoginWithFacebook>
+          {/* <LoginWithFacebook></LoginWithFacebook> */}
+          {/* <LoginWithGoogle></LoginWithGoogle> */}
           <br></br>
-          <LoginWithGoogle></LoginWithGoogle>
+          <GoogleBtn></GoogleBtn>
         </Modal.Body>
       </Modal>
     </>

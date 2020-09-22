@@ -23,10 +23,12 @@ export default function LoginWithFacebook() {
     <div>
       <div className="Facebook">
         <FacebookLogin
-          textButton="Login With Facebook"
+          textButton="Login with Facebook"
           appId="319223145838224"
           fields="name,email,picture"
           callback={responseFacebook}
+          icon="fa-facebook"
+          scope="public_profile,email"
         />
       </div>
     </div>

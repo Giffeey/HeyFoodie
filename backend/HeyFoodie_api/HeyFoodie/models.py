@@ -107,7 +107,7 @@ class Order_detail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     ingredient = models.ManyToManyField(Ingredient)
-    size = models.ForeignKey(SaleSize, on_delete=models.CASCADE)
+    size = models.ForeignKey(SaleSize, on_delete=models.CASCADE, null=True)
     quantity = models.IntegerField()
     
     def __str__(self):

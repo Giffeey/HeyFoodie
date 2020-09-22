@@ -7,8 +7,7 @@ from rest_framework import generics, permissions, viewsets
 from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Order, Order_detail, Owner
 from .models import Customer, SaleSize
 from .serializers import MenuSerializer, CategorySerializer, IngredientCategorySerializer, IngredientSerializer, StoreSerializer, OwnerSerializer
-from .serializers import SalesizeSerializer 
-# OrderSerializer, OrderDetailSerializer, CustomerSerializer
+from .serializers import SalesizeSerializer, OrderSerializer, OrderDetailSerializer, CustomerSerializer
 
 import json
 import logging
@@ -75,18 +74,17 @@ class DetailSalesize(generics.RetrieveUpdateDestroyAPIView):
     queryset = SaleSize.objects.all()
     serializer_class = SalesizeSerializer
 
+class ListCustomer(generics.ListCreateAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
 
-# class ListCustomer(generics.ListCreateAPIView):
-#     queryset = Customer.objects.all()
-#     serializer_class = CustomerSerializer
+class ListOrder(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
-# class ListOrder(generics.ListCreateAPIView):
-#     queryset = Order.objects.all()
-#     serializer_class = OrderSerializer
-
-# class ListOrderDetail(generics.ListCreateAPIView):
-#     queryset = Order_detail.objects.all()
-#     serializer_class = OrderDetailSerializer
+class ListOrderDetail(generics.ListCreateAPIView):
+    queryset = Order_detail.objects.all()
+    serializer_class = OrderDetailSerializer
 
 
 class FacebookLogin(SocialLoginView):

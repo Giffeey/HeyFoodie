@@ -45,12 +45,16 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class OrderDetailSerializer(serializers.ModelSerializer):
+    order = OrderSerializer()
+    menu = MenuSerializer()
+    ingredient = IngredientSerializer(many=True)
+    size = SalesizeSerializer()
+
     class Meta:
         model = Order_detail
-        fields = '__all__'
+        fields = ('order_detail_id','order','menu','ingredient','size','quantity')
 
 class CustomerSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Customer
         fields = '__all__'
