@@ -15,10 +15,6 @@ export default function ModalTest() {
 
   return (
     <>
-      {/* <Button variant="primary" onClick={handleShow}>
-        Launch static backdrop modal
-      </Button> */}
-
       <a className="navbar-link" onClick={handleShow}>
         <img className="nav-user" src={user} alt="img-user"></img>
     Login

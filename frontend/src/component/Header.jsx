@@ -6,6 +6,8 @@ import React, {
   useState,
 } from "react"
 import user from "../img/icon/user.png"
+import remove from "../img/icon/remove.png"
+import plus from "../img/icon/plus.png"
 // import MenuList from './MenuList';
 import Button from "react-bootstrap/Button"
 import cart from "../img/icon/cart.png"
@@ -74,14 +76,6 @@ export default function Header(props) {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Item className="mt-3">
-            {/* <a
-              className="navbar-link"
-              href="/login"
-            >
-              <img className="nav-user" src={user} alt="img-user"></img>
-              Login
-            </a> */}
-
             <ModalLogin></ModalLogin>
           </Nav.Item>
           <Nav.Item className="m-3">
@@ -102,7 +96,7 @@ export default function Header(props) {
               placement="bottom"
               target="UncontrolledPopover"
             >
-              <PopoverBody className="text-center">
+              <PopoverBody className="popover">
                 {showCart.length != 0 ? (
                   <>
                     {showCart.map((item, index) => {
@@ -110,19 +104,28 @@ export default function Header(props) {
                         <div>
                           <p>{item.name}</p>
                           <p>category : {item.category?.category_name}</p>
-                          <button
+                          <a
                             onClick={() => handleRemoveCartIndex(index)}
                             className="mx-2"
                           >
-                            -
-                          </button>
-                          <span>{item.quantity}</span>
-                          <button
+                            <img
+                              className="img-icon"
+                              src={remove}
+                              alt="img-remove"
+                            ></img>
+                          </a>
+                          <span className="mx-2">{item.quantity}</span>
+                          <a
                             className="mx-2"
                             onClick={() => handleAddItemToCart(index)}
                           >
-                            +
-                          </button>
+                            <img
+                              className="img-icon"
+                              src={plus}
+                              alt="img-plus"
+                            ></img>
+                          </a>
+                          <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : 250</p>
                         </div>
                       )
                     })}
