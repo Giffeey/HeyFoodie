@@ -30,7 +30,10 @@ class Menu extends Component {
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
             {/* <p className="card-text">{this.props.menu.price} บาท</p> */}
+
             
+            <div className="d-flex">
+              <div className="mr-auto p-2">
             <Dropdown
               title="Size"
               id="dropdownMenuButton"
@@ -48,6 +51,11 @@ class Menu extends Component {
                 L
               </a>
             </Dropdown>
+            </div>
+            <div className="ml-auto p-2">
+              <a className="card-text">199 บาท</a>
+              </div>
+            </div>
           </div>
           <div className="col-md-2 button">
             <button
