@@ -20,8 +20,8 @@ import {
 } from "react-bootstrap"
 
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap"
-import { storesContext } from "../context"
-import ModalLogin from "./Login/ModalLogin"
+import { storesContext } from "../../context"
+import ModalLogin from "../Login/ModalLogin"
 
 export default function Header(props) {
   const { cartStore } = useContext(storesContext)

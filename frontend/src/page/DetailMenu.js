@@ -1,5 +1,5 @@
 import React from "react"
-import SlideMenu from "../component/SlideMenu"
+import SlideMenu from "../component/Menu/SlideMenu"
 
 export default function DetailMenu() {
   return (
