@@ -19,7 +19,12 @@ class Menu extends Component {
 
   listSalesize = () => {
     const list = this.props.salesize.map((salesize, index) => (
-      <Salesize key={index} index={index} salesize={salesize} menu={this.props.menu} />
+      <Salesize
+        key={index}
+        index={index}
+        salesize={salesize}
+        menu={this.props.menu}
+      />
     ))
     return list
   }
@@ -38,26 +43,26 @@ class Menu extends Component {
           <div className="col-md-6">
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
-            {/* <p className="card-text">{this.props.menu.price} บาท</p> */}
-
-            
-            <div className="d-flex">
-              <div className="mr-auto p-2">
             <Dropdown
               title="Size"
               id="dropdownMenuButton"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-            >  
+            >
               {this.listSalesize()}
             </Dropdown>
-            </div>
-            <div className="ml-auto p-2">
-              <a className="card-text">199 บาท</a>
-              </div>
-            </div>
+            {/* ----------------------------------------------------------- */}
+            <select className="form-control" id="SaleSize">
+              <option value="">Size</option>
+              <option value="0">S</option>
+              <option value="1">M</option>
+              <option value="2">L</option>
+            </select>
+            {/* ----------------------------------------------------------- */}
+            <p className="card-text">{this.props.menu.price} บาท</p>
           </div>
+
           <div className="col-md-2 button">
             <button
               type="submit"
