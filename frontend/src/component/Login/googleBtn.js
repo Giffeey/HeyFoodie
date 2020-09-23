@@ -12,6 +12,7 @@ class GoogleBtn extends Component {
         this.state = {
             isLogined: false,
             accessToken: '',
+            idtoken: '',
             name: { givenName: '', familyName: '' },
             email: ''
         };
@@ -28,19 +29,21 @@ class GoogleBtn extends Component {
             this.setState(state => ({
                 isLogined: true,
                 accessToken: response.accessToken,
+                idtoken: response.tokenId,
                 name: { givenName: response.profileObj.givenName, familyName: response.profileObj.familyName },
                 email: response.profileObj.email
             }));
-
         }
     }
+
 
     logout(response) {
         this.setState(state => ({
             isLogined: false,
             accessToken: '',
             name: { givenName: '', familyName: '' },
-            email: ''
+            email: '',
+            idtoken: ''
         }));
     }
 
@@ -59,7 +62,7 @@ class GoogleBtn extends Component {
             <div>
 
                 <div>
-                    {this.state.name.givenName ? <p> Welcome {this.state.name.givenName} {this.state.name.familyName} <br /> email: {this.state.email} </p>  : null}
+                    {this.state.name.givenName ? <p> Welcome {this.state.name.givenName} {this.state.name.familyName} <br /> email: {this.state.email} </p> : null}
                 </div>
                 { this.state.isLogined ?
                     <GoogleLogout

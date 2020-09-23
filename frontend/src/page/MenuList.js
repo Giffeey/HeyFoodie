@@ -79,6 +79,7 @@ function MenuList() {
             key={index}
             handleAddItemToCart={handleAddItemToCart}
             menu={menu}
+            salesize={salesize}
           />
         ))}
       </div>

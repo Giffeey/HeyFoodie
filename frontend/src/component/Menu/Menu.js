@@ -1,16 +1,25 @@
 import React, { Component } from "react"
-import Ingredient from "../Ingredient"
+import Ingredient from "./Ingredient"
+import Salesize from "./Salesize"
 import Dropdown from "react-bootstrap/DropdownButton"
 
 class Menu extends Component {
   constructor(props) {
     super(props)
     this.listIngredient = this.listIngredient.bind(this)
+    this.listSalesize = this.listSalesize.bind(this)
   }
 
   listIngredient = () => {
     const list = this.props.menu.ingredient.map((ingredient, index) => (
       <Ingredient key={index} index={index} ingredient={ingredient} />
+    ))
+    return list
+  }
+
+  listSalesize = () => {
+    const list = this.props.salesize.map((salesize, index) => (
+      <Salesize key={index} index={index} salesize={salesize} menu={this.props.menu} />
     ))
     return list
   }
@@ -37,16 +46,8 @@ class Menu extends Component {
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-            >
-              <a class="dropdown-item" href="#">
-                S
-              </a>
-              <a class="dropdown-item" href="#">
-                M
-              </a>
-              <a class="dropdown-item" href="#">
-                L
-              </a>
+            >  
+              {this.listSalesize()}
             </Dropdown>
           </div>
           <div className="col-md-2 button">
