@@ -374,3 +374,19 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-item {
+  font-size: 12px;
+  font-family: "Kanit", sans-serif;
+  color: black;
+}
+
+.dropdown-item:hover {
+  display: block;
+  background-color: darkorange !important;
+}

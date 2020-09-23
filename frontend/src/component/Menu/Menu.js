@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Ingredient from "../Ingredient"
+import Dropdown from "react-bootstrap/DropdownButton"
 
 class Menu extends Component {
   constructor(props) {
@@ -29,6 +30,24 @@ class Menu extends Component {
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
             {/* <p className="card-text">{this.props.menu.price} บาท</p> */}
+            
+            <Dropdown
+              title="Size"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <a class="dropdown-item" href="#">
+                S
+              </a>
+              <a class="dropdown-item" href="#">
+                M
+              </a>
+              <a class="dropdown-item" href="#">
+                L
+              </a>
+            </Dropdown>
           </div>
           <div className="col-md-2 button">
             <button
