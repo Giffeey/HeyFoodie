@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import del from '../img/icon/remove.png';
+import del from '../../img/icon/remove.png';
 
 class CartItem extends Component {
 

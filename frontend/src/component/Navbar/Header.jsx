@@ -5,12 +5,12 @@ import React, {
   useEffect,
   useState,
 } from "react"
-import user from "../img/icon/user.png"
-import remove from "../img/icon/remove.png"
-import plus from "../img/icon/plus.png"
+import user from "../../img/icon/user.png"
+import remove from "../../img/icon/remove.png"
+import plus from "../../img/icon/plus.png"
 // import MenuList from './MenuList';
 import Button from "react-bootstrap/Button"
-import cart from "../img/icon/cart.png"
+import cart from "../../img/icon/cart.png"
 import {
   Nav,
   Navbar,

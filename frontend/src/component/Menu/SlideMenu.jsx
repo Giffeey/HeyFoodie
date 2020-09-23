@@ -1,6 +1,6 @@
 import React from "react"
-import home from "../img/home/home.jpg"
-import home2 from "../img/home/home2.png"
+import home from "../../img/home/home.jpg"
+import home2 from "../../img/home/home2.png"
 import Carousel from "react-bootstrap/esm/Carousel"
 
 export default function SlideMenu() {
