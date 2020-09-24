@@ -15,6 +15,8 @@ export default function App(props) {
   const { userStore } = useContext(storesContext)
 
   const storeProfile = (data) => {
+    console.log(data)
+
     if (data) {
       userStore.setUser(data)
       console.log(userStore.user.email)

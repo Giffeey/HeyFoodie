@@ -14,7 +14,7 @@ export default function ModalTest(props) {
   const handleShow = () => setShow(true)
   return (
     <>
-      {props.userStore.user ?
+      {props.userStore.user.first_name ?
         <label className="white">{props.userStore.user.first_name}</label>
         :
         <a className="navbar-link" onClick={handleShow}>
