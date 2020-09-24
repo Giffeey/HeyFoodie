@@ -25,8 +25,6 @@ export default function ModalTest(props) {
       </a>
       }
 
-
-
       <Modal
         show={show}
         onHide={handleClose}

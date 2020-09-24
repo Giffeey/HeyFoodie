@@ -2,6 +2,13 @@ import React, { Component } from "react"
 import Ingredient from "./Ingredient"
 import Salesize from "./Salesize"
 import Dropdown from "react-bootstrap/DropdownButton"
+import Select from "react-select"
+
+const options = [
+  { value: "S", label: "S" },
+  { value: "M", label: "M" },
+  { value: "L", label: "L" },
+]
 
 class Menu extends Component {
   constructor(props) {
@@ -10,7 +17,6 @@ class Menu extends Component {
     this.listSalesize = this.listSalesize.bind(this)
   }
 
-  
   listIngredient = () => {
     const list = this.props.menu.ingredient.map((ingredient, index) => (
       <Ingredient key={index} index={index} ingredient={ingredient} />
@@ -30,7 +36,16 @@ class Menu extends Component {
     return list
   }
 
+  state = {
+    selectedOption: null,
+  }
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption })
+    console.log(`Option selected:`, selectedOption)
+  }
+
   render() {
+    const { selectedOption } = this.state
     return (
       <div className="card">
         <div className="row no-gutters">
@@ -44,15 +59,15 @@ class Menu extends Component {
           <div className="col-md-6">
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
-            {/* ----------------------------------------------------------- */}
-            <select className="form-control" id="SaleSize">
-              <option value="">Size</option>
-              <option value="0">S</option>
-              <option value="1">M</option>
-              <option value="2">L</option>
-            </select>
-            {/* ----------------------------------------------------------- */}
-            <p className="card-text">{this.props.menu.price} บาท</p>
+            
+            <Select
+              value={selectedOption}
+              onChange={this.handleChange}
+              options={options}
+              placeholder ="Select Size"
+            />
+            
+            {/* <p className="card-text">{this.props.menu.price} บาท</p> */}
           </div>
 
           <div className="col-md-2 button">
