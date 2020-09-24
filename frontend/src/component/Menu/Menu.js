@@ -10,6 +10,7 @@ class Menu extends Component {
     this.listSalesize = this.listSalesize.bind(this)
   }
 
+  
   listIngredient = () => {
     const list = this.props.menu.ingredient.map((ingredient, index) => (
       <Ingredient key={index} index={index} ingredient={ingredient} />
@@ -43,15 +44,6 @@ class Menu extends Component {
           <div className="col-md-6">
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
-            <Dropdown
-              title="Size"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              {this.listSalesize()}
-            </Dropdown>
             {/* ----------------------------------------------------------- */}
             <select className="form-control" id="SaleSize">
               <option value="">Size</option>

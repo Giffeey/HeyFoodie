@@ -24,7 +24,7 @@ import { storesContext } from "../../context"
 import ModalLogin from "../Login/ModalLogin"
 
 export default function Header(props) {
-  const { cartStore } = useContext(storesContext)
+  const { cartStore, userStore } = useContext(storesContext)
   const [showCart, setShowCart] = useState(cartStore.currentCart)
 
   const handleRemoveCartIndex = (index) => {
@@ -76,7 +76,7 @@ export default function Header(props) {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Item className="mt-3">
-            <ModalLogin></ModalLogin>
+            <ModalLogin userStore={userStore}{...props}></ModalLogin>
           </Nav.Item>
           <Nav.Item className="m-3">
             <Button
@@ -131,8 +131,8 @@ export default function Header(props) {
                     })}
                   </>
                 ) : (
-                  "No Orders in your cart."
-                )}
+                    "No Orders in your cart."
+                  )}
               </PopoverBody>
             </UncontrolledPopover>
           </NavItem>

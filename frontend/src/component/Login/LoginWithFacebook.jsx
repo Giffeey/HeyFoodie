@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import FacebookLogin from "react-facebook-login"
-import fbLogin from "./fbLogin"
+import { FacebookProvider, Status } from 'react-facebook';
+import { storesContext } from '../../context';
 
-export default function LoginWithFacebook() {
+
+export default function LoginWithFacebook(props) {
+  const { userStore } = useContext(storesContext)
+
   function handleSubmit(event) {
     event.preventDefault()
     console.log(event.target.email.value)
@@ -10,14 +14,12 @@ export default function LoginWithFacebook() {
   }
 
   const responseFacebook = async (response) => {
-    let fbResponse = await fbLogin(response.accessToken)
-    console.log(fbResponse);
-    console.log(response)
+    if (response) {
+      userStore.setUser(response)
+      console.log(userStore.user.email)
+    }
   }
 
-  // const fbResponse = (response) => {
-  //   console.log(response)
-  // }
 
   return (
     <div>
@@ -28,7 +30,6 @@ export default function LoginWithFacebook() {
           fields="name,email,picture"
           callback={responseFacebook}
           icon="fa-facebook"
-          scope="public_profile,email"
         />
       </div>
     </div>
