@@ -9,5 +9,6 @@ export class UserStore {
     @action async signOut() {
         await window.FB.logout()
         window.location.reload()
+        console.log(this.user.first_name)
     }
 }
