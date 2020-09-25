@@ -76,7 +76,7 @@ export default function Header(props) {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Item className="mt-3">
-            <ModalLogin userStore={userStore}{...props}></ModalLogin>
+            <ModalLogin userStore={userStore} {...props}></ModalLogin>
           </Nav.Item>
           <Nav.Item className="m-3">
             <Button
@@ -125,14 +125,22 @@ export default function Header(props) {
                               alt="img-plus"
                             ></img>
                           </a>
-                          <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : 250</p>
+                          {/* <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : </p> */}
+                          {/* <div className="order">
+                            <button
+                              className="btn btn-primary order"
+                              onClick={this.routeChange}
+                            >
+                              สั่งซื้อ
+                            </button>
+                          </div> */}
                         </div>
                       )
                     })}
                   </>
                 ) : (
-                    "No Orders in your cart."
-                  )}
+                  "No Orders in your cart."
+                )}
               </PopoverBody>
             </UncontrolledPopover>
           </NavItem>

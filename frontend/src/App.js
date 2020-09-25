@@ -2,14 +2,13 @@ import React, { useContext } from "react"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
-import { FacebookProvider, Initialize, Profile } from 'react-facebook';
+import { FacebookProvider, Initialize, Profile } from "react-facebook"
 
 import MenuList from "./page/MenuList"
 import MainLayout from "./component/MainLayout"
 import DetailMenu from "./page/DetailMenu"
 import PaymentCash from "./page/PaymentCash"
 import { storesContext } from "./context"
-
 
 export default function App(props) {
   const { userStore } = useContext(storesContext)
@@ -20,7 +19,6 @@ export default function App(props) {
     if (data) {
       userStore.setUser(data)
     }
-
   }
   return (
     <Router>
@@ -39,9 +37,21 @@ export default function App(props) {
                             return (
                               <MainLayout>
                                 <Switch>
-                                  <Route exact path={["/", "/menu"]} component={MenuList} />
-                                  <Route exact path={"/detailmenu"} component={DetailMenu} />
-                                  <Route exact path={"/paymentcash"} component={PaymentCash} />
+                                  <Route
+                                    exact
+                                    path={["/", "/menu"]}
+                                    component={MenuList}
+                                  />
+                                  <Route
+                                    exact
+                                    path={"/detailmenu"}
+                                    component={DetailMenu}
+                                  />
+                                  <Route
+                                    exact
+                                    path={"/paymentcash"}
+                                    component={PaymentCash}
+                                  />
                                 </Switch>
                               </MainLayout>
                             )
@@ -51,12 +61,10 @@ export default function App(props) {
                         }}
                       </Profile>
                     </FacebookProvider>
-
                   </>
                 )
               } else {
-                return <>
-                </>
+                return <></>
               }
             }}
           </Initialize>
