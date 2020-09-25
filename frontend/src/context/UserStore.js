@@ -7,8 +7,14 @@ export class UserStore {
         this.user = data
     }
     @action async signOut() {
-        await window.FB.logout()
-        window.location.reload()
-        console.log(this.user.first_name)
+        window.FB.logout(function (response) {
+            console.log('logout')
+            document.location.reload();
+        });
+
+
+        // await window.FB.logout()
+        // console.log('logout')
+        // window.location.reload()
     }
 }

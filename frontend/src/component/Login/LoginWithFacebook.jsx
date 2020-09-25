@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import {FacebookLogin, FacebookLogout} from "react-facebook-login"
 import { FacebookProvider, Status } from 'react-facebook';
 import { storesContext } from '../../context';
-import Button from 'react-bootstrap/Button'
 
 
 export default function LoginWithFacebook(props) {

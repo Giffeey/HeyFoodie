@@ -19,8 +19,8 @@ export default function App(props) {
 
     if (data) {
       userStore.setUser(data)
-      console.log(userStore.user.email)
     }
+
   }
   return (
     <Router>
@@ -55,7 +55,8 @@ export default function App(props) {
                   </>
                 )
               } else {
-                return <></>
+                return <>
+                </>
               }
             }}
           </Initialize>
