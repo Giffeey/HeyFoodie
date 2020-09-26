@@ -39,7 +39,7 @@ export default function ModalTest(props) {
           }
         </Modal.Header>
         <Modal.Body className="mx-auto justify">
-          {props.userStore.user !== null ?
+          {props.userStore.user !== undefined ?
             <>
               <center>
                 {/* <img src={props.userStore.user.picture.data.url}></img> */}

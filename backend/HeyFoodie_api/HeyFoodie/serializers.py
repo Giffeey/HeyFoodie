@@ -30,13 +30,6 @@ class MenuSerializer(serializers.ModelSerializer):
         model = Menu
         fields = ('menu_id', 'name','category','ingredient', 'image')
 
-class StoreSerializer(serializers.HyperlinkedModelSerializer):
-    open_day = fields.MultipleChoiceField(choices=Day)
-    class Meta:
-        model = Store
-        fields = ('store_id','storename','detail','open_time','close_time','open_day')
-
-
 class OrderSerializer(serializers.ModelSerializer):
     customer = serializers.ReadOnlyField()
 
@@ -53,6 +46,12 @@ class OrderDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order_detail
         fields = ('order_detail_id','order','menu','ingredient','size','quantity')
+
+class StoreSerializer(serializers.HyperlinkedModelSerializer):
+    open_day = fields.MultipleChoiceField(choices=Day)
+    class Meta:
+        model = Store
+        fields = ('store_id','storename','detail','open_time','close_time','open_day')
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
