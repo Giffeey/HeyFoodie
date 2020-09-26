@@ -14,8 +14,12 @@ export default function Footer(props) {
           <div className="container-fluid text-center text-md-left">
             <div className="row">
               <div className="col-md-5 mt-md-0 mt-3">
-                <h5 className="text-store">{props.store?.storename}</h5>
-                <p>{props.store?.detail}</p>
+                <h5 className="text-store">Hey Foodie
+                  {/* {props.store?.storename} */}
+                  </h5>
+                <p>Make your food, make your smile
+                  {/* {props.store?.detail} */}
+                  </p>
               </div>
 
               <div className="col-md-3 mb-md-0 mb-3">
@@ -36,7 +40,8 @@ export default function Footer(props) {
                 <ul className="list-unstyled">
                   <li>
                     <img className="img-footer" src={phone} alt="phone-icon" />
-                    Phone: {props.owner?.phone}
+                    Phone: 091 - 2345678
+                    {/* {props.owner?.phone} */}
                   </li>
                   <li>
                     <img
@@ -44,11 +49,13 @@ export default function Footer(props) {
                       src={mail_outline}
                       alt="mail-icon"
                     />
-                    E-mail: {props.owner?.email}
+                    E-mail: Heyfoodie@store.com
+                    {/* {props.owner?.email} */}
                   </li>
                   <li>
                     <img className="img-footer" src={line} alt="line-icon" />
-                    Line: {props.owner?.phone}
+                    Line: @Heyfoodie
+                    {/* {props.owner?.phone} */}
                   </li>
                 </ul>
               </div>

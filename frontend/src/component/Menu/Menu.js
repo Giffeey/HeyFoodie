@@ -1,18 +1,15 @@
 import React, { Component } from "react"
 import Ingredient from "./Ingredient"
-import Salesize from "./Salesize"
 import Dropdown from "react-bootstrap/DropdownButton"
 import Select from "react-select"
-
-const options = [
-  { value: "S", label: "S" },
-  { value: "M", label: "M" },
-  { value: "L", label: "L" },
-]
 
 class Menu extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      selectOptions: [],
+
+    }
     this.listIngredient = this.listIngredient.bind(this)
     this.listSalesize = this.listSalesize.bind(this)
   }
@@ -25,27 +22,25 @@ class Menu extends Component {
   }
 
   listSalesize = () => {
-    const list = this.props.salesize.map((salesize, index) => (
-      <Salesize
-        key={index}
-        index={index}
-        salesize={salesize}
-        menu={this.props.menu}
-      />
-    ))
-    return list
+    const options = this.props.menu.salesize.map((salesize, index) => ({
+      "value" : salesize.size,
+      "label" : salesize.size
+    }))
+
+    this.setState({selectOptions: options})
+      
   }
 
-  state = {
-    selectedOption: null,
+  handleChange = (selectedOptions) => {
+    this.setState({id: selectedOptions.value, name:selectedOptions.label})
   }
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption })
-    console.log(`Option selected:`, selectedOption)
+
+  componentDidMount(){
+    this.listSalesize()
   }
 
   render() {
-    const { selectedOption } = this.state
+
     return (
       <div className="card">
         <div className="row no-gutters">
@@ -60,13 +55,13 @@ class Menu extends Component {
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
             
+            <div style={{width: '200px'}}>
             <Select
-              value={selectedOption}
               onChange={this.handleChange}
-              options={options}
-              placeholder ="Select Size"
+              options={this.state.selectOptions}
+              placeholder="Select Size"
             />
-            
+            </div>
             {/* <p className="card-text">{this.props.menu.price} บาท</p> */}
           </div>
 

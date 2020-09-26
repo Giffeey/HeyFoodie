@@ -57,24 +57,24 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.ingredient_name
 
+class SaleSize(models.Model):
+    salesize_id = models.AutoField(primary_key=True)
+    size = models.CharField(max_length=3)
+    price = models.DecimalField(max_digits=5,decimal_places=2)
+
+    def __str__(self):
+        return "%s %d" % (self.size, self.price)
+
 class Menu(models.Model):
     menu_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     ingredient = models.ManyToManyField(Ingredient)
+    salesize = models.ManyToManyField(SaleSize)
     image = models.ImageField(blank=True, upload_to='Image', null=True)
 
     def __str__(self):
         return self.name
-
-class SaleSize(models.Model):
-    salesize_id = models.AutoField(primary_key=True)
-    size = models.CharField(max_length=3)
-    price = models.DecimalField(max_digits=5,decimal_places=2)
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "%s %s %d" % (self.menu, self.size, self.price)
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
