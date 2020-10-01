@@ -7,7 +7,7 @@ import { FacebookProvider, Initialize, Profile } from "react-facebook"
 import MenuList from "./page/MenuList"
 import MainLayout from "./component/MainLayout"
 import DetailMenu from "./page/DetailMenu"
-import PaymentCash from "./page/PaymentCash"
+import PaymentPage from "./page/PaymentPage"
 import { storesContext } from "./context"
 
 export default function App(props) {
@@ -49,8 +49,8 @@ export default function App(props) {
                                   />
                                   <Route
                                     exact
-                                    path={"/paymentcash"}
-                                    component={PaymentCash}
+                                    path={"/paymentpage"}
+                                    component={PaymentPage}
                                   />
                                 </Switch>
                               </MainLayout>

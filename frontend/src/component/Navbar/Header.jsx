@@ -12,6 +12,7 @@ import plus from "../../img/icon/plus.png"
 import Button from "react-bootstrap/Button"
 import cart from "../../img/icon/cart.png"
 import {
+  Badge,
   Nav,
   Navbar,
   NavItem,
@@ -22,6 +23,7 @@ import {
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap"
 import { storesContext } from "../../context"
 import ModalLogin from "../Login/ModalLogin"
+import Payment from "../../page/PaymentPage"
 
 export default function Header(props) {
   const { cartStore, userStore } = useContext(storesContext)
@@ -86,8 +88,8 @@ export default function Header(props) {
               type="button"
             >
               <img className="nav-cart" src={cart} alt="img-cart"></img>
-              <span className="badge badge-secondary badge-pill">
-                {props.quantity}
+              <span className="badge badge-secondary badge-pill badge-bottom">
+                {/* {props.quantity} */}2
               </span>
             </Button>
           </Nav.Item>
@@ -125,15 +127,16 @@ export default function Header(props) {
                               alt="img-plus"
                             ></img>
                           </a>
-                          {/* <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : </p> */}
-                          {/* <div className="order">
-                            <button
+                      <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : </p>
+                          <div className="order">
+                            <Button
                               className="btn btn-primary order"
-                              onClick={this.routeChange}
+                              href="/paymentpage"
+                              // onClick={this.routeChange}
                             >
                               สั่งซื้อ
-                            </button>
-                          </div> */}
+                            </Button>
+                          </div>
                         </div>
                       )
                     })}

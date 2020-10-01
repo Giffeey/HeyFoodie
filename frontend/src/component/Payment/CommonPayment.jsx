@@ -1,5 +1,5 @@
 import React from "react"
-import CommonCard from "./../Common/CommonCard"
+import CommonCard from "../Common/CommonCard"
 
 export default function CommonPayment() {
   return (
