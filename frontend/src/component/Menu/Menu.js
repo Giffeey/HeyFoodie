@@ -8,7 +8,7 @@ class Menu extends Component {
     super(props)
     this.state = {
       selectOptions: [],
-
+      price: 0.00,
     }
     this.listIngredient = this.listIngredient.bind(this)
     this.listSalesize = this.listSalesize.bind(this)
@@ -23,19 +23,20 @@ class Menu extends Component {
 
   listSalesize = () => {
     const options = this.props.menu.salesize.map((salesize, index) => ({
-      "value" : salesize.size,
-      "label" : salesize.size
+      "value": salesize.price,
+      "label": salesize.size,
     }))
 
-    this.setState({selectOptions: options})
-      
+
+    this.setState({ selectOptions: options })
+
   }
 
   handleChange = (selectedOptions) => {
-    this.setState({id: selectedOptions.value, name:selectedOptions.label})
+    this.setState({ price: selectedOptions.value, name: selectedOptions.label })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.listSalesize()
   }
 
@@ -54,15 +55,17 @@ class Menu extends Component {
           <div className="col-md-6">
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
-            
-            <div style={{width: '200px'}}>
-            <Select
-              onChange={this.handleChange}
-              options={this.state.selectOptions}
-              placeholder="Select Size"
-            />
+
+            <div style={{ width: '200px' }}>
+              <Select
+                readonly
+                onChange={this.handleChange}
+                options={this.state.selectOptions}
+                placeholder="Select Size"
+              />
             </div>
-            {/* <p className="card-text">{this.props.menu.price} บาท</p> */}
+            <br></br>
+            <p className="card-text"> {this.state.price} บาท</p>
           </div>
 
           <div className="col-md-2 button">

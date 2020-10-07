@@ -10,7 +10,7 @@ import { storesContext } from "../context"
 function MenuList() {
   const { cartStore } = useContext(storesContext)
   const [menus, setMenus] = useState([])
-  const [prices, setTotalPrice] = useState(0)
+  const [prices, setPrice] = useState(0)
   const [quantity, setQuantity] = useState(0)
   const [store, setStore] = useState([])
   const [owner, setOwner] = useState([])
