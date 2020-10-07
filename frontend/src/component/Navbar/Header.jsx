@@ -24,6 +24,7 @@ import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap"
 import { storesContext } from "../../context"
 import ModalLogin from "../Login/ModalLogin"
 import Payment from "../../page/PaymentPage"
+import CartItem from "../Cart/CartItem"
 
 export default function Header(props) {
   const { cartStore, userStore } = useContext(storesContext)
@@ -89,7 +90,7 @@ export default function Header(props) {
             >
               <img className="nav-cart" src={cart} alt="img-cart"></img>
               <span className="badge badge-secondary badge-pill badge-bottom">
-                {props.quantity}
+                {/* {cartStore.currentCart.quantity} */}2
               </span>
             </Button>
           </Nav.Item>
@@ -106,40 +107,44 @@ export default function Header(props) {
                         <div>
                           <p>{item.name}</p>
                           <p>category : {item.category?.category_name}</p>
-                          <a
-                            onClick={() => handleRemoveCartIndex(index)}
-                            className="mx-2"
-                          >
-                            <img
-                              className="img-icon"
-                              src={remove}
-                              alt="img-remove"
-                            ></img>
-                          </a>
-                          <span className="mx-2">{item.quantity}</span>
-                          <a
-                            className="mx-2"
-                            onClick={() => handleAddItemToCart(index)}
-                          >
-                            <img
-                              className="img-icon"
-                              src={plus}
-                              alt="img-plus"
-                            ></img>
-                          </a>
-                      <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : {/* wait for map */}</p>
-                          <div className="order">
-                            <Button
-                              className="btn btn-primary order"
-                              href="/paymentpage"
-                              // onClick={this.routeChange}
+                          <div className="d-flex justify-content-end p-2 bd-highlight">
+                            <a
+                              onClick={() => handleRemoveCartIndex(index)}
+                              className="mx-2"
                             >
-                              สั่งซื้อ
-                            </Button>
+                              <img
+                                className="img-icon"
+                                src={remove}
+                                alt="img-remove"
+                              ></img>
+                            </a>
+                            <span className="mx-2">{item.quantity}</span>
+                            <a
+                              className="mx-2"
+                              onClick={() => handleAddItemToCart(index)}
+                            >
+                              <img
+                                className="img-icon"
+                                src={plus}
+                                alt="img-plus"
+                              ></img>
+                            </a>
                           </div>
                         </div>
                       )
                     })}
+                    <p className="d-flex justify-content-end p-2 bd-highlight">
+                      Total Price : {/* wait for map */}
+                    </p>
+                    <div className="order">
+                      <Button
+                        className="btn btn-primary order"
+                        href="/paymentpage"
+                        // onClick={this.routeChange}
+                      >
+                        สั่งซื้อ
+                      </Button>
+                    </div>
                   </>
                 ) : (
                   "No Orders in your cart."
