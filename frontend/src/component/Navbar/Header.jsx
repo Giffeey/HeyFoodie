@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react"
 import user from "../../img/icon/user.png"
@@ -52,7 +53,7 @@ export default function Header(props) {
     if (tempCart.length != 0) {
       let hasMenu = false
       tempCart.forEach((value) => {
-        if (value.menu_id === data.menu_id) {
+        if (value.menu_id === data.menu_id && data.size === value.size) {
           value.quantity += 1
           hasMenu = true
           return
@@ -69,6 +70,84 @@ export default function Header(props) {
     setShowCart(cartStore.currentCart)
   }
 
+  const renderShowCart = useMemo(
+    () => (
+      <Button
+        className="btn-cart"
+        id="UncontrolledPopover"
+        onClick={() => setShowCart(cartStore.currentCart)}
+        type="button"
+      >
+        <img className="nav-cart" src={cart} alt="img-cart"></img>
+        <span className="badge badge-secondary badge-pill badge-bottom">
+          {showCart.length != 0 &&
+            showCart
+              .map((item) => item.quantity)
+              .reduce((count, quantity) => count + quantity)}
+        </span>
+      </Button>
+    ),
+    [showCart]
+  )
+
+  const showProverBody = useMemo(
+    () => (
+      <PopoverBody className="popover">
+        {showCart.length != 0 ? (
+          <>
+            {showCart.map((item, index) => {
+              return (
+                <div>
+                  <p>{item.name}</p>
+                  <p>category : {item.category?.category_name}</p>
+                  <p>size : {item.size}</p>
+                  <div className="d-flex justify-content-end p-2 bd-highlight">
+                    <a
+                      onClick={() => handleRemoveCartIndex(index)}
+                      className="mx-2"
+                    >
+                      <img
+                        className="img-icon"
+                        src={remove}
+                        alt="img-remove"
+                      ></img>
+                    </a>
+                    <span className="mx-2">{item.quantity}</span>
+                    <a
+                      className="mx-2"
+                      onClick={() => handleAddItemToCart(index)}
+                    >
+                      <img className="img-icon" src={plus} alt="img-plus"></img>
+                    </a>
+                  </div>
+                </div>
+              )
+            })}
+            <p className="d-flex justify-content-end p-2 bd-highlight">
+              Total Price :{" "}
+              {showCart.length != 0 &&
+                showCart
+                  .map((item) => item.price * item.quantity)
+                  .reduce((totalPrice, price) => price + totalPrice)}
+            </p>
+            <div className="order">
+              <Button
+                className="btn btn-primary order"
+                href="/paymentpage"
+                // onClick={this.routeChange}
+              >
+                สั่งซื้อ
+              </Button>
+            </div>
+          </>
+        ) : (
+          "No Orders in your cart."
+        )}
+      </PopoverBody>
+    ),
+    [showCart]
+  )
+
   return (
     <Navbar collapseOnSelect expand="lg" className="food-navbar-expand-lg">
       <a className="navbar-brand" href="/">
@@ -81,75 +160,13 @@ export default function Header(props) {
           <Nav.Item className="mt-3">
             <ModalLogin userStore={userStore} {...props}></ModalLogin>
           </Nav.Item>
-          <Nav.Item className="m-3">
-            <Button
-              className="btn-cart"
-              id="UncontrolledPopover"
-              onClick={() => setShowCart(cartStore.currentCart)}
-              type="button"
-            >
-              <img className="nav-cart" src={cart} alt="img-cart"></img>
-              <span className="badge badge-secondary badge-pill badge-bottom">
-                {/* {cartStore.currentCart.quantity} */}2
-              </span>
-            </Button>
-          </Nav.Item>
+          <Nav.Item className="m-3">{renderShowCart}</Nav.Item>
           <NavItem>
             <UncontrolledPopover
               placement="bottom"
               target="UncontrolledPopover"
             >
-              <PopoverBody className="popover">
-                {showCart.length != 0 ? (
-                  <>
-                    {showCart.map((item, index) => {
-                      return (
-                        <div>
-                          <p>{item.name}</p>
-                          <p>category : {item.category?.category_name}</p>
-                          <div className="d-flex justify-content-end p-2 bd-highlight">
-                            <a
-                              onClick={() => handleRemoveCartIndex(index)}
-                              className="mx-2"
-                            >
-                              <img
-                                className="img-icon"
-                                src={remove}
-                                alt="img-remove"
-                              ></img>
-                            </a>
-                            <span className="mx-2">{item.quantity}</span>
-                            <a
-                              className="mx-2"
-                              onClick={() => handleAddItemToCart(index)}
-                            >
-                              <img
-                                className="img-icon"
-                                src={plus}
-                                alt="img-plus"
-                              ></img>
-                            </a>
-                          </div>
-                        </div>
-                      )
-                    })}
-                    <p className="d-flex justify-content-end p-2 bd-highlight">
-                      Total Price : {/* wait for map */}
-                    </p>
-                    <div className="order">
-                      <Button
-                        className="btn btn-primary order"
-                        href="/paymentpage"
-                        // onClick={this.routeChange}
-                      >
-                        สั่งซื้อ
-                      </Button>
-                    </div>
-                  </>
-                ) : (
-                  "No Orders in your cart."
-                )}
-              </PopoverBody>
+              {showProverBody}
             </UncontrolledPopover>
           </NavItem>
         </Nav>

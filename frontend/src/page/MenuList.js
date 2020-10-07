@@ -53,7 +53,7 @@ function MenuList() {
     if (tempCart.length != 0) {
       let hasMenu = false
       tempCart.forEach((value) => {
-        if (value.menu_id === data.menu_id) {
+        if (value.menu_id === data.menu_id && data.size === value.size) {
           value.quantity += 1
           hasMenu = true
           return

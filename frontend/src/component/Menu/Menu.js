@@ -8,7 +8,7 @@ class Menu extends Component {
     super(props)
     this.state = {
       selectOptions: [],
-      price: 0.00,
+      price: 0.0,
     }
     this.listIngredient = this.listIngredient.bind(this)
     this.listSalesize = this.listSalesize.bind(this)
@@ -23,17 +23,24 @@ class Menu extends Component {
 
   listSalesize = () => {
     const options = this.props.menu.salesize.map((salesize, index) => ({
-      "value": salesize.price,
-      "label": salesize.size,
+      value: salesize.price,
+      label: salesize.size,
     }))
 
-
     this.setState({ selectOptions: options })
-
   }
 
   handleChange = (selectedOptions) => {
     this.setState({ price: selectedOptions.value, name: selectedOptions.label })
+  }
+
+  handleAddItemToCart = () => {
+    const menu = {
+      ...this.props.menu,
+      price: this.state.price,
+      size: this.state.name,
+    }
+    this.props.handleAddItemToCart(menu)
   }
 
   componentDidMount() {
@@ -41,7 +48,6 @@ class Menu extends Component {
   }
 
   render() {
-
     return (
       <div className="card">
         <div className="row no-gutters">
@@ -56,7 +62,7 @@ class Menu extends Component {
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
 
-            <div style={{ width: '200px' }}>
+            <div style={{ width: "200px" }}>
               <Select
                 readonly
                 onChange={this.handleChange}
@@ -73,7 +79,7 @@ class Menu extends Component {
               type="submit"
               name="add_to_cart"
               className="btn btn-outline-primary"
-              onClick={() => this.props.handleAddItemToCart(this.props.menu)}
+              onClick={() => this.handleAddItemToCart()}
             >
               เลือก
             </button>
