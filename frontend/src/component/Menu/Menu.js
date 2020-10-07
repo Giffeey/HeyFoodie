@@ -69,7 +69,7 @@ class Menu extends Component {
             <button
               type="submit"
               name="add_to_cart"
-              className="btn btn-primary"
+              className="btn btn-outline-primary"
               onClick={() => this.props.handleAddItemToCart(this.props.menu)}
             >
               เลือก

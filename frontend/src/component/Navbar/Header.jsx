@@ -89,7 +89,7 @@ export default function Header(props) {
             >
               <img className="nav-cart" src={cart} alt="img-cart"></img>
               <span className="badge badge-secondary badge-pill badge-bottom">
-                {/* {props.quantity} */}2
+                {props.quantity}
               </span>
             </Button>
           </Nav.Item>
@@ -127,7 +127,7 @@ export default function Header(props) {
                               alt="img-plus"
                             ></img>
                           </a>
-                      <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : </p>
+                      <p className="d-flex justify-content-end p-2 bd-highlight">Total Price : {/* wait for map */}</p>
                           <div className="order">
                             <Button
                               className="btn btn-primary order"

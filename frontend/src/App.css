@@ -58,13 +58,14 @@
   border-radius: 20 !important;
 }
 
-.btn-outline-primary {
+.btn.btn-outline-primary {
   border-color: darkorange !important;
   width: 100%;
   color:darkorange !important;
+  background-color: transparent !important;
 }
 
-.btn-outline-primary:hover {
+.btn.btn-outline-primary:hover {
   background-color: darkorange !important;
   width: 100%;
   color: white !important;
@@ -164,6 +165,10 @@
   font-size: 16px !important;
   color: white !important;
   margin-left: auto;
+  cursor: pointer !important;
+}
+
+.form-check-input{
   cursor: pointer !important;
 }
 

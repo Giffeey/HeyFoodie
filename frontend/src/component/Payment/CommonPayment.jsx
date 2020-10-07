@@ -1,5 +1,6 @@
 import React from "react"
 import CommonCard from "../Common/CommonCard"
+import Button from "react-bootstrap/Button"
 
 export default function CommonPayment() {
   return (
@@ -44,11 +45,11 @@ export default function CommonPayment() {
 
         <div className="row justify-content-center">
           <div class="col-3 p-0 text-center">
-            <button className="btn btn-outline-primary">Back</button>
+            <Button className="btn btn-outline-primary" href="/menu">Back</Button>
           </div>
           <div class="col-1 p-0 text-center"></div>
           <div class="col-3 p-0 text-center">
-            <button className="btn btn-outline-primary">Confirm</button>
+            <Button className="btn btn-outline-primary">Confirm</Button>
           </div>
         </div>
       </CommonCard>
