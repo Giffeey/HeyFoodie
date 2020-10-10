@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useContext } from "react"
 import Carousel from "react-bootstrap/Carousel"
 import Menu from "../component/Menu/Menu"
-import Cart from "../component/Cart/Cart"
 import SlideMenu from "../component/Menu/SlideMenu"
 import { storesContext } from "../context"
-
-// import Popover from 'react-bootstrap/Popover';
 
 function MenuList() {
   const { cartStore } = useContext(storesContext)

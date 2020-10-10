@@ -61,7 +61,6 @@ class Menu extends Component {
           <div className="col-md-6">
             <h5 className="card-title">{this.props.menu.name}</h5>
             <ul className="list-unstyled inline">{this.listIngredient()}</ul>
-
             <div style={{ width: "200px" }}>
               <Select
                 readonly
@@ -71,7 +70,11 @@ class Menu extends Component {
               />
             </div>
             <br></br>
-            <p className="card-text"> {this.state.price} บาท</p>
+            {/* <p className="card-text">  */}
+              {this.state.price !== 0 ?
+                <p className="card-text"> {this.state.price} บาท </p> : "" }
+              
+            {/* </p> */}
           </div>
 
           <div className="col-md-2 button">

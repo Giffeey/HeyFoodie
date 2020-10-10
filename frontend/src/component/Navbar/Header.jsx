@@ -124,16 +124,18 @@ export default function Header(props) {
               )
             })}
             <p className="d-flex justify-content-end p-2 bd-highlight">
-              Total Price :{" "}
+              Total Price :{" "} 
               {showCart.length != 0 &&
                 showCart
                   .map((item) => item.price * item.quantity)
-                  .reduce((totalPrice, price) => price + totalPrice)}
+                  .reduce((totalPrice, price) => price + totalPrice)} ฿
             </p>
+            {console.log(cartStore.currentCart)}
             <div className="order">
               <Button
                 className="btn btn-primary order"
                 href="/paymentpage"
+                
                 // onClick={this.routeChange}
               >
                 สั่งซื้อ
@@ -141,7 +143,7 @@ export default function Header(props) {
             </div>
           </>
         ) : (
-          "No Orders in your cart."
+          "No orders in your cart."
         )}
       </PopoverBody>
     ),

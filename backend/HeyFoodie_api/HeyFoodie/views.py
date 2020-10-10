@@ -24,6 +24,7 @@ class ListCategory(generics.ListCreateAPIView) :
 
 class DetailCategory(generics.RetrieveUpdateDestroyAPIView) :
     queryset = Category.objects.all()
+    lookup_field = 'category_id'
     serializer_class = CategorySerializer
 
 class ListIngredientCategory(generics.ListCreateAPIView):
@@ -39,7 +40,8 @@ class ListIngredient(generics.ListCreateAPIView):
     serializer_class = IngredientSerializer
 
 class DetailIngredient(generics.RetrieveUpdateDestroyAPIView) :
-    queryset = Ingredient.objects.all()
+    def get_queryset(self):
+        return Ingredient.objects.filter(ingredient_id=self.kwargs.get('pk', None))
     serializer_class = IngredientSerializer
 
 class ListMenu(generics.ListCreateAPIView):

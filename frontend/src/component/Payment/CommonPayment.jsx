@@ -1,8 +1,17 @@
-import React from "react"
+import React, {useContext, useState} from "react"
 import CommonCard from "../Common/CommonCard"
 import Button from "react-bootstrap/Button"
+import CheckoutList from "../CheckoutList"
+import CreditPaymentForm from "./CreditPaymentForm"
+import { storesContext } from "../../context"
 
-export default function CommonPayment() {
+
+export default function CommonPayment(props) {
+  const { cartStore, userStore } = useContext(storesContext)
+  const [ showForm, setShowForm ] = useState(false)
+  // const handleShowForm = (boolean) => {
+  //     setShowForm(boolean)
+  // }
   return (
     <>
       <CommonCard>
@@ -10,45 +19,59 @@ export default function CommonPayment() {
           <h5 className="">รายการสั่งซื้อ</h5>
           {/* wait for map */}
           <div>
-            <div class="d-flex">...</div>
+            <div className="d-flex">
+              {/* {console.log(cartStore.currentCart)} */}
+            {cartStore.currentCart.map((menu, index) => (
+          <CheckoutList
+            key={index}
+            menu={menu}
+          />
+        ))}
+            </div>
           </div>
         </div>
 
         <div>
           <h5 className="">วิธีการชำระเงิน</h5>
-          <div class="form-check">
+          <div className="form-check">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="radio"
               name="exampleRadios"
               id="exampleRadios1"
               value="option1"
-              checked
+              defaultChecked
+              onClick={() => setShowForm(false)}
             />
-            <label class="form-check-label" for="exampleRadios1">
+            <label className="form-check-label" htmlFor="exampleRadios1">
               Cash
             </label>
           </div>
-          <div class="form-check">
+          <div className="form-check">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="radio"
               name="exampleRadios"
               id="exampleRadios2"
               value="option2"
+              onClick={() => setShowForm(true)}
             />
-            <label class="form-check-label" for="exampleRadios2">
+            <label className="form-check-label" htmlFor="exampleRadios2">
               Debit/Credit
             </label>
+              {showForm === true ? 
+                <><CreditPaymentForm></CreditPaymentForm><br/></> : ""}
           </div>
+
+          
         </div>
 
         <div className="row justify-content-center">
-          <div class="col-3 p-0 text-center">
+          <div className="col-3 p-0 text-center">
             <Button className="btn btn-outline-primary" href="/menu">Back</Button>
           </div>
-          <div class="col-1 p-0 text-center"></div>
-          <div class="col-3 p-0 text-center">
+          <div className="col-1 p-0 text-center"></div>
+          <div className="col-3 p-0 text-center">
             <Button className="btn btn-outline-primary">Confirm</Button>
           </div>
         </div>
