@@ -1,5 +1,5 @@
 import React from "react"
-
+import omise from "omise"
 function CreditPayment() {
 const omise = require('omise')({
     'secretKey': 'skey_test_5laodzr3hoelafh576w',

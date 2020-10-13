@@ -20,7 +20,7 @@ export default function CommonPayment(props) {
           {/* wait for map */}
           <div>
             <div className="d-flex">
-              {/* {console.log(cartStore.currentCart)} */}
+              {console.log(cartStore.currentCart)}
             {cartStore.currentCart.map((menu, index) => (
           <CheckoutList
             key={index}
