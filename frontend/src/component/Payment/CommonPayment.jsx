@@ -44,7 +44,7 @@ export default function CommonPayment(props) {
               onClick={() => setShowForm(false)}
             />
             <label className="form-check-label" htmlFor="exampleRadios1">
-              Cash
+             เงินสด (Cash)
             </label>
           </div>
           <div className="form-check">
@@ -57,7 +57,7 @@ export default function CommonPayment(props) {
               onClick={() => setShowForm(true)}
             />
             <label className="form-check-label" htmlFor="exampleRadios2">
-              Debit/Credit
+              บัตรเครดิต/เดบิต (Debit/Credit Card)
             </label>
               {showForm === true ? 
                 <><CreditPaymentForm></CreditPaymentForm><br/></> : ""}
@@ -68,11 +68,11 @@ export default function CommonPayment(props) {
 
         <div className="row justify-content-center">
           <div className="col-3 p-0 text-center">
-            <Button className="btn btn-outline-primary" href="/menu">Back</Button>
+            <Button className="btn btn-outline-primary" href="/menu">ย้อนกลับ</Button>
           </div>
           <div className="col-1 p-0 text-center"></div>
           <div className="col-3 p-0 text-center">
-            <Button className="btn btn-outline-primary">Confirm</Button>
+            <Button className="btn btn-outline-primary">ยืนยันการชำระเงิน</Button>
           </div>
         </div>
       </CommonCard>

@@ -100,8 +100,8 @@ export default function Header(props) {
                 <div>
                   {console.log(cartStore.currentCart)}
                   <p>{item.name}</p>
-                  <p>category : {item.category?.category_name}</p>
-                  <p>size : {item.size}</p>
+                  <p>หมวดหมู่ : {item.category?.category_name}</p>
+                  <p>ขนาด : {item.size}</p>
                   <div className="d-flex justify-content-end p-2 bd-highlight">
                     <a
                       onClick={() => handleRemoveCartIndex(index)}
@@ -125,7 +125,7 @@ export default function Header(props) {
               )
             })}
             <p className="d-flex justify-content-end p-2 bd-highlight">
-              Total Price :{" "} 
+              รวม :{" "} 
               {showCart.length != 0 &&
                 showCart
                   .map((item) => item.price * item.quantity)
@@ -144,7 +144,7 @@ export default function Header(props) {
             </div>
           </>
         ) : (
-          "No orders in your cart."
+          "ไม่มีสินค้าในตะกร้าของคุณ"
         )}
       </PopoverBody>
     ),
