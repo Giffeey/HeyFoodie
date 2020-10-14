@@ -1,95 +1,104 @@
-import React, { Component } from "react"
 import Ingredient from "./Ingredient"
 import Dropdown from "react-bootstrap/DropdownButton"
 import Select from "react-select"
+import React, { useContext, useEffect, useState } from "react"
 
-class Menu extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectOptions: [],
-      price: 0.0,
-    }
-    this.listIngredient = this.listIngredient.bind(this)
-    this.listSalesize = this.listSalesize.bind(this)
-  }
+const Menu = (props) => {
+  const [selected, setSelected] = useState({ size: "", price: 0.0 })
+  const [selectOptions, setSelectOptions] = useState([])
 
-  listIngredient = () => {
-    const list = this.props.menu.ingredient.map((ingredient, index) => (
+  const listIngredient = () => {
+    const list = props.menu.ingredient.map((ingredient, index) => (
       <Ingredient key={index} index={index} ingredient={ingredient} />
     ))
     return list
   }
 
-  listSalesize = () => {
-    const options = this.props.menu.salesize.map((salesize, index) => ({
+  const listSalesize = () => {
+    const options = props.menu.salesize.map((salesize, index) => ({
       value: salesize.price,
       label: salesize.size,
     }))
 
-    this.setState({ selectOptions: options })
+    setSelectOptions(options)
   }
 
-  handleChange = (selectedOptions) => {
-    this.setState({ price: selectedOptions.value, name: selectedOptions.label })
+  const handleChange = (selectedOptions) => {
+    setSelected({ price: selectedOptions.value, size: selectedOptions.label })
   }
 
-  handleAddItemToCart = () => {
+  const handleAddItemToCart = () => {
     const menu = {
-      ...this.props.menu,
-      price: this.state.price,
-      size: this.state.name,
+      ...props.menu,
+      ...selected,
     }
-    this.props.handleAddItemToCart(menu)
+    props.handleAddItemToCart(menu)
   }
 
-  componentDidMount() {
-    this.listSalesize()
-  }
+  useEffect(() => {
+    listSalesize()
+  }, [])
 
-  render() {
-    return (
-      <div className="card">
-        <div className="row no-gutters">
-          <div className="col-md-3">
-            <img
-              className="card-img"
-              src={this.props.menu.image}
-              alt="image_menu"
-            ></img>
+  const [showForm, setShowForm] = useState(false)
+  return (
+    <div className="card">
+      <div className="row no-gutters">
+        <div className="col-md-3">
+          <img
+            className="card-img"
+            src={props.menu.image}
+            alt="image_menu"
+          ></img>
+        </div>
+        <div className="col-md-6">
+          <h5 className="card-title">{props.menu.name}</h5>
+          <ul className="list-unstyled inline">{listIngredient()}</ul>
+          <div style={{ width: "200px" }}>
+            <Select
+              readonly
+              onChange={handleChange}
+              options={selectOptions}
+              placeholder="Select Size"
+            />
           </div>
-          <div className="col-md-6">
-            <h5 className="card-title">{this.props.menu.name}</h5>
-            <ul className="list-unstyled inline">{this.listIngredient()}</ul>
-            <div style={{ width: "200px" }}>
-              <Select
-                readonly
-                onChange={this.handleChange}
-                options={this.state.selectOptions}
-                placeholder="Select Size"
-              />
-            </div>
-            <br></br>
-            {/* <p className="card-text">  */}
-              {this.state.price !== 0 ?
-                <p className="card-text"> {this.state.price} บาท </p> : "" }
-              
-            {/* </p> */}
-          </div>
+          <br></br>
+          {/* <p className="card-text">  */}
+          {selected.price !== 0 ? (
+            <p className="card-text"> {selected.price} บาท </p>
+          ) : (
+            ""
+          )}
 
-          <div className="col-md-2 button">
-            <button
-              type="submit"
-              name="add_to_cart"
-              className="btn btn-outline-primary"
-              onClick={() => this.handleAddItemToCart()}
-            >
-              เลือก
-            </button>
-          </div>
+          {/* </p> */}
+        </div>
+
+        <div className="col-md-2 button">
+          <button
+            type="submit"
+            name="add_to_cart"
+            className="btn btn-outline-primary"
+            onClick={() => handleAddItemToCart()}
+          >
+            เลือก
+          </button>
         </div>
       </div>
-    )
-  }
+      <div className="col-md-12">
+        <hr />
+        </div>
+        <a className="a-form" onClick={() => setShowForm(true)}>
+          {" "}
+          ปรับแต่งเมนูด้วยตัวเอง{" "}
+        </a>
+        {showForm === true ? (
+          <>
+            <p>Hiiiii</p>
+            <br/>
+          </>
+        ) : (
+          ""
+        )}
+    </div>
+  )
 }
 export default Menu
