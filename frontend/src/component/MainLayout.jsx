@@ -6,10 +6,12 @@ import Header from "./Navbar/Header"
 export default function MainLayout(props) {
   const { forwardRef, useRef, useImperativeHandle } = React
   const childRef = useRef()
+  const { component: Child } = props
+
   return (
     <>
       <Header {...props}></Header>
-      {props.children}
+      <Child {...props} />
       <Footer></Footer>
     </>
   )

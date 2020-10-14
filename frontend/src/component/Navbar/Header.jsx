@@ -12,6 +12,8 @@ import plus from "../../img/icon/plus.png"
 // import MenuList from './MenuList';
 import Button from "react-bootstrap/Button"
 import cart from "../../img/icon/cart.png"
+import { navigate } from "@reach/router"
+
 import {
   Badge,
   Nav,
@@ -124,19 +126,18 @@ export default function Header(props) {
               )
             })}
             <p className="d-flex justify-content-end p-2 bd-highlight">
-              รวม :{" "} 
+              รวม :{" "}
               {showCart.length != 0 &&
                 showCart
                   .map((item) => item.price * item.quantity)
-                  .reduce((totalPrice, price) => price + totalPrice)} ฿
+                  .reduce((totalPrice, price) => price + totalPrice)}{" "}
+              ฿
             </p>
-            {console.log(cartStore.currentCart)}
+            {console.log(props.history)}
             <div className="order">
               <Button
                 className="btn btn-primary order"
-                href="/paymentpage"
-                
-                // onClick={this.routeChange}
+                onClick={() => navigate("/paymentpage")}
               >
                 สั่งซื้อ
               </Button>

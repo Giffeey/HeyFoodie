@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { Router, navigate } from "@reach/router"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import { FacebookProvider, Initialize, Profile } from "react-facebook"
@@ -21,55 +21,48 @@ export default function App(props) {
     }
   }
   return (
-    <Router>
-      <div>
-        <FacebookProvider appId="319223145838224">
-          <Initialize>
-            {({ isReady }) => {
-              if (isReady) {
-                return (
-                  <>
-                    <FacebookProvider appId="319223145838224">
-                      <Profile>
-                        {({ loading, profile }) => {
-                          if (!loading) {
-                            storeProfile(profile)
-                            return (
-                              <MainLayout>
-                                <Switch>
-                                  <Route
-                                    exact
-                                    path={["/", "/menu"]}
-                                    component={MenuList}
-                                  />
-                                  <Route
-                                    exact
-                                    path={"/detailmenu"}
-                                    component={DetailMenu}
-                                  />
-                                  <Route
-                                    exact
-                                    path={"/paymentpage"}
-                                    component={PaymentPage}
-                                  />
-                                </Switch>
-                              </MainLayout>
-                            )
-                          } else {
-                            return <></>
-                          }
-                        }}
-                      </Profile>
-                    </FacebookProvider>
-                  </>
-                )
-              } else {
-                return <></>
-              }
-            }}
-          </Initialize>
-        </FacebookProvider>
-      </div>
-    </Router>
+    <div>
+      <FacebookProvider appId="319223145838224">
+        <Initialize>
+          {({ isReady }) => {
+            if (isReady) {
+              return (
+                <>
+                  <FacebookProvider appId="319223145838224">
+                    <Profile>
+                      {({ loading, profile }) => {
+                        if (!loading) {
+                          storeProfile(profile)
+                          return (
+                            <>
+                              <Router>
+                                <MainLayout path="/" component={MenuList} />
+                                <MainLayout path="/menu" component={MenuList} />
+                                <MainLayout
+                                  path="/detailmenu"
+                                  component={DetailMenu}
+                                />
+                                <MainLayout
+                                  path="/paymentpage"
+                                  component={PaymentPage}
+                                />
+                              </Router>
+                            </>
+                          )
+                        } else {
+                          return <></>
+                        }
+                      }}
+                    </Profile>
+                  </FacebookProvider>
+                </>
+              )
+            } else {
+              return <></>
+            }
+          }}
+        </Initialize>
+      </FacebookProvider>
+    </div>
   )
 }
