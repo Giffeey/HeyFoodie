@@ -134,11 +134,7 @@ export default function Header(props) {
                   .reduce((totalPrice, price) => price + totalPrice)}{" "}
               ฿
             </p>
-<<<<<<< HEAD
             {console.log(props.history)}
-=======
-
->>>>>>> master
             <div className="order">
               <Button
                 className="btn btn-primary order"
