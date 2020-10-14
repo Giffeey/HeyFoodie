@@ -18,10 +18,16 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
+from HeyFoodie import views
 from HeyFoodie.views import FacebookLogin, GoogleLogin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
+    path('profile/', views.profile, name='profile'),
+    path('editshop/', views.editshop, name='editshop'),
+    path('editmenu/', views.editmenu, name='editmenu'),
+    path('order/',views.order, name='order'),
     path('api/', include('HeyFoodie.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login'),

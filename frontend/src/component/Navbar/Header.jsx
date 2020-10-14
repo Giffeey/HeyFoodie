@@ -100,6 +100,7 @@ export default function Header(props) {
             {showCart.map((item, index) => {
               return (
                 <div>
+                  {console.log(cartStore.currentCart)}
                   <p>{item.name}</p>
                   <p>หมวดหมู่ : {item.category?.category_name}</p>
                   <p>ขนาด : {item.size}</p>
@@ -133,7 +134,11 @@ export default function Header(props) {
                   .reduce((totalPrice, price) => price + totalPrice)}{" "}
               ฿
             </p>
+<<<<<<< HEAD
             {console.log(props.history)}
+=======
+
+>>>>>>> master
             <div className="order">
               <Button
                 className="btn btn-primary order"

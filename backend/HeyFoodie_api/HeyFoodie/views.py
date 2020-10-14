@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password
 
 from rest_framework import generics, permissions, viewsets
@@ -17,6 +18,24 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
 
 # Create your views here.
+
+def home(request):
+    return render(request, 'index.html')
+
+def profile(request):
+    querysets = Owner.objects.all()
+    return render(request, 'profile.html', {'qs': querysets})
+
+def order(request):
+    return render(request, 'order.html')
+
+def editshop(request):
+    querysets = Store.objects.all()
+    return render(request, 'editshop.html', {'qs': querysets})
+
+def editmenu(request):
+    return render(request, 'editmenu.html')
+
 
 class ListCategory(generics.ListCreateAPIView) :
     queryset = Category.objects.all()

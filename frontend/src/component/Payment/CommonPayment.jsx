@@ -18,11 +18,22 @@ export default function CommonPayment(props) {
         <h5 className="">รายการสั่งซื้อ</h5>
         {cartStore.currentCart.length >= 1 ? (
           <div>
+<<<<<<< HEAD
             <div>
               {console.log(cartStore.currentCart)}
               {cartStore.currentCart.map((menu, index) => (
                 <CheckoutList key={index} menu={menu} />
               ))}
+=======
+            <div className="d-flex">
+              {console.log(cartStore.currentCart)}
+            {cartStore.currentCart.map((menu, index) => (
+          <CheckoutList
+            key={index}
+            menu={menu}
+          />
+        ))}
+>>>>>>> master
             </div>
             <p className="d-flex justify-content-end p-2 bd-highlight">
               รวม :{" "}
