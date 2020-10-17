@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 import { Form } from "react-bootstrap"
 
-class CreditPaymentForm extends Component {
-  render() {
-    return (
+export default function CreditPaymentForm() {
+  return (
+    <div>
       <Form action="/checkout" method="post" id="checkout">
         <div id="token_errors"></div>
         <hr />
@@ -58,7 +58,6 @@ class CreditPaymentForm extends Component {
 
         <input type="submit" id="create_token" />
       </Form>
-    )
-  }
+    </div>
+  )
 }
-export default CreditPaymentForm

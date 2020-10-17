@@ -85,19 +85,23 @@ const Menu = (props) => {
       </div>
       <div className="col-md-12">
         <hr />
-        </div>
-        <a className="a-form" onClick={() => setShowForm(true)}>
-          {" "}
-          ปรับแต่งเมนูด้วยตัวเอง{" "}
-        </a>
-        {showForm === true ? (
-          <>
-            <p>Hiiiii</p>
-            <br/>
-          </>
-        ) : (
-          ""
-        )}
+      </div>
+      <a className="a-form" onClick={() => setShowForm(true)}>
+        {" "}
+        ปรับแต่งเมนูด้วยตัวเอง{" "}
+      </a>
+      {showForm === true ? (
+        <>
+          <p>Hiiiii</p>
+          <br />
+          <a className="a-form" onClick={() => setShowForm(false)}>
+            {" "}
+            ^{" "}
+          </a>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   )
 }
