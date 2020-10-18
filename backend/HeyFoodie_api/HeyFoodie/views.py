@@ -6,9 +6,9 @@ from django.contrib.auth.hashers import make_password
 
 from rest_framework import generics, permissions, viewsets
 from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Order, Order_detail, Owner
-from .models import Customer, SaleSize
+from .models import Customer, SaleSize, Payment
 from .serializers import MenuSerializer, CategorySerializer, IngredientCategorySerializer, IngredientSerializer, StoreSerializer, OwnerSerializer
-from .serializers import SalesizeSerializer, OrderSerializer, OrderDetailSerializer, CustomerSerializer
+from .serializers import SalesizeSerializer, OrderSerializer, OrderDetailSerializer, CustomerSerializer, PaymentSerializer
 
 import json
 import logging
@@ -19,6 +19,9 @@ from rest_auth.registration.views import SocialLoginView
 
 # Create your views here.
 
+def login(request):
+    return render(request, 'login.html')
+
 def home(request):
     return render(request, 'index.html')
 
@@ -27,7 +30,10 @@ def profile(request):
     return render(request, 'profile.html', {'qs': querysets})
 
 def order(request):
-    return render(request, 'order.html')
+    querysets = Order.objects.all()
+    orderdetail = Order_detail.objects.all()
+    payment = Payment.objects.all()
+    return render(request, 'order.html', {'qs': querysets, 'od': orderdetail, 'pm': payment})
 
 def editshop(request):
     querysets = Store.objects.all()
@@ -106,6 +112,10 @@ class ListOrder(generics.ListCreateAPIView):
 class ListOrderDetail(generics.ListCreateAPIView):
     queryset = Order_detail.objects.all()
     serializer_class = OrderDetailSerializer
+
+class ListPayment(generics.ListCreateAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
 
 
 class FacebookLogin(SocialLoginView):

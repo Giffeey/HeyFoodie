@@ -1,28 +1,92 @@
 {% extends "base.html" %}
 {% block content %}
+{% for order in qs %}
+{% if order != null %}
 <div class="card-order">
     <div class="card">
         <div class="card-body">
-            ORDER
-        </div>
-    </div>
+            <div class="order row">
+                <div class="col">
+                    Order ID {{order.order_id}}
+                </div>
+                <div class="col">
+                    {{order.date}}
+                </div>
+            </div>
+            <div class="order row">
+                <div class="status col">
+                    {% if order.order_status == 'WAITING' %}
+                    <span id="new">NEW ORDER</span>
+                    {% elif order.order_status == 'COOKING' %}
+                    <span id="cook">COOKING</span>
+                    {% elif order.order_status == 'READYTOPICKUP' %}
+                    <span id="ready">READY TO PICKUP</span>
+                    {% elif order.order_status == 'DONE' %}
+                    <span id="done">COMPLETE</span>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <span id="view" onclick="displayDetail()">View Detail
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="col-sm-12"><hr /></div>
+            </div>
+            <div id="showDetail" style="display: none;">
+                <div class="container">
+     
+                    <div class="row">
+                        <div class="col-sm-3">เมนู</div>
+                        <div class="col-sm-3">จำนวน</div>
+                        <div class="col">ราคา</div>
+                    </div>
+                    {% for detail in od %}
+                    {% if detail.order.order_id == order.order_id %}
+                    <div class="row">
+                        <div class="col-sm-3">{{detail.menu}} ({{detail.size.size}})</div>
+                        <div class="col-sm-3">x {{detail.quantity}}</div>
+                        <div class="col">{{detail.size.price}}</div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% for payment in pm %}
+                    {% if payment.order.order_id == order.order_id %}
+                    <div class="row justify-content-end">
+                        <div class="col-sm-6">ชำระด้วย {{payment.method}}</div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-9">รวม</div>
+                        <div class="col-sm-6">{{payment.amount}}</div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
 
-    <div class="card">
-        <div class="card-body">
-            ORDER
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            ORDER
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            ORDER
+                    <div class="row justify-content-end">
+                        <div class="btnConfirm col-sm-6">
+                            <br/>
+                            {% if order.order_status == 'WAITING' %}
+                            <button type="button" class="btn btn-outline-warning">ยกเลิกออเดอร์</button>
+                            <button type="button" class="btn btn-outline-warning">รับออเดอร์</button>
+                            {% elif order.order_status == 'COOKING' %}
+                            <button type="button" class="btn btn-outline-warning">อาหารพร้อมเสิร์ฟแล้ว</button>
+                            {% elif order.order_status == 'READYTOPICKUP' %}
+                            <button type="button" class="btn btn-outline-warning">รับสินค้าแล้ว</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+{% else %}
+    <div class="container">
+      <h1 class="center">ยังไม่มีออเดอร์เข้ามาใหม่ในตอนนี้</h1>
+    </div>
+{% endif %}
+{% endfor %}
 {% endblock content %}

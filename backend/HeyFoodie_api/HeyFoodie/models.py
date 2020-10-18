@@ -28,6 +28,8 @@ class Store(models.Model):
     detail = models.CharField(max_length=255)
     open_time = models.TimeField()
     close_time = models.TimeField()
+    open_order = models.TimeField()
+    close_order = models.TimeField()
     open_day = MultiSelectField(choices=Day,max_choices=7,max_length=20, null=False)
 
     def __str__(self):
@@ -115,8 +117,13 @@ class Order_detail(models.Model):
     
 
 class Payment(models.Model):
+    PAYMENT_CHOICES = (
+        ('CASH', 'Cash'),
+        ('CREDIT', 'Credit/Debit'),
+    )
+
     payment_id = models.AutoField(primary_key=True)
-    method = models.CharField(max_length=50)
+    method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='CASH')
     amount = models.DecimalField(max_digits=7,decimal_places=2)
     purchase_date = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=20)
