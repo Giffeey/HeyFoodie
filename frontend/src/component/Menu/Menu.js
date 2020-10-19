@@ -2,6 +2,7 @@ import Ingredient from "./Ingredient"
 import Dropdown from "react-bootstrap/DropdownButton"
 import Select from "react-select"
 import React, { useContext, useEffect, useState } from "react"
+import IngredientList from "./IngredientList"
 
 const Menu = (props) => {
   const [selected, setSelected] = useState({ size: "", price: 0.0 })
@@ -92,11 +93,10 @@ const Menu = (props) => {
       </a>
       {showForm === true ? (
         <>
-          <p>Hiiiii</p>
+          <IngredientList></IngredientList>
           <br />
           <a className="a-form" onClick={() => setShowForm(false)}>
-            {" "}
-            ^{" "}
+            {" "}^{" "}
           </a>
         </>
       ) : (
