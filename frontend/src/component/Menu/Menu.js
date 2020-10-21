@@ -93,8 +93,7 @@ const Menu = (props) => {
       </a>
       {showForm === true ? (
         <>
-          <IngredientList></IngredientList>
-          <br />
+          <IngredientList {...props}></IngredientList>
           <a className="a-form" onClick={() => setShowForm(false)}>
             {" "}^{" "}
           </a>
