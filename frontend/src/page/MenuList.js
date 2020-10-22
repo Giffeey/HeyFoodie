@@ -3,21 +3,25 @@ import Carousel from "react-bootstrap/Carousel"
 import Menu from "../component/Menu/Menu"
 import SlideMenu from "../component/Menu/SlideMenu"
 import { storesContext } from "../context"
+import menuDataService from "../services/menu.service"
+
 
 function MenuList() {
   const { cartStore } = useContext(storesContext)
   const [menus, setMenus] = useState([])
-  const [prices, setPrice] = useState(0)
-  const [quantity, setQuantity] = useState(0)
   const [store, setStore] = useState([])
   const [owner, setOwner] = useState([])
   const [salesize, setSaleSize] = useState([])
+  const [ingr, setIngr] = useState([])
 
-  const getItems = () =>
-    fetch("http://127.0.0.1:8000/api/menu/").then((res) => res.json())
+
+  const fetchMenus = async () => {
+    const response = await menuDataService.getAll()
+    setMenus(response.data)
+  }
 
   useEffect(() => {
-    getItems().then((data) => setMenus(data))
+    fetchMenus()
   }, [])
 
   const getSaleSize = () =>
@@ -25,6 +29,13 @@ function MenuList() {
 
   useEffect(() => {
     getSaleSize().then((data) => setSaleSize(data))
+  }, [])
+
+  const getIngr = () =>
+    fetch("http://127.0.0.1:8000/api/ingredient/").then((res) => res.json())
+
+  useEffect(() => {
+    getIngr().then((data) => setIngr(data))
   }, [])
 
   const getStore = () =>
@@ -77,6 +88,7 @@ function MenuList() {
             handleAddItemToCart={handleAddItemToCart}
             menu={menu}
             salesize={salesize}
+            ingr={ingr}
           />
         ))}
       </div>
