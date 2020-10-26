@@ -17,28 +17,38 @@ from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
 
-# Create your views here.
-
-def login(request):
-    return render(request, 'login.html')
-
+@login_required
 def home(request):
     return render(request, 'index.html')
 
+@login_required
 def profile(request):
     querysets = Owner.objects.all()
     return render(request, 'profile.html', {'qs': querysets})
 
+@login_required
 def order(request):
     querysets = Order.objects.all()
     orderdetail = Order_detail.objects.all()
     payment = Payment.objects.all()
     return render(request, 'order.html', {'qs': querysets, 'od': orderdetail, 'pm': payment})
 
+@login_required
 def editshop(request):
+    if request.method == "POST":
+        store_id = request.POST.get('store_id')
+        storename = request.POST.get('storename')
+        detail = request.POST.get('detail')
+        open_time = request.POST.get('open_time')
+        close_time = request.POST.get('close_time')
+        open_order = request.POST.get('open_order')
+        close_order = request.POST.get('close_order')
+        open_day = request.POST.get('open_day')
+
     querysets = Store.objects.all()
     return render(request, 'editshop.html', {'qs': querysets})
 
+@login_required
 def editmenu(request):
     return render(request, 'editmenu.html')
 

@@ -5,7 +5,7 @@
     <div class="card-body">
         <div class="storeinfo">
             {% for store in qs %}
-            <form>
+            <form action="" method="POST">
                 <div class="form-group row">
                     <label for="shopname" class="col-sm-3 col-form-label">ชื่อร้าน</label>
                     <div class="col-sm-7">
@@ -15,41 +15,15 @@
                 <div class="form-group row">
                     <label for="shopname" class="col-sm-3 col-form-label">วันที่เปิดร้าน</label>
                     <div class="col-sm-7">
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="SUN"> SUN
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="MON"> MON
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="TUE"> TUE
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="WED"> WED
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="THU"> THU
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="FRI"> FRI
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="SAT"> SAT
-                            </label>
-                          </div>
+                      {% for value,text in store.open_day.choices.items %}
+                      
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" id="inlineCheckbox{{value}}" 
+                          value="{{value}}" {% if text in store.open_day %} checked="checked" {% endif %}> {{text}}
+                        </label>
+                      </div>
+                      {% endfor %}
                     </div>
                 </div>
                 <div class="form-group row">

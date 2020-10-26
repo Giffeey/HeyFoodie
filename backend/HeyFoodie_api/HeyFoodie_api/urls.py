@@ -23,7 +23,8 @@ from HeyFoodie.views import FacebookLogin, GoogleLogin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.login, name='login'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', views.home, name='home'),
     path('home/', views.home, name='home'),
     path('profile/', views.profile, name='profile'),
     path('editshop/', views.editshop, name='editshop'),
