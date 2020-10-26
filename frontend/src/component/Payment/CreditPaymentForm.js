@@ -52,7 +52,7 @@ export default function CreditPaymentForm() {
             data-omise="security_code"
             size="3"
             type="password"
-            placeholder="xxx"
+            placeholder="***"
           />
         </div>
 
