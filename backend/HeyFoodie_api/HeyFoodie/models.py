@@ -14,13 +14,13 @@ class Owner(models.Model):
     def __str__(self):
         return self.user.username
 
-Day = ((1, 'MON'),
-    (2, 'TUE'),
-    (3, 'WED'),
-    (4, 'THU'),
-    (5, 'FRI'),
-    (6, 'SAT'),
-    (7, 'SUN'))
+Day = ((1, 'จันทร์'),
+    (2, 'อังคาร'),
+    (3, 'พุธ'),
+    (4, 'พฤหัสบดี'),
+    (5, 'ศุกร์'),
+    (6, 'เสาร์'),
+    (7, 'อาทิตย์'))
 
 class Store(models.Model):
     store_id = models.AutoField(primary_key=True)
@@ -31,6 +31,10 @@ class Store(models.Model):
     open_order = models.TimeField()
     close_order = models.TimeField()
     open_day = MultiSelectField(choices=Day,max_choices=7,max_length=20, null=False)
+    fbpage = models.CharField(max_length=100, null=True)
+    lineac = models.CharField(max_length=100, null=True)
+    igac = models.CharField(max_length=100, null=True)
+    address = models.CharField(max_length=300)
 
     def __str__(self):
         return self.storename

@@ -14,12 +14,12 @@ function MenuList() {
   const [salesize, setSaleSize] = useState([])
   const [ingr, setIngr] = useState([])
 
-
+// use Axios
   const fetchMenus = async () => {
     const response = await menuDataService.getAll()
     setMenus(response.data)
   }
-
+  
   useEffect(() => {
     fetchMenus()
   }, [])
