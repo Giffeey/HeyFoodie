@@ -35,6 +35,11 @@ def order(request):
 
 @login_required
 def editshop(request):
+    querysets = Store.objects.all()
+    return render(request, 'editshop_base.html', {'qs': querysets})
+
+@login_required
+def editshops(request):
     if request.method == "POST":
         store_id = request.POST.get('store_id')
         storename = request.POST.get('storename')

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="storeinfo">
+            {% for store in qs %}
+            <form>
+                <div class="form-group row">
+                    <label for="shopname" class="col-sm-3 col-form-label">ชื่อร้าน</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="colFormLabel" value="{{store.storename}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="shopname" class="col-sm-3 col-form-label">วันที่เปิดร้าน</label>
+                    <div class="col-sm-7">
+                      {% for value,text in store.open_day.choices.items %}
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" id="inlineCheckbox{{value}}" 
+                          value="{{value}}" {% if text in store.open_day %} checked="checked" {% endif %}> {{text}}
+                        </label>
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="storeTime" class="col-sm-3 col-form-label">เวลาเปิด-ปิดร้าน</label>
+                    <label for="openStore" class="col-sm-1 col-form-label">เปิด</label>
+                    <div class="col-sm-2.5">
+                        <input class="form-control" type="time" value="08:30:00" id="openStore">
+                    </div>
+                    <label for="closeStore" class="col-sm-1 col-form-label">ปิด</label>
+                    <div class="col-sm-2.5">
+                        <input class="form-control" type="time" value="18:30:00" id="closeStore">
+                    </div>
+                </div>    
+
+                <div class="form-group row">
+                    <label for="orderTime" class="col-sm-3 col-form-label">เวลาเปิด-ปิดรับออเดอร์</label>
+                    <label for="openOrder" class="col-sm-1 col-form-label">เปิด</label>
+                    <div class="col-sm-2.5">
+                        <input class="form-control" type="time" value="08:30:00" id="openOrder">
+                    </div>
+                    <label for="closeOrder" class="col-sm-1 col-form-label">ปิด</label>
+                    <div class="col-sm-2.5">
+                        <input class="form-control" type="time" value="18:00:00" id="closeOrder">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="shopname" class="col-sm-3 col-form-label">คำโปรยของร้าน</label>
+                    <div class="col-sm-7">
+                        <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="write something" readonly>{{store.detail}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="shopname" class="col-sm-3 col-form-label">ติดต่อ</label>
+                    <div class="col-sm-4"> 
+                        <input type="text" class="form-control" id="colFormLabel" value="" placeholder="facebook fanpage" readonly>
+                    </div>
+                    <div class="col-sm-3"> 
+                        <input type="text" class="form-control" id="colFormLabel" value="" placeholder="line account" readonly> 
+                    </div>
+                    <br />
+                    <div class="col-sm-3"> </div>
+                    <div class="col-sm-4"> 
+                        <input type="text" class="form-control" id="colFormLabel" value="" placeholder="instragram account" readonly>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="shopname" class="col-sm-3 col-form-label">ที่อยู่ของร้าน</label>
+                    <div class="col-sm-7">
+                        <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="write something" readonly>{{store.address}}</textarea>
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+        </div>
+        <div class="container">
+            <div class="vertical-center">
+            <button type="button" class="btn btn-outline-warning btn-lg">แก้ไขข้อมูลส่วนตัว</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
