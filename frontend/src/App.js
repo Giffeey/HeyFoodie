@@ -9,7 +9,6 @@ import MainLayout from "./component/MainLayout"
 import DetailMenu from "./page/DetailMenu"
 import PaymentPage from "./page/PaymentPage"
 import { storesContext } from "./context"
-
 export default function App(props) {
   const { userStore } = useContext(storesContext)
 
