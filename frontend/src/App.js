@@ -8,6 +8,7 @@ import MenuList from "./page/MenuList"
 import MainLayout from "./component/MainLayout"
 import DetailMenu from "./page/DetailMenu"
 import PaymentPage from "./page/PaymentPage"
+import QueuePage from "./page/QueuePage"
 import { storesContext } from "./context"
 export default function App(props) {
   const { userStore } = useContext(storesContext)
@@ -44,6 +45,10 @@ export default function App(props) {
                                 <MainLayout
                                   path="/paymentpage"
                                   component={PaymentPage}
+                                />
+                                <MainLayout
+                                  path="/queuepage"
+                                  component={QueuePage}
                                 />
                               </Router>
                             </>
