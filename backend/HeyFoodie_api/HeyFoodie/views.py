@@ -55,7 +55,8 @@ def editshops(request):
 
 @login_required
 def editmenu(request):
-    return render(request, 'editmenu.html')
+    querysets = Menu.objects.all()
+    return render(request, 'editmenu.html', {'qs': querysets})
 
 
 class ListCategory(generics.ListCreateAPIView) :
