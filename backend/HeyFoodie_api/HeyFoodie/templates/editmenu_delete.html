@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+            <div class="col-4">
+                <h4>ลบเมนู</h4>
+            </div>
+            <div>
+                คุณต้องการจะลบ {{menu.name}} ออกจากรายการอาหารใช่หรือไม่
+            <form enctype="multipart/form-data" action="" method="POST">
+                {% csrf_token %}
+
+                <button type="submit" class="save btn btn-default">ใช่ ฉันต้องการลบเมนูนี้</button>
+            </form>
+        </div>
+        </div>
+    </div>
+                
+
+{% endblock content %}

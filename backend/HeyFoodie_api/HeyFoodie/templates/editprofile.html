@@ -10,14 +10,14 @@
         <div class="imgowner">
             <img src="../../media/Image/user_shop.png" alt="user_shop" />
         </div>
-
+        
         <div class="infoowner">
-            {% for owner in qs %}
-            <form>
+            <form action="" method="POST">
+                {% csrf_token %}
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label">ชื่อ</label>
                     <div class="col-sm-3">
-                        <input type="email" class="form-control" id="colFormLabel" value="{{owner.user.first_name}}" readonly>
+                        {{ form.user_firstname}}
                     </div>
                     <label for="email" class="col-sm-2 col-form-label">นามสกุล</label>
                     <div class="col-sm-3">
@@ -41,15 +41,12 @@
 
             {% endfor %}
         </div>
-        <form action="" method="post">
-            {% csrf_token %}
-            
-            <div class="container">
-                <div class="vertical-center">
-                    <div>
-                        <button type="submit" class="btn btn-outline-warning btn-lg" value="{{editprofile_path}}">แก้ไขข้อมูลส่วนตัว</button>
-                    </div>
-        </form>
+
+        <div class="container">
+            <div class="vertical-center">
+                <div>
+                    <button type="button" class="btn btn-outline-warning btn-lg">แก้ไขข้อมูลส่วนตัว</button>
+                </div>
 
                 <!-- <div class="cancleandsubmit">
                     <button type="button" class="btn btn-outline-warning btn-lg">ยกเลิก</button>

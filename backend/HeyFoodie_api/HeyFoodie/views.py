@@ -1,14 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from rest_framework import generics, permissions, viewsets
 from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Order, Order_detail, Owner
-from .models import Customer, SaleSize, Payment
+from .models import Customer, SaleSize, Payment, User
 from .serializers import MenuSerializer, CategorySerializer, IngredientCategorySerializer, IngredientSerializer, StoreSerializer, OwnerSerializer
 from .serializers import SalesizeSerializer, OrderSerializer, OrderDetailSerializer, CustomerSerializer, PaymentSerializer
+from .form import ProfileForm, MenuForm
 
 import json
 import logging
@@ -25,6 +28,23 @@ def home(request):
 def profile(request):
     querysets = Owner.objects.all()
     return render(request, 'profile.html', {'qs': querysets})
+
+@login_required
+def editProfile(request, pk):
+    profile_instance = get_object_or_404(User, pk=pk)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+
+        if form.is_valid():
+            profile_instance.save()
+            return HttpResponseRedirect(reversed('profile'))
+    context = {
+        'form' : form,
+        'profile_instance': profile_instance,
+    }
+    
+    return render(request, 'editprofile.html', context)
 
 @login_required
 def order(request):
@@ -58,6 +78,62 @@ def editmenu(request):
     querysets = Menu.objects.all()
     return render(request, 'editmenu.html', {'qs': querysets})
 
+@login_required
+def editmenu_create(request):
+
+    if request.method == "POST":
+        form = MenuForm(request.POST, request.FILES)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            category = form.cleaned_data.get('category')
+            ingredient = form.cleaned_data.get('ingredient')
+            salesize = form.cleaned_data.get('salesize')
+            img = form.cleaned_data.get('image')
+            obj = Menu.objects.create(
+                name=name,
+                category=category,
+                image=img
+            )
+            obj.ingredient.set(ingredient)
+            obj.salesize.set(salesize)
+            obj.save()
+            return redirect('editmenu')
+    else:
+        form = MenuForm()
+        return render(request, 'editmenu_create.html', {'form': form})
+
+@login_required
+def editmenu_update(request, pk):
+    menu = get_object_or_404(Menu, pk=pk)
+    if request.method == "POST":
+        form = MenuForm(request.POST, request.FILE, instance=menu)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            category = form.cleaned_data.get('category')
+            ingredient = form.cleaned_data.get('ingredient')
+            salesize = form.cleaned_data.get('salesize')
+            img = form.cleaned_data.get('image')
+            obj = Menu.objects.create(
+                name=name,
+                category=category,
+                image=img
+            )
+            obj.ingredient.set(ingredient)
+            obj.salesize.set(salesize)
+            obj.save()
+            return redirect('editmenu')
+    else:
+        form = MenuForm(instance=menu)
+    return render(request, 'editmenu_update.html',{'form': form})
+
+@login_required
+def editmenu_delete(request, pk):
+    menu = get_object_or_404(Menu, pk=pk)
+    if request.method == "POST":
+            menu.delete()
+            return redirect('editmenu')
+    else:
+        return render(request, 'editmenu_delete.html',{'menu': menu})
 
 class ListCategory(generics.ListCreateAPIView) :
     queryset = Category.objects.all()
