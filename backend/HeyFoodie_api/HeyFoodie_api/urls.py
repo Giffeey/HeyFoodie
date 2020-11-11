@@ -29,6 +29,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('editprofile/', views.editProfile, name='editprofile'),
     path('editshop/', views.editshop, name='editshop'),
+    path('editshop/update/', views.editshop_update, name='editshop_update'),
     path('editmenu/', views.editmenu, name='editmenu'),
     path('editmenu/create/', views.editmenu_create, name='editmenu_create'),
     path('editmenu/<int:pk>/update/', views.editmenu_update, name='editmenu_update'),

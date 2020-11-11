@@ -1,21 +1,19 @@
 from django import forms
 from django.forms import ModelForm
-from .models import SaleSize, Ingredient, Category, Menu
+from .models import SaleSize, Ingredient, Category, Menu, User, Owner, Store
 
-class ProfileForm(forms.Form):
-    user_firstname = forms.DateField()
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Owner
+        fields = ('user', 'email', 'phone')
 
 class MenuForm(forms.ModelForm):
-    # name = forms.CharField(max_length=100)
-    # category = forms.ModelChoiceField(queryset=Category.objects.all())
-    # ingredient = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all())
-    # salesize = forms.ModelMultipleChoiceField(queryset=SaleSize.objects.all())
-    # image = forms.ImageField()
     class Meta:
         model = Menu
         fields = ('name', 'category', 'ingredient', 'salesize', 'image')
         
-# class MenuModelForm(ModelForm):
-#     class Meta:
-#         model = Menu
-#         fields = ['name', 'category', 'ingredient', 'salesize', 'image']
+class StoreForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = ('storename', 'detail', 'open_time', 'close_time', 'open_order', 'close_order', 'open_day', 'fbpage', 'lineac', 'igac', 'address')
+        

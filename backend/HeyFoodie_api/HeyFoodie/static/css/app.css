@@ -76,7 +76,6 @@ html, body{
 .container {
     height: 150px;
     position: relative;
-
 }
 
 .vertical-center{
@@ -135,3 +134,5 @@ html, body{
 div.card.menu {
     margin: 20px !important; 
 }
+
+li {list-style-type: none;}

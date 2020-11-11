@@ -57,7 +57,6 @@ class Ingredient(models.Model):
     ingredient_id = models.AutoField(primary_key=True)
     ingredient_name = models.CharField(max_length=50)
     Ingredient_category = models.ForeignKey(Ingredient_Category, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=5,decimal_places=2)
     image = models.ImageField(blank=True, upload_to='Image',null=True)
 
     def __str__(self):
@@ -73,7 +72,7 @@ class SaleSize(models.Model):
 
 class Menu(models.Model):
     menu_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     ingredient = models.ManyToManyField(Ingredient)
     salesize = models.ManyToManyField(SaleSize)
@@ -85,7 +84,7 @@ class Menu(models.Model):
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    email = models.CharField(max_length=255)
+    email = models.CharField(max_length=255, unique=True)
     phone = models.CharField(max_length=10, null=True)
     image = models.ImageField(blank=True, upload_to='Image', null=True)
 

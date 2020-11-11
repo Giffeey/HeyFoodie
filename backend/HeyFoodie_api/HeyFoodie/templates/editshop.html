@@ -4,37 +4,29 @@
 <div class="card">
     <div class="card-body">
         <div class="storeinfo">
-            {% for store in qs %}
-            <form action="" method="POST">
+            <form action="">
+                {% csrf_token %}
                 <div class="form-group row">
                     <label for="shopname" class="col-sm-3 col-form-label">ชื่อร้าน</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="colFormLabel" value="{{store.storename}}">
+                        {{form.storename}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="shopname" class="col-sm-3 col-form-label">วันที่เปิดร้าน</label>
                     <div class="col-sm-7">
-                      {% for value,text in store.open_day.choices.items %}
-                      
-                      <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" id="inlineCheckbox{{value}}" 
-                          value="{{value}}" {% if text in store.open_day %} checked="checked" {% endif %}> {{text}}
-                        </label>
-                      </div>
-                      {% endfor %}
+                        {{form.open_day}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="storeTime" class="col-sm-3 col-form-label">เวลาเปิด-ปิดร้าน</label>
                     <label for="openStore" class="col-sm-1 col-form-label">เปิด</label>
                     <div class="col-sm-2.5">
-                        <input class="form-control" type="time" value="08:30:00" id="openStore">
+                        {{form.open_time}}
                     </div>
                     <label for="closeStore" class="col-sm-1 col-form-label">ปิด</label>
                     <div class="col-sm-2.5">
-                        <input class="form-control" type="time" value="18:30:00" id="closeStore">
+                        {{form.close_time}}
                     </div>
                 </div>    
 
@@ -42,61 +34,50 @@
                     <label for="orderTime" class="col-sm-3 col-form-label">เวลาเปิด-ปิดรับออเดอร์</label>
                     <label for="openOrder" class="col-sm-1 col-form-label">เปิด</label>
                     <div class="col-sm-2.5">
-                        <input class="form-control" type="time" value="08:30:00" id="openOrder">
+                        {{form.open_order}}
                     </div>
                     <label for="closeOrder" class="col-sm-1 col-form-label">ปิด</label>
                     <div class="col-sm-2.5">
-                        <input class="form-control" type="time" value="18:00:00" id="closeOrder">
+                        {{form.close_order}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="shopname" class="col-sm-3 col-form-label">คำโปรยของร้าน</label>
                     <div class="col-sm-7">
-                        <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="write something">{{store.detail}}</textarea>
+                        {{form.detail}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="shopname" class="col-sm-3 col-form-label">ติดต่อ</label>
                     <div class="col-sm-4"> 
-                        <input type="text" class="form-control" id="colFormLabel" value="" placeholder="facebook fanpage">
+                        {{form.fbpage}}
                     </div>
                     <div class="col-sm-3"> 
-                        <input type="text" class="form-control" id="colFormLabel" value="" placeholder="line account">
+                        {{form.lineac}}
                     </div>
                     <br />
                     <div class="col-sm-3"> </div>
                     <div class="col-sm-4"> 
-                        <input type="text" class="form-control" id="colFormLabel" value="" placeholder="instragram account">
+                        {{form.igac}}
                     </div>
 
                 </div>
                 <div class="form-group row">
                     <label for="shopname" class="col-sm-3 col-form-label">ที่อยู่ของร้าน</label>
                     <div class="col-sm-7">
-                        <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="write something">{{store.address}}</textarea>
+                        {{form.address}}
                     </div>
                 </div>
             </form>
-            {% endfor %}
         </div>
         <div class="container">
-            <div class="vertical-center">
-                <!-- <div>
-                    <button type="button" class="btn btn-outline-warning btn-lg">แก้ไขข้อมูลส่วนตัว</button>
-                </div> -->
-
-                <div class="cancleandsubmit">
-                    <button type="button" class="btn btn-outline-warning btn-lg">ยกเลิก</button>
-                    <button type="submit" class="btn btn-outline-warning btn-lg">ยืนยัน</button>
-                </div>
-
+            <div class="vertical-center">  
+                <form action="{% url 'editshop_update' %}">      
+                <button type="submit" class="btn btn-outline-warning btn-lg">แก้ไขข้อมูลส่วนตัว</button>
+                </form>
             </div>
         </div>
 
     </div>
 </div>
-
-
-
-
 {% endblock content %}

@@ -5,13 +5,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 
 from rest_framework import generics, permissions, viewsets
 from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Order, Order_detail, Owner
 from .models import Customer, SaleSize, Payment, User
 from .serializers import MenuSerializer, CategorySerializer, IngredientCategorySerializer, IngredientSerializer, StoreSerializer, OwnerSerializer
 from .serializers import SalesizeSerializer, OrderSerializer, OrderDetailSerializer, CustomerSerializer, PaymentSerializer
-from .form import ProfileForm, MenuForm
+from .form import ProfileForm, MenuForm, StoreForm
 
 import json
 import logging
@@ -56,31 +57,57 @@ def order(request):
 @login_required
 def editshop(request):
     querysets = Store.objects.all()
-    return render(request, 'editshop_base.html', {'qs': querysets})
+    store = get_object_or_404(Store, pk=1)
+    form = StoreForm(instance=store)
+    return render(request, 'editshop.html', {'qs': querysets, 'form': form})
 
 @login_required
-def editshops(request):
+def editshop_update(request):
+    store = get_object_or_404(Store, pk=1)
     if request.method == "POST":
-        store_id = request.POST.get('store_id')
-        storename = request.POST.get('storename')
-        detail = request.POST.get('detail')
-        open_time = request.POST.get('open_time')
-        close_time = request.POST.get('close_time')
-        open_order = request.POST.get('open_order')
-        close_order = request.POST.get('close_order')
-        open_day = request.POST.get('open_day')
-
-    querysets = Store.objects.all()
-    return render(request, 'editshop.html', {'qs': querysets})
+        form = StoreForm(request.POST, instance=store)
+        if form.is_valid():
+            storename = form.cleaned_data.get('storename')
+            detail = form.cleaned_data.get('detail')
+            open_time = form.cleaned_data.get('open_time')
+            close_time = form.cleaned_data.get('close_time')
+            open_order = form.cleaned_data.get('open_order')
+            close_order = form.cleaned_data.get('close_order')
+            open_day = form.cleaned_data.get('open_day')
+            fbpage = form.cleaned_data.get('fbpage')
+            lineac = form.cleaned_data.get('lineac')
+            igac = form.cleaned_data.get('igac')
+            address = form.cleaned_data.get('address')
+            obj = Store.objects.create(
+                storename=storename,
+                detail=detail,
+                open_time=open_time,
+                close_time=close_time,
+                open_order=open_order,
+                close_order=close_order,
+                fbpage=fbpage,
+                lineac=lineac,
+                igac=igac,
+                address=address
+            )
+            obj.open_day.set(open_day)
+            obj.save()
+            return redirect('editshop')
+    else:
+        form = StoreForm(instance=store)
+        return render(request, 'editshop_update.html',{'form': form})
+    
 
 @login_required
 def editmenu(request):
     querysets = Menu.objects.all()
-    return render(request, 'editmenu.html', {'qs': querysets})
+    paginator = Paginator(querysets, 5)
+    page = request.GET.get('page')
+    menu = paginator.get_page(page)
+    return render(request, 'editmenu.html', {'menu': menu})
 
 @login_required
 def editmenu_create(request):
-
     if request.method == "POST":
         form = MenuForm(request.POST, request.FILES)
         if form.is_valid():
@@ -124,7 +151,7 @@ def editmenu_update(request, pk):
             return redirect('editmenu')
     else:
         form = MenuForm(instance=menu)
-    return render(request, 'editmenu_update.html',{'form': form})
+        return render(request, 'editmenu_update.html',{'form': form, 'menu': menu})
 
 @login_required
 def editmenu_delete(request, pk):
@@ -132,8 +159,8 @@ def editmenu_delete(request, pk):
     if request.method == "POST":
             menu.delete()
             return redirect('editmenu')
-    else:
-        return render(request, 'editmenu_delete.html',{'menu': menu})
+    # else:
+    #     return render(request, 'editmenu_delete.html',{'menu': menu})
 
 class ListCategory(generics.ListCreateAPIView) :
     queryset = Category.objects.all()
