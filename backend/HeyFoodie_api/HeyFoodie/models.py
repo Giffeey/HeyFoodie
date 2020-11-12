@@ -83,13 +83,14 @@ class Menu(models.Model):
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    firstname = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
     email = models.CharField(max_length=255, unique=True)
     phone = models.CharField(max_length=10, null=True)
     image = models.ImageField(blank=True, upload_to='Image', null=True)
 
     def __str__(self):
-        return self.user.username
+        return "%s %s" % (self.firstname,self.lastname)
 
 class Order(models.Model):
     ORDER_STATUS_CHOICES = (

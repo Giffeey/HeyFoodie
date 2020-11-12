@@ -15,7 +15,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     Ingredient_category = IngredientCategorySerializer()
     class Meta:
         model = Ingredient
-        fields = ('ingredient_id','ingredient_name','Ingredient_category','price','image')
+        fields = ('ingredient_id','ingredient_name','Ingredient_category','image')
 
 class SalesizeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +32,7 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = ('menu_id', 'name','category','ingredient', 'salesize','image')
 
 class OrderSerializer(serializers.ModelSerializer):
-    customer = serializers.ReadOnlyField()
+    # customer = serializers.ReadOnlyField()
 
     class Meta: 
         model = Order

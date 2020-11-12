@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'tempus_dominus',
     'multiselectfield',
     'corsheaders',
     'HeyFoodie',

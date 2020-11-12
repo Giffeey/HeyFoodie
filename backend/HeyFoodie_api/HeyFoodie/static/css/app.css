@@ -135,4 +135,11 @@ div.card.menu {
     margin: 20px !important; 
 }
 
-li {list-style-type: none;}
+ul#id_open_day li {
+    list-style-type: none;
+}
+
+ul#id_open_day {
+    list-style-type: none !important;
+    padding-inline-start: 0px !important;
+}

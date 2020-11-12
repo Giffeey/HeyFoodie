@@ -56,10 +56,10 @@ def order(request):
 
 @login_required
 def editshop(request):
-    querysets = Store.objects.all()
+    # querysets = Store.objects.all()
     store = get_object_or_404(Store, pk=1)
     form = StoreForm(instance=store)
-    return render(request, 'editshop.html', {'qs': querysets, 'form': form})
+    return render(request, 'editshop.html', {'store': store, 'form': form})
 
 @login_required
 def editshop_update(request):
@@ -67,32 +67,12 @@ def editshop_update(request):
     if request.method == "POST":
         form = StoreForm(request.POST, instance=store)
         if form.is_valid():
-            storename = form.cleaned_data.get('storename')
-            detail = form.cleaned_data.get('detail')
-            open_time = form.cleaned_data.get('open_time')
-            close_time = form.cleaned_data.get('close_time')
-            open_order = form.cleaned_data.get('open_order')
-            close_order = form.cleaned_data.get('close_order')
-            open_day = form.cleaned_data.get('open_day')
-            fbpage = form.cleaned_data.get('fbpage')
-            lineac = form.cleaned_data.get('lineac')
-            igac = form.cleaned_data.get('igac')
-            address = form.cleaned_data.get('address')
-            obj = Store.objects.create(
-                storename=storename,
-                detail=detail,
-                open_time=open_time,
-                close_time=close_time,
-                open_order=open_order,
-                close_order=close_order,
-                fbpage=fbpage,
-                lineac=lineac,
-                igac=igac,
-                address=address
-            )
-            obj.open_day.set(open_day)
-            obj.save()
+            form.save()
             return redirect('editshop')
+        else:
+            print("form error")
+            return redirect('editshop')
+
     else:
         form = StoreForm(instance=store)
         return render(request, 'editshop_update.html',{'form': form})
@@ -100,8 +80,8 @@ def editshop_update(request):
 
 @login_required
 def editmenu(request):
-    querysets = Menu.objects.all()
-    paginator = Paginator(querysets, 5)
+    menus = Menu.objects.get_queryset().order_by('menu_id')
+    paginator = Paginator(menus, 5)
     page = request.GET.get('page')
     menu = paginator.get_page(page)
     return render(request, 'editmenu.html', {'menu': menu})

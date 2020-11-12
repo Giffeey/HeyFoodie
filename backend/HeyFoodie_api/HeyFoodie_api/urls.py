@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.i18n import JavaScriptCatalog
 from rest_framework import routers
 from HeyFoodie import views
 from HeyFoodie.views import FacebookLogin, GoogleLogin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('jsi18n', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.home, name='home'),
     path('home/', views.home, name='home'),
