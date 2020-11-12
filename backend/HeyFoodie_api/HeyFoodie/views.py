@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
@@ -31,21 +33,44 @@ def profile(request):
     return render(request, 'profile.html', {'qs': querysets})
 
 @login_required
-def editProfile(request, pk):
-    profile_instance = get_object_or_404(User, pk=pk)
+def editProfile(request):
+    profile = get_object_or_404(User, pk=request.user.id)
+    return render(request, 'editprofile.html', {'profile': profile})
 
+@login_required
+def editProfile_update(request):
+    profile = get_object_or_404(User, pk=request.user.id)
+    
     if request.method == 'POST':
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, instance=profile)
 
         if form.is_valid():
-            profile_instance.save()
-            return HttpResponseRedirect(reversed('profile'))
-    context = {
-        'form' : form,
-        'profile_instance': profile_instance,
-    }
-    
-    return render(request, 'editprofile.html', context)
+            form.clean_user()
+            form.save()
+            return redirect('editprofile')
+        else:
+            print(form.errors)
+            return redirect('editprofile')
+
+    else:
+        form = ProfileForm(instance=profile)
+        return render(request, 'editprofile_update.html', {'form': form, 'profile': profile})
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('editprofile_update')
+        else:
+            messages.error(request, 'Please correct the error below.')
+            print(form.errors)
+            return redirect('editprofile_update')
+    else:
+        form = PasswordChangeForm(request.user)
+        return render(request, 'accounts/change_password.html', {'form': form})
 
 @login_required
 def order(request):
@@ -56,7 +81,6 @@ def order(request):
 
 @login_required
 def editshop(request):
-    # querysets = Store.objects.all()
     store = get_object_or_404(Store, pk=1)
     form = StoreForm(instance=store)
     return render(request, 'editshop.html', {'store': store, 'form': form})
@@ -68,9 +92,6 @@ def editshop_update(request):
         form = StoreForm(request.POST, instance=store)
         if form.is_valid():
             form.save()
-            return redirect('editshop')
-        else:
-            print("form error")
             return redirect('editshop')
 
     else:
