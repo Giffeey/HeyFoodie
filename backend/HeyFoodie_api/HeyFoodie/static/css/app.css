@@ -143,3 +143,7 @@ ul#id_open_day {
     list-style-type: none !important;
     padding-inline-start: 0px !important;
 }
+
+div.text.col-sm-7{
+    margin-top: 7px;
+}
