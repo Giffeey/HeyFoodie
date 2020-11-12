@@ -114,7 +114,7 @@ class Order_detail(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     ingredient = models.ManyToManyField(Ingredient)
     size = models.ForeignKey(SaleSize, on_delete=models.CASCADE, null=True)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=1)
     
     def __str__(self):
         return "%s x %s" % (self.menu, self.quantity)
@@ -126,11 +126,16 @@ class Payment(models.Model):
         ('CREDIT', 'Credit/Debit'),
     )
 
+    PAYMENT_STATUS = (
+        ('complete', 'Complete'),
+        ('waiting', 'Waiting')
+    )
+
     payment_id = models.AutoField(primary_key=True)
     method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='CASH')
     amount = models.DecimalField(max_digits=7,decimal_places=2)
     purchase_date = models.DateTimeField(default=datetime.datetime.now)
-    status = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default='waiting')
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -142,25 +147,7 @@ class History(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s" % (self.customer, self.payment)
-
-class Review(models.Model):
-    review_id = models.AutoField(primary_key=True)
-    comment = models.CharField(max_length=500)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "%s %s %s" % (self.menu, self.comment, self.customer)
-    
-class User_Rating(models.Model):
-    user_rating_id = models.AutoField(primary_key=True)
-    rating = models.IntegerField()
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return "%s %s %i" % (self.customer, self.menu, self.rating)
+        return "%s %s" % (self.customer, self.payment)    
 
 class Report_Day(models.Model):
     report_day_id = models.AutoField(primary_key=True)
