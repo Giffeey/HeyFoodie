@@ -5,33 +5,82 @@ import CheckoutList from "../CheckoutList"
 import CreditPaymentForm from "./CreditPaymentForm"
 import { storesContext } from "../../context"
 import { Form } from "react-bootstrap"
+import dayjs from "dayjs"
+import orderService from "../../services/orderDetail.service"
 // import CreditPaymentSubmit from "./CreditPaymentSubmit"
 
 export default function CommonPayment(props) {
   const { cartStore, userStore } = useContext(storesContext)
   const [showForm, setShowForm] = useState(false)
-  // const handleShowForm = (boolean) => {
-  //     setShowForm(boolean)
-  // }
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   if (showForm) {
-  //     const card = {
-  //       name: e.target.holder_name.value,
-  //       number: e.target.card_no.value,
-  //       expiration_month: e.target.expiration_month.value,
-  //       expiration_year: e.target.expiration_year.value,
-  //       security_code: e.target.security_code.value,
-  //     }
-  //     console.log(response)
-  //   }
-  //   const orderMenu = cartStore.currentCart
-  // }
+  const handleShowForm = (boolean) => {
+    setShowForm(boolean)
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (showForm) {
+      const card = {
+        name: e.target.holder_name.value,
+        number: e.target.card_no.value,
+        expiration_month: e.target.expiration_month.value,
+        expiration_year: e.target.expiration_year.value,
+        security_code: e.target.security_code.value,
+      }
+    }
+    const orderMenu = cartStore.currentCart.map((item) => {
+      return {
+        order: {
+          date: dayjs().toISOString(),
+          order_status: "WAITING",
+          customer: 1,
+        },
+        menu: {
+          menu_id: item.menu_id,
+          name: item.name,
+          category: {
+            category_id: item.category.category_id,
+            category_name: item.category.category_name,
+          },
+          ingredient: item.ingredient.map((ing) => {
+            return {
+              Ingredient_category: {
+                ingredient_category_id:
+                  ing.Ingredient_category.ingredient_category_id,
+                name: ing.Ingredient_category.name,
+              },
+              ingredient_category_id: ing.ingredient_category_id,
+              name: ing.name,
+              image: ing.image,
+              ingredient_id: ing.ingredient_id,
+              ingredient_name: ing.ingredient_name,
+            }
+          }),
+          salesize: item.salesize.map((ss) => {
+            return {
+              price: ss.price,
+              salesize_id: ss.salesize_id,
+              size: ss.size,
+            }
+          }),
+          image: item.image,
+        },
+        ingredient: [],
+        size: {
+          salesize_id: item.salesize_id,
+          size: item.size,
+          price: item.price,
+        },
+        quantity: item.quantity,
+      }
+    })
+    orderMenu.forEach(async (item) => {
+      await orderService.create(item)
+    })
+  }
 
   return (
     <>
       <CommonCard>
-        {/* <Form onSubmit={handleSubmit} id="checkout"> */}
+        <Form onSubmit={handleSubmit} id="checkout">
           <h5 className="">รายการสั่งซื้อ</h5>
           {cartStore.currentCart.length >= 1 ? (
             <div>
@@ -107,7 +156,7 @@ export default function CommonPayment(props) {
               </Button>
             </div>
           </div>
-        {/* </Form> */}
+        </Form>
       </CommonCard>
     </>
   )

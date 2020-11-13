@@ -10,7 +10,7 @@ class orderDetailDataService{
     }
 
     create(data) {
-        return http.post("/orderd", data);
+        return http.post("/orderd/", data);
     }
 
     update(id, data) {

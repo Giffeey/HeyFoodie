@@ -1,26 +1,43 @@
 from rest_framework import serializers, fields
-from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Day, Order, Order_detail, Customer
+from .models import (
+    Category,
+    Ingredient_Category,
+    Ingredient,
+    Menu,
+    Store,
+    Day,
+    Order,
+    Order_detail,
+    Customer,
+)
 from .models import SaleSize, Payment
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('category_id', 'category_name')
+        fields = ("category_id", "category_name")
+
 
 class IngredientCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient_Category
-        fields = ('ingredient_category_id', 'name')
+        fields = ("ingredient_category_id", "name")
+
 
 class IngredientSerializer(serializers.ModelSerializer):
     Ingredient_category = IngredientCategorySerializer()
+
     class Meta:
         model = Ingredient
-        fields = ('ingredient_id','ingredient_name','Ingredient_category','image')
+        fields = ("ingredient_id", "ingredient_name", "Ingredient_category", "image")
+
 
 class SalesizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SaleSize
-        fields = '__all__'
+        fields = "__all__"
+
 
 class MenuSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
@@ -29,14 +46,16 @@ class MenuSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Menu
-        fields = ('menu_id', 'name','category','ingredient', 'salesize','image')
+        fields = ("menu_id", "name", "category", "ingredient", "salesize", "image")
+
 
 class OrderSerializer(serializers.ModelSerializer):
-    # customer = serializers.ReadOnlyField()
+    customer = serializers.ReadOnlyField()
 
-    class Meta: 
+    class Meta:
         model = Order
-        fields = '__all__'
+        fields = ("date", "customer", "order_status")
+
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     order = OrderSerializer()
@@ -46,20 +65,31 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order_detail
-        fields = ('order_detail_id','order','menu','ingredient','size','quantity')
+        fields = ("order_detail_id", "order", "menu", "ingredient", "size", "quantity")
+
 
 class StoreSerializer(serializers.HyperlinkedModelSerializer):
     open_day = fields.MultipleChoiceField(choices=Day)
+
     class Meta:
         model = Store
-        fields = ('store_id','storename','detail','open_time','close_time','open_day')
+        fields = (
+            "store_id",
+            "storename",
+            "detail",
+            "open_time",
+            "close_time",
+            "open_day",
+        )
+
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = '__all__'
+        fields = "__all__"
+
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = '__all__'
+        fields = "__all__"

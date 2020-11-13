@@ -19,12 +19,14 @@ const Menu = (props) => {
     const options = props.menu.salesize.map((salesize, index) => ({
       value: salesize.price,
       label: salesize.size,
+      salesize_id: salesize.salesize_id,
     }))
     if (options.length != 0) {
       setSelected({
         ...options[0],
-        size: options[0].size,
+        size: options[0].label,
         price: options[0].value,
+        salesize_id: options[0].salesize_id,
       })
       setSelectOptions(options)
     }
@@ -35,6 +37,7 @@ const Menu = (props) => {
       ...selectedOptions,
       price: selectedOptions.value,
       size: selectedOptions.label,
+      salesize_id: selectedOptions.salesize_id,
     })
   }
 
@@ -43,6 +46,7 @@ const Menu = (props) => {
       ...props.menu,
       ...selected,
     }
+    console.log(menu)
     props.handleAddItemToCart(menu)
   }
 
