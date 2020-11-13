@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.contrib.admin import widgets 
 from django.contrib.admin.widgets import AdminTimeWidget
 from tempus_dominus.widgets import TimePicker
-from .models import SaleSize, Ingredient, Category, Menu, User, Owner, Store
+from .models import SaleSize, Ingredient, Category, Menu, User, Store, Ingredient_Category
 
 
 class ProfileForm(forms.ModelForm):
@@ -25,10 +25,27 @@ class MenuForm(forms.ModelForm):
     class Meta:
         model = Menu
         fields = ('name', 'category', 'ingredient', 'salesize', 'image')
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('category_name',)
+
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ('ingredient_name', 'Ingredient_category', 'image')
+
+class IngredientCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient_Category
+        fields = ('name',)
         
 class StoreForm(forms.ModelForm):
     detail = forms.CharField(widget=forms.Textarea(attrs={'rows': 1,'cols': 40,'style': 'height: 4em;'}))
     address = forms.CharField(widget=forms.Textarea(attrs={'rows': 1,'cols': 40,'style': 'height: 6em;'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Facebook page'}),required=False)
+    phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Facebook page'}),required=False)
     fbpage = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Facebook page'}),required=False)
     lineac = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Line account'}),required=False)
     igac = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'IG account'}),required=False)
@@ -38,4 +55,4 @@ class StoreForm(forms.ModelForm):
     close_order = forms.TimeField(widget=forms.TimeInput(attrs={'id': 'datetimepicker4', 'size': 10}))
     class Meta:
         model = Store
-        fields = ('storename', 'detail', 'open_time', 'close_time', 'open_order', 'close_order', 'open_day', 'fbpage', 'lineac', 'igac', 'address')
+        fields = ('storename', 'detail', 'open_time', 'close_time', 'open_order', 'close_order', 'open_day', 'email', 'phone', 'fbpage', 'lineac', 'igac', 'address')

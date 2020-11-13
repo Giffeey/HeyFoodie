@@ -5,15 +5,6 @@ from django.utils.safestring import mark_safe
 from multiselectfield import MultiSelectField
 import datetime
 
-class Owner(models.Model):
-    owner_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.CharField(max_length=255)
-    phone = models.CharField(max_length=10, null=True)
-
-    def __str__(self):
-        return self.user.username
-
 Day = ((1, 'จันทร์'),
     (2, 'อังคาร'),
     (3, 'พุธ'),
@@ -31,6 +22,8 @@ class Store(models.Model):
     open_order = models.TimeField()
     close_order = models.TimeField()
     open_day = MultiSelectField(choices=Day,max_choices=7,max_length=20, null=False)
+    email = models.CharField(max_length=30)
+    phone = models.CharField(max_length=10)
     fbpage = models.CharField(max_length=100, null=True)
     lineac = models.CharField(max_length=100, null=True)
     igac = models.CharField(max_length=100, null=True)

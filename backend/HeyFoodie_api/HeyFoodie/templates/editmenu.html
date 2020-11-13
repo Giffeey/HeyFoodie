@@ -17,6 +17,8 @@
         <div class="row head" style="margin: 30px;">
             <div class="col-sm-2" style="text-align: center;">รูปภาพ</div>
             <div class="col-sm-2" style="text-align: center;">ชื่อเมนู</div>
+            <div class="col-sm-1" style="text-align: center; padding-left: 40px;">ขนาด</div>
+            <div class="col-sm-2" style="text-align: center; padding-left: 55px;">ราคา</div>
             <div class="col-sm-2" style="text-align: center;">หมวดหมู่</div>
         </div>
 
@@ -25,10 +27,16 @@
                 <div class="row">
                     <div class="menu_pic col-sm-2" style="text-align: center;"><img src="../../media/{{menu.image}}" width="80px" height="50px"></div>
                     <div class="name col-sm-2" style="text-align: center;">{{menu.name}}</div>
-                    <div class="name col-sm-2" style="text-align: center;">{{menu.category}}</div>
-                    <div class="col-sm-3">
-                        ขนาดและราคา
+                    <div class="salesize col-sm-3" style="text-align: center;">
+                      {% for tag in menu.salesize.all %}
+                          <div class="row">
+                            <div class="size col-sm">{{ tag.size }}</div>
+                            <div class="price col-sm">{{tag.price}}  บาท</div>
+                          </div>
+                      {% endfor %}
+                  
                     </div>
+                    <div class="category col-sm-2" style="text-align: center;">{{menu.category}}</div>
                     <div class="col-sm-1"><a href="{% url 'editmenu_update' pk=menu.menu_id %}">Edit</a></div>
                     <div class="col-sm-1"><a href="" data-toggle="modal" data-target="#exampleModal{{menu.menu_id}}">Delete</a></div>
                 </div>
@@ -58,7 +66,6 @@
         </div>
 
         {% endfor %}
-
         <div class="container" style="margin-top: 30px;">
               <div class="row justify-content-center">
                 {% if menu.has_other_pages %}
@@ -97,6 +104,5 @@
             </div>
         </div>
     </div>
-                
 
 {% endblock content %}

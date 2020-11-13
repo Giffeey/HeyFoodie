@@ -1,5 +1,5 @@
 from rest_framework import serializers, fields
-from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Owner, Day, Order, Order_detail, Customer, Owner
+from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Day, Order, Order_detail, Customer
 from .models import SaleSize, Payment
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,12 +58,6 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
-
-
-class OwnerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Owner
-        fields = ('owner_id', 'email', 'phone')
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
