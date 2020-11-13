@@ -78,6 +78,7 @@ export default function CommonPayment(props) {
                 name="exampleRadios"
                 id="exampleRadios2"
                 value="option2"
+                disabled
                 onClick={() => setShowForm(true)}
               />
               <label className="form-check-label" htmlFor="exampleRadios2">

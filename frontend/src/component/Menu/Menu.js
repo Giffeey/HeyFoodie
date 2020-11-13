@@ -95,7 +95,7 @@ const Menu = (props) => {
           </button>
         </div>
       </div>
-      <div className="col-md-12">
+      {/* <div className="col-md-12">
         <hr />
       </div>
       <a className="a-form" onClick={() => setShowForm(true)}>
@@ -112,7 +112,7 @@ const Menu = (props) => {
         </>
       ) : (
         ""
-      )}
+      )} */}
     </div>
   )
 }
