@@ -23,12 +23,9 @@ export default function CommonPayment(props) {
         expiration_year: e.target.expiration_year.value,
         security_code: e.target.security_code.value,
       }
-      const response = await HandleOmise(card)
       console.log(response)
     }
-  }
-  const HandleOmise = async (card) => {
-    // CreditPaymentSubmit(card)
+    const orderMenu = cartStore.currentCart
   }
 
   return (
