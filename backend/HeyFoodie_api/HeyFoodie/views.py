@@ -11,11 +11,29 @@ from django.core.paginator import Paginator
 from rest_framework.response import Response
 
 from rest_framework import generics, permissions, viewsets
-from .models import Category, Ingredient_Category, Ingredient, Menu, Store, Order, Order_detail
-from .models import Customer, SaleSize, Payment, User, SaleSize
-from .serializers import MenuSerializer, CategorySerializer, IngredientCategorySerializer, IngredientSerializer, StoreSerializer
-from .serializers import SalesizeSerializer, OrderSerializer, OrderDetailSerializer, CustomerSerializer, PaymentSerializer
-from .form import ProfileForm, MenuForm, StoreForm, CategoryForm, IngredientForm, IngredientCategoryForm, SalesizeForm
+from .serializers import (
+    MenuSerializer,
+    CategorySerializer,
+    IngredientCategorySerializer,
+    IngredientSerializer,
+    StoreSerializer,
+)
+from .serializers import (
+    SalesizeSerializer,
+    OrderSerializer,
+    OrderDetailSerializer,
+    CustomerSerializer,
+    PaymentSerializer,
+)
+from .form import (
+    ProfileForm,
+    MenuForm,
+    StoreForm,
+    CategoryForm,
+    IngredientForm,
+    IngredientCategoryForm,
+    SalesizeForm,
+)
 from .models import (
     Category,
     Ingredient_Category,
@@ -24,6 +42,10 @@ from .models import (
     Store,
     Order,
     Order_detail,
+    Customer,
+    SaleSize,
+    Payment,
+    User,
 )
 from .models import Customer, SaleSize, Payment, User
 from .serializers import (
@@ -175,7 +197,17 @@ def editmenu_create(request):
         formCg = CategoryForm()
         formIng = IngredientForm()
         formS = SalesizeForm()
-        return render(request, 'editmenu_create.html', {'form': form, 'store':store, 'formCg':formCg, 'formIng': formIng, 'formS': formS})
+        return render(
+            request,
+            "editmenu_create.html",
+            {
+                "form": form,
+                "store": store,
+                "formCg": formCg,
+                "formIng": formIng,
+                "formS": formS,
+            },
+        )
 
 
 @login_required
@@ -192,7 +224,11 @@ def editmenu_update(request, pk):
     else:
         form = MenuForm(instance=menu)
         formCg = CategoryForm(instance=menu)
-        return render(request, 'editmenu_update.html',{'form': form, 'menu': menu, 'formCg':formCg, 'store':store})
+        return render(
+            request,
+            "editmenu_update.html",
+            {"form": form, "menu": menu, "formCg": formCg, "store": store},
+        )
 
 
 @login_required
@@ -216,11 +252,14 @@ def createCategory(request):
 @login_required
 def editingredient(request):
     store = get_object_or_404(Store, pk=1)
-    ingredient = Ingredient.objects.get_queryset().order_by('ingredient_id')
+    ingredient = Ingredient.objects.get_queryset().order_by("ingredient_id")
     paginator = Paginator(ingredient, 5)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     ingredients = paginator.get_page(page)
-    return render(request, 'editingredient.html', {'ingredients': ingredients, 'store': store})    
+    return render(
+        request, "editingredient.html", {"ingredients": ingredients, "store": store}
+    )
+
 
 @login_required
 def editingredient_create(request):
@@ -230,11 +269,16 @@ def editingredient_create(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return redirect('editingredient')
+            return redirect("editingredient")
     else:
         form = IngredientForm()
         ingform = IngredientCategoryForm()
-        return render(request, 'editingredient_create.html', {'form': form, 'store':store, 'ingform':ingform})
+        return render(
+            request,
+            "editingredient_create.html",
+            {"form": form, "store": store, "ingform": ingform},
+        )
+
 
 @login_required
 def editingredient_update(request, pk):
@@ -245,19 +289,29 @@ def editingredient_update(request, pk):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return redirect('editingredient')
-        
+            return redirect("editingredient")
+
     else:
         form = IngredientForm(instance=ingredient)
         ingform = IngredientCategoryForm()
-        return render(request, 'editingredient_update.html',{'form': form, 'ingform': ingform, 'ingredient': ingredient, 'store':store})
+        return render(
+            request,
+            "editingredient_update.html",
+            {
+                "form": form,
+                "ingform": ingform,
+                "ingredient": ingredient,
+                "store": store,
+            },
+        )
+
 
 @login_required
 def editingredient_delete(request, pk):
     ingredient = get_object_or_404(Ingredient, pk=pk)
     if request.method == "POST":
-            ingredient.delete()
-            return redirect('editingredient')
+        ingredient.delete()
+        return redirect("editingredient")
 
 
 @login_required
@@ -269,6 +323,7 @@ def createIngredient(request):
             form.save()
             return redirect("editmenu_create")
 
+
 @login_required
 def createIngCategory(request):
     if request.method == "POST":
@@ -276,9 +331,10 @@ def createIngCategory(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return redirect('editingredient_create')
+            return redirect("editingredient_create")
 
-class ListCategory(generics.ListCreateAPIView) :
+
+class ListCategory(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
