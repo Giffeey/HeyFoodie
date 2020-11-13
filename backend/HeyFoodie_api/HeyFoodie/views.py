@@ -412,23 +412,21 @@ class ListOrderDetail(generics.ListCreateAPIView):
     serializer_sale = SalesizeSerializer
     serializer_menu = MenuSerializer
     serializer_order = OrderSerializer
+    serializer_class = OrderDetailSerializer
 
     def create(self, request, *args, **kwargs):
         data = request.data
 
-        serializer_order = self.serializer_order(data["order"])
         serializer_sale = self.serializer_sale(data["size"])
         serializer_menu = self.serializer_menu(data["menu"])
-        serializer_order.is_valid
         serializer_sale.is_valid
         serializer_menu.is_valid
-
         customer = Customer()
-        customer.setId(serializer_order.data["customer"])
+        customer.setId(data["order"]["customer"])
         orderResponse = Order.objects.create(
             customer=customer,
-            date=serializer_order.data["date"],
-            order_status=serializer_order.data["order_status"],
+            date=data["order"]["date"],
+            order_status=data["order"]["order_status"],
         )
         orderResponse.save()
 
