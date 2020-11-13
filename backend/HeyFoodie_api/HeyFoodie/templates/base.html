@@ -7,10 +7,10 @@
     <!-- <meta name="viewport" content="width-device-width, initial-scale=1.0"> -->
     <title>HeyFoodie Shop Management</title>
 
-    {# Include FontAwesome; required for icon display #}
+    <!-- {# Include FontAwesome; required for icon display #} -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
 
-    {# Include Bootstrap 4 and jQuery #}
+    <!-- {# Include Bootstrap 4 and jQuery #} -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
@@ -44,7 +44,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-2JBCbWoMJPH+Uj7Wq5OLub8E5edWHlTM4ar/YJkZh3plwB2INhhOC3eDoqHm1Za/ZOSksrLlURLoyXVdfQXqwg==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-PMjWzHVtwxdq7m7GIxBot5vdxUY+5aKP9wpKtvnNBZrVv1srI8tU6xvFMzG8crLNcMj/8Xl/WWmo/oAP/40p1g==" crossorigin="anonymous" />
 
-    {# Django Tempus Dominus assets are included in `{{ form.media }}` #}
+    <!-- {# Django Tempus Dominus assets are included in `{{ form.media }}` #} -->
     {{ form.media }}
     
 </head>
@@ -78,7 +78,7 @@
     <div class="row">
         <div class="col-2">
             
-            <div class="user" style="text-align: center;">ชื่อร้าน</div>
+            <div class="user" style="text-align: center;">{{store.storename}}</div>
             <ul class="nav flex-column" id="tab" aria-orientation="vertical">
                 <li class="nav-item"><a class="nav-link" id="profile-tab" href="{% url 'editprofile' %}">โปรไฟล์</a></li>
                 <li class="nav-item"><a class="nav-link" id="order-tab" href="{% url 'order' %}">ออเดอร์วันนี้</a></li>

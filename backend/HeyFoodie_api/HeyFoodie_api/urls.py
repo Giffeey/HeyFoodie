@@ -38,6 +38,8 @@ urlpatterns = [
     path('editmenu/create/', views.editmenu_create, name='editmenu_create'),
     path('editmenu/<int:pk>/update/', views.editmenu_update, name='editmenu_update'),
     path('editmenu/<int:pk>/delete/', views.editmenu_delete, name='editmenu_delete'),
+    path('editmenu/create/createCategory', views.createCategory, name='createCategory'),
+    path('editmenu/create/createIngredient', views.createIngredient, name='createIngredient'),
     path('order/', views.order, name='order'),
     path('api/', include('HeyFoodie.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
