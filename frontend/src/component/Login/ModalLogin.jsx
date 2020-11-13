@@ -16,9 +16,7 @@ export default function ModalTest(props) {
     <>
       {props.userStore.user ? (
         <a className="navbar-link" onClick={handleShow}>
-          <label className="white">
-            {props.userStore.user.first_name} {props.userStore.user.last_name}
-          </label>
+          {props.userStore.user.first_name} {props.userStore.user.last_name}
         </a>
       ) : (
         <a className="navbar-link" onClick={handleShow}>
@@ -34,27 +32,37 @@ export default function ModalTest(props) {
       >
         <Modal.Header closeButton>
           {props.userStore.user ? (
-            <Modal.Title></Modal.Title>
+            <Modal.Title>
+              Hello! {props.userStore.user.first_name}{" "}
+              {props.userStore.user.last_name}{" "}
+            </Modal.Title>
           ) : (
             <Modal.Title>Login</Modal.Title>
           )}
         </Modal.Header>
 
-        <Modal.Body className="mx-auto justify">
+        <Modal.Body className="row justify">
           {props.userStore.user ? (
             <>
-              <center>
-                {/* <img src={props.userStore.user.picture.data.url}></img> */}
-                <h3>
-                  {props.userStore.user.first_name}{" "}
-                  {props.userStore.user.last_name}{" "}
-                </h3>
-
-                {props.userStore.user.email}
-              </center>
-
-              <br />
-              <Button onClick={() => props.userStore.signOut()}>Logout</Button>
+              <div className="col-12 center">
+                <p>คุณสามารถดูสถานะคำสั่งซื้อได้ที่</p>
+                <h6>
+                  <a href="/queuepage" className="tooltip-test" title="StatusOrder">
+                    Status Order
+                  </a>
+                </h6>
+                <p>คุณสามารถดูประวัติการซื้อย้อนหลังได้ที่</p>
+                <h6>
+                  <a href="/historypage" className="tooltip-test" title="History">
+                    History
+                  </a>
+                </h6>
+              </div>
+              <Modal.Footer className="col-3 ml-auto">
+                <Button onClick={() => props.userStore.signOut()}>
+                  Logout
+                </Button>
+              </Modal.Footer>
             </>
           ) : (
             <div>

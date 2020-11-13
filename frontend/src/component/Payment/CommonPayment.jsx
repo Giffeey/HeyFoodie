@@ -13,25 +13,25 @@ export default function CommonPayment(props) {
   // const handleShowForm = (boolean) => {
   //     setShowForm(boolean)
   // }
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (showForm) {
-      const card = {
-        name: e.target.holder_name.value,
-        number: e.target.card_no.value,
-        expiration_month: e.target.expiration_month.value,
-        expiration_year: e.target.expiration_year.value,
-        security_code: e.target.security_code.value,
-      }
-      console.log(response)
-    }
-    const orderMenu = cartStore.currentCart
-  }
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   if (showForm) {
+  //     const card = {
+  //       name: e.target.holder_name.value,
+  //       number: e.target.card_no.value,
+  //       expiration_month: e.target.expiration_month.value,
+  //       expiration_year: e.target.expiration_year.value,
+  //       security_code: e.target.security_code.value,
+  //     }
+  //     console.log(response)
+  //   }
+  //   const orderMenu = cartStore.currentCart
+  // }
 
   return (
     <>
       <CommonCard>
-        <Form onSubmit={handleSubmit} id="checkout">
+        {/* <Form onSubmit={handleSubmit} id="checkout"> */}
           <h5 className="">รายการสั่งซื้อ</h5>
           {cartStore.currentCart.length >= 1 ? (
             <div>
@@ -106,7 +106,7 @@ export default function CommonPayment(props) {
               </Button>
             </div>
           </div>
-        </Form>
+        {/* </Form> */}
       </CommonCard>
     </>
   )

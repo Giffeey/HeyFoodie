@@ -6,9 +6,10 @@ import { FacebookProvider, Initialize, Profile } from "react-facebook"
 
 import MenuList from "./page/MenuList"
 import MainLayout from "./component/MainLayout"
-import DetailMenu from "./page/DetailMenu"
+import DetailMenu from "./page/HistoryPage"
 import PaymentPage from "./page/PaymentPage"
 import QueuePage from "./page/QueuePage"
+import HistoryPage from "./page/HistoryPage"
 import { storesContext } from "./context"
 export default function App(props) {
   const { userStore } = useContext(storesContext)
@@ -39,8 +40,8 @@ export default function App(props) {
                                 <MainLayout path="/" component={MenuList} />
                                 <MainLayout path="/menu" component={MenuList} />
                                 <MainLayout
-                                  path="/detailmenu"
-                                  component={DetailMenu}
+                                  path="/historypage"
+                                  component={HistoryPage}
                                 />
                                 <MainLayout
                                   path="/paymentpage"

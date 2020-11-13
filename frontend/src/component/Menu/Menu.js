@@ -20,12 +20,22 @@ const Menu = (props) => {
       value: salesize.price,
       label: salesize.size,
     }))
-
-    setSelectOptions(options)
+    if (options.length != 0) {
+      setSelected({
+        ...options[0],
+        size: options[0].size,
+        price: options[0].value,
+      })
+      setSelectOptions(options)
+    }
   }
 
   const handleChange = (selectedOptions) => {
-    setSelected({ price: selectedOptions.value, size: selectedOptions.label })
+    setSelected({
+      ...selectedOptions,
+      price: selectedOptions.value,
+      size: selectedOptions.label,
+    })
   }
 
   const handleAddItemToCart = () => {
@@ -57,6 +67,7 @@ const Menu = (props) => {
           <div style={{ width: "200px" }}>
             <Select
               readonly
+              value={selected}
               onChange={handleChange}
               options={selectOptions}
               placeholder="Select Size"
@@ -95,7 +106,8 @@ const Menu = (props) => {
         <>
           <IngredientList {...props}></IngredientList>
           <a className="a-form" onClick={() => setShowForm(false)}>
-            {" "}^{" "}
+            {" "}
+            ^{" "}
           </a>
         </>
       ) : (
