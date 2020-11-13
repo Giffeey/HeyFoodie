@@ -20,7 +20,6 @@ class ProfileForm(forms.ModelForm):
         lastname = self.cleaned_data.get('lastname')
         email = self.cleaned_data.get('email')
 
-
 class MenuForm(forms.ModelForm):
     class Meta:
         model = Menu
@@ -41,6 +40,11 @@ class IngredientCategoryForm(forms.ModelForm):
         model = Ingredient_Category
         fields = ('name',)
         
+class SalesizeForm(forms.ModelForm):
+    class Meta:
+        model = SaleSize
+        fields = ('size','price')
+
 class StoreForm(forms.ModelForm):
     detail = forms.CharField(widget=forms.Textarea(attrs={'rows': 1,'cols': 40,'style': 'height: 4em;'}))
     address = forms.CharField(widget=forms.Textarea(attrs={'rows': 1,'cols': 40,'style': 'height: 6em;'}))

@@ -24,12 +24,12 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="menuname" class="col-sm-2 col-form-label">ประเภทของอาหาร</label>
+                        <label for="menuname" class="col-sm-2 col-form-label">หมวดหมู่อาหาร</label>
                         <div class="col-sm-3">
                             {{form.category}}
                         </div>
                         <div class="col-sm-3">
-                            <div class="create">Create</div>
+                            <div class="create"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">สร้างหมวดหมู่อาหารใหม่</button></div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -76,5 +76,81 @@
         
     </div>
                 
+      <!-- Modal -->
+  <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">เพิ่มหมวดหมู่อาหาร</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'createCategory' %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="category" class="col-sm-2 col-form-label">ขนาด: </label>
+                    <div class="col-sm-2">
+                        {{formCg.size}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="category" class="col-sm-2 col-form-label">ราคา: </label>
+                    <div class="col-sm-2">
+                        {{formCg.price}}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">เพิ่มส่วนผสม</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{% url 'createIngredient' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-4 col-form-label">ชื่อส่วนผสม: </label>
+                        <div class="col-sm-2">
+                            {{formIng.ingredient_name}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-4 col-form-label">ประเภทของส่วนผสม: </label>
+                        <div class="col-sm-2">
+                            {{formIng.Ingredient_category}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-4 col-form-label">รูปภาพ: </label>
+                        <div class="col-sm-2">
+                            {{formIng.image}}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
 
 {% endblock content %}
