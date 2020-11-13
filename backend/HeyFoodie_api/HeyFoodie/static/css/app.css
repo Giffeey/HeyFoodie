@@ -144,6 +144,10 @@ ul#id_open_day {
     padding-inline-start: 0px !important;
 }
 
-div.text.col-sm-7{
+div.text{
     margin-top: 7px;
+}
+
+.container.btn{
+    margin-left: -80px;
 }

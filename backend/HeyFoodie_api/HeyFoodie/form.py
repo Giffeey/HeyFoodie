@@ -5,10 +5,21 @@ from django.contrib.admin.widgets import AdminTimeWidget
 from tempus_dominus.widgets import TimePicker
 from .models import SaleSize, Ingredient, Category, Menu, User, Owner, Store
 
+
 class ProfileForm(forms.ModelForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'size': 15}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'size': 15}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'size': 20}))
+
     class Meta:
-        model = Owner
-        fields = ('user', 'email', 'phone')
+        model = User
+        fields = ('email','first_name','last_name')
+
+    def clean_user(self):
+        firstname = self.cleaned_data.get('firstname')
+        lastname = self.cleaned_data.get('lastname')
+        email = self.cleaned_data.get('email')
+
 
 class MenuForm(forms.ModelForm):
     class Meta:

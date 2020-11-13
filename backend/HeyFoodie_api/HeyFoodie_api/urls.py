@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.views.i18n import JavaScriptCatalog
 from rest_framework import routers
@@ -28,8 +29,9 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.home, name='home'),
     path('home/', views.home, name='home'),
-    path('profile/', views.profile, name='profile'),
     path('editprofile/', views.editProfile, name='editprofile'),
+    path('editprofile/update/', views.editProfile_update, name='editprofile_update'),
+    url(r'^password/$', views.change_password, name='change_password'),
     path('editshop/', views.editshop, name='editshop'),
     path('editshop/update/', views.editshop_update, name='editshop_update'),
     path('editmenu/', views.editmenu, name='editmenu'),

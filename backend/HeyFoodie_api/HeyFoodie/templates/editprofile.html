@@ -8,51 +8,45 @@
         </h2>
 
         <div class="imgowner">
-            <img src="../../media/Image/user_shop.png" alt="user_shop" />
+            <img src="/media/Image/user_shop.png" alt="user_shop" />
         </div>
         
         <div class="infoowner">
-            <form action="" method="POST">
-                {% csrf_token %}
+            <form>
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label">ชื่อ</label>
-                    <div class="col-sm-3">
-                        {{ form.user_firstname}}
+                    <div class="text col-sm-3">
+                        {{ profile.first_name}}
                     </div>
                     <label for="email" class="col-sm-2 col-form-label">นามสกุล</label>
-                    <div class="col-sm-3">
-                        <input type="email" class="form-control" id="colFormLabel" value="{{owner.user.last_name}}" readonly>
+                    <div class="text col-sm-3">
+                        {{ profile.last_name }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label">อีเมล</label>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" id="colFormLabel" value="{{owner.email}}" readonly>
+                    <div class="text col-sm-8">
+                        {{ profile.email }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="password" class="col-sm-2 col-form-label">รหัสผ่าน</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="colFormLabel" value="{{owner.user.password}}" readonly>
+                    <div class="text col-sm-8">
+                        ********************
                     </div>
                 </div>
                 
             </form>
 
-            {% endfor %}
         </div>
 
         <div class="container">
             <div class="vertical-center">
                 <div>
-                    <button type="button" class="btn btn-outline-warning btn-lg">แก้ไขข้อมูลส่วนตัว</button>
+                    <form action="{% url 'editprofile_update' %}" method="">
+                    <button type="submit" class="btn btn-outline-warning btn-lg">แก้ไขข้อมูลส่วนตัว</button>
+                    </form>
                 </div>
-
-                <!-- <div class="cancleandsubmit">
-                    <button type="button" class="btn btn-outline-warning btn-lg">ยกเลิก</button>
-                    <button type="submit" class="btn btn-outline-warning btn-lg">ยืนยัน</button>
-                </div> -->
-
             </div>
         </div>
     </div>
