@@ -45,6 +45,16 @@
                     </div>
                    
                 </form>
+                
+                <div>
+                    {% if messages %}
+                    <br/>
+                    {% for message in messages %}
+                        <p style="color: red;">เกิดข้อผิดพลาด! กรุณากรอกข้อมูลให้ถูกต้องครบถ้วน</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                
           
             </div>
         </div>
@@ -70,6 +80,15 @@
                     </div>
                 </div>
             </div>
+            <div>
+                {% if messages %}
+                <br/>
+                {% for message in messages %}
+                    <p style="color: red;">เกิดข้อผิดพลาด! กรุณากรอกข้อมูลให้ถูกต้องครบถ้วน</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
                 <button type="submit" class="btn btn-primary">บันทึก</button>
