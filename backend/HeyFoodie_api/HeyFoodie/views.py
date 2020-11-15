@@ -210,6 +210,151 @@ def editshop_update(request):
 
 
 @login_required
+def editcategory(request):
+    store = get_object_or_404(Store, pk=1)
+    category = Category.objects.get_queryset().order_by("category_id")
+    paginator = Paginator(category,5)
+    page = request.GET.get("page")
+    cat = paginator.get_page(page)
+    form = CategoryForm()    
+    return render(request, "editcategory.html", {"category": cat, "store": store, "form": form})
+
+@login_required
+def editcategory_create(request):
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            messages.error(request, "Error")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def editcategory_update(request, pk):
+    store = get_object_or_404(Store, pk=1)
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == "POST":
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return redirect("editcategory")
+        else:
+            messages.error(request, "Error")
+            return redirect("editcategory",pk=pk)
+
+    return render(
+        request, "editcategory.html",
+        {"form": form, "store": store},
+    )
+
+@login_required
+def editcategory_delete(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == "POST":
+        category.delete()
+        return redirect("editcategory")
+        
+@login_required
+def editingcategory(request):
+    store = get_object_or_404(Store, pk=1)
+    category = Ingredient_Category.objects.get_queryset().order_by("ingredient_category_id")
+    paginator = Paginator(category,5)
+    page = request.GET.get("page")
+    cat = paginator.get_page(page)
+    form = IngredientCategoryForm()    
+    return render(request, "editingcategory.html", {"ingcategory": cat, "store": store, "form": form})
+
+@login_required
+def editingcategory_create(request):
+    if request.method == "POST":
+        form = IngredientCategoryForm(request.POST)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return redirect("editingcategory")
+        else:
+            messages.error(request, "Error")
+            return redirect("editingcategory")
+
+@login_required
+def editingcategory_update(request, pk):
+    store = get_object_or_404(Store, pk=1)
+    category = get_object_or_404(Ingredient_Category, pk=pk)
+    if request.method == "POST":
+        form = IngredientCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return redirect("editingcategory")
+        else:
+            messages.error(request, "Error")
+            return redirect("editingcategory")
+
+    return render(
+        request, "editingcategory.html",
+        {"form": form, "store": store},
+    )
+
+@login_required
+def editingcategory_delete(request, pk):
+    category = get_object_or_404(Ingredient_Category, pk=pk)
+    if request.method == "POST":
+        category.delete()
+        return redirect("editingcategory")
+
+@login_required
+def editsalesize(request):
+    store = get_object_or_404(Store, pk=1)
+    salesize = SaleSize.objects.get_queryset().order_by("salesize_id")
+    paginator = Paginator(salesize,5)
+    page = request.GET.get("page")
+    ss = paginator.get_page(page)
+    form = SalesizeForm()    
+    return render(request, "editsalesize.html", {"salesize": ss, "store": store, "form": form})
+
+@login_required
+def editsalesize_create(request):
+    if request.method == "POST":
+        form = SalesizeForm(request.POST)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            messages.error(request, "Error")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def editsalesize_update(request, pk):
+    store = get_object_or_404(Store, pk=1)
+    salesize = get_object_or_404(SaleSize, pk=pk)
+    if request.method == "POST":
+        form = SalesizeForm(request.POST, instance=salesize)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return redirect("editsalesize")
+        else:
+            messages.error(request, "Error")
+            return redirect("editsalesize")
+
+    return render(
+        request, "editsalesize.html",
+        {"form": form, "store": store},
+    )
+
+@login_required
+def editsalesize_delete(request, pk):
+    salesize = get_object_or_404(SaleSize, pk=pk)
+    if request.method == "POST":
+        salesize.delete()
+        return redirect("editsalesize")
+       
+
+@login_required
 def editmenu(request):
     menus = Menu.objects.get_queryset().order_by("menu_id")
     store = get_object_or_404(Store, pk=1)
@@ -290,20 +435,6 @@ def editmenu_delete(request, pk):
     if request.method == "POST":
         menu.delete()
         return redirect("editmenu")
-
-
-@login_required
-def createCategory(request):
-    if request.method == "POST":
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editmenu_create")
-        else:
-            messages.error(request, "Error")
-            return redirect("editmenu_create")
-
 
 @login_required
 def editingredient(request):
@@ -386,29 +517,29 @@ def createIngredient(request):
             messages.error(request, "Error")
             return redirect("editmenu_create")
 
-@login_required
-def createIngCategory(request):
-    if request.method == "POST":
-        form = IngredientCategoryForm(request.POST)
-        if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editingredient_create")
-        else:
-            messages.error(request, "Error")
-            return redirect("editingredient_create")
+# @login_required
+# def createIngCategory(request):
+#     if request.method == "POST":
+#         form = IngredientCategoryForm(request.POST)
+#         if form.is_valid():
+#             form.cleaned_data
+#             form.save()
+#             return redirect("editingredient_create")
+#         else:
+#             messages.error(request, "Error")
+#             return redirect("editingredient_create")
 
-@login_required
-def createSalesize(request):
-    if request.method == "POST":
-        form = SalesizeForm(request.POST)
-        if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editmenu_create")
-        else:
-            messages.error(request, "Error")
-            return redirect("editmenu_create")
+# @login_required
+# def createSalesize(request):
+#     if request.method == "POST":
+#         form = SalesizeForm(request.POST)
+#         if form.is_valid():
+#             form.cleaned_data
+#             form.save()
+#             return redirect("editmenu_create")
+#         else:
+#             messages.error(request, "Error")
+#             return redirect("editmenu_create")
 
 def cancelOrder(request, pk):
     if request.method == "POST":
