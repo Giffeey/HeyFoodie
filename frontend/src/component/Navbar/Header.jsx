@@ -154,7 +154,7 @@ export default function Header(props) {
 
   return (
     <Navbar collapseOnSelect expand="lg" className="food-navbar-expand-lg">
-      <a className="navbar-brand" href="/">
+      <a className="navbar-brand" href="#" onClick={() => navigate("/")}>
         {props.store?.storename || "Hey!Foodie"}
       </a>
 

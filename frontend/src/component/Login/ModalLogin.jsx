@@ -5,6 +5,7 @@ import { useState } from "react"
 import user from "../../img/icon/user.png"
 import LoginWithFacebook from "./LoginWithFacebook"
 import GoogleBtn from "./googleBtn"
+import { navigate } from "@reach/router"
 
 export default function ModalTest(props) {
   const [show, setShow] = useState(false)
@@ -47,13 +48,13 @@ export default function ModalTest(props) {
               <div className="col-12 center">
                 <p>คุณสามารถดูสถานะคำสั่งซื้อได้ที่</p>
                 <h6>
-                  <a href="/queuepage" className="tooltip-test" title="StatusOrder">
+                  <a href="#" onClick={() => navigate("/queuepage")} className="tooltip-test" title="StatusOrder">
                     Status Order
                   </a>
                 </h6>
                 <p>คุณสามารถดูประวัติการซื้อย้อนหลังได้ที่</p>
                 <h6>
-                  <a href="/historypage" className="tooltip-test" title="History">
+                  <a href="#" onClick={() => navigate("/historypage")} className="tooltip-test" title="History">
                     History
                   </a>
                 </h6>
