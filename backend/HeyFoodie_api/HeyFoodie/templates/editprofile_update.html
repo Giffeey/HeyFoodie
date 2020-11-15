@@ -50,6 +50,16 @@
                             </div>
                     </div>
                 </div>
+                
+                <div>
+                    {% if messages %}
+                    <br/>
+                    {% for message in messages %}
+                        <p style="color: red;">เกิดข้อผิดพลาด! กรุณากรอกข้อมูลให้ถูกต้องครบถ้วน</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                
             </form>
         </div>
 

@@ -50,8 +50,6 @@ class MenuSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    # customer = serializers.ReadOnlyField()
-
     class Meta:
         model = Order
         fields = "__all__"

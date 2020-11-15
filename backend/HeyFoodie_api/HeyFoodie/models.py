@@ -112,6 +112,7 @@ class Order(models.Model):
         ("COOKING", "Cooking"),
         ("READYTOPICKUP", "Ready To Pickup"),
         ("DONE", "Done"),
+        ("CANCEL", "Cancel")
     )
 
     order_id = models.AutoField(primary_key=True)
@@ -143,12 +144,12 @@ class Payment(models.Model):
         ("CREDIT", "Credit/Debit"),
     )
 
-    PAYMENT_STATUS = (("complete", "Complete"), ("waiting", "Waiting"))
+    PAYMENT_STATUS = (("complete", "Complete"), ("waiting", "Waiting"), ("cancel", "Cancel"))
 
     payment_id = models.AutoField(primary_key=True)
     method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default="CASH")
     amount = models.DecimalField(max_digits=7, decimal_places=2)
-    purchase_date = models.DateTimeField(default=datetime.datetime.now)
+    purchase_date = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default="waiting")
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
