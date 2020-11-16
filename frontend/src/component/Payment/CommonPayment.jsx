@@ -7,6 +7,7 @@ import { storesContext } from "../../context"
 import { Form } from "react-bootstrap"
 import dayjs from "dayjs"
 import orderService from "../../services/orderDetail.service"
+import { navigate } from "@reach/router"
 // import CreditPaymentSubmit from "./CreditPaymentSubmit"
 
 export default function CommonPayment(props) {
@@ -145,13 +146,17 @@ export default function CommonPayment(props) {
           </div>
           <div className="row justify-content-center">
             <div className="col-3 p-0 text-center">
-              <Button className="btn btn-outline-primary" href="/menu">
+              <Button className="btn btn-outline-primary" onClick={() => navigate("/")}>
                 ย้อนกลับ
               </Button>
             </div>
             <div className="col-1 p-0 text-center"></div>
             <div className="col-3 p-0 text-center">
-              <Button type="submit" className="btn btn-outline-primary">
+              <Button
+                type="submit"
+                className="btn btn-outline-primary"
+                onClick={() => navigate("/queuepage")}
+              >
                 ยืนยันการชำระเงิน
               </Button>
             </div>
