@@ -11,6 +11,16 @@
                 <h4>แก้ไขเมนู</h4>
             </div>
         </div>
+        <div>
+            {% if messages %}
+            <br/>
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                <b>เกิดข้อผิดพลาด!</b> อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
 
             <div class="menu container" style="margin: 30px;">
                 
@@ -18,8 +28,12 @@
                     {% csrf_token %}
                     <div class="form-group row">
                         <label for="menuname" class="col-sm-2 col-form-label">ชื่อเมนู</label>
-                        <div class="col-sm-7">
+                        <div class="col-sm-3">
                             {{form.name}}
+                        </div>
+                        <div class="col-sm-3">
+                            <small id="passwordHelpInline" class="text-muted">
+                            *ชื่อเมนูไม่ควรซ้ำกับชื่อเมนูที่มีอยู่แล้ว</small>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -28,7 +42,7 @@
                             {{form.category}}
                         </div>
                         <div class="col-sm-3"> 
-                            <div class="create"><a type="button" class="btn btn-primary btn-sm" href="{% url 'editcategory' %}">จัดการหมวดหมู่อาหาร</a></div>
+                            <div class="create"><a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal1">เพิ่มหมวดหมู่อาหาร</a></div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -38,9 +52,9 @@
                         </div>
                         <div class="col-sm-3">
                             <small id="passwordHelpInline" class="text-muted">
-                            กด Ctrl เพื่อทำการเลือกหลายรายการ</small>
+                            *กด Ctrl เพื่อทำการเลือกหลายรายการ</small>
                             
-                            <div class="create" style="margin-top: 10px;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2">สร้างส่วนผสมใหม่</button></div>
+                            <div class="create" style="margin-top: 10px;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2">เพิ่มส่วนผสมใหม่</button></div>
                         </div>
                         
                     </div>
@@ -51,9 +65,9 @@
                         </div>
                         <div class="col-sm-3">
                             <small id="passwordHelpInline" class="text-muted">
-                            กด Ctrl เพื่อทำการเลือกหลายรายการ</small>
+                            *กด Ctrl เพื่อทำการเลือกหลายรายการ</small>
                             
-                            <div class="create" style="margin-top: 10px;"><a type="button" class="btn btn-primary btn-sm" href="{% url 'editsalesize' %}">จัดการขนาดและราคา</a></div>
+                            <div class="create" style="margin-top: 10px;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal3">เพิ่มขนาดและราคาใหม่</button></div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -63,15 +77,6 @@
                         <div class="col-sm-5">
                             {{form.image}}
                         </div>
-                    </div>
-
-                    <div>
-                        {% if messages %}
-                        <br/>
-                        {% for message in messages %}
-                            <p style="color: red;">เกิดข้อผิดพลาด! กรุณากรอกข้อมูลให้ถูกต้องครบถ้วน</p>
-                        {% endfor %}
-                        {% endif %}
                     </div>
                     
                     <div class="row justify-content-end" style="margin: 50px;">
@@ -84,7 +89,41 @@
         </div>
         
     </div>
-                
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">เพิ่มหมวดหมู่อาหาร</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{% url 'createCategory' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-5 col-form-label">ชื่อหมวดหมู่อาหาร: </label>
+                        <div class="col-sm-2">
+                            {{formCg.category_name}}
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-top: -12px;">
+                        <div class="col-sm-5"></div>
+                        <div class="col-sm-5">
+                            <small id="passwordHelpInline" class="text-muted">*ชื่อไม่ควรซ้ำกับชื่อหมวดหมู่อาหารที่มีอยู่แล้ว</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
     
 
           <!-- Modal -->
@@ -106,9 +145,16 @@
                             {{formIng.ingredient_name}}
                         </div>
                     </div>
+                    <div class="form-group row" style="margin-top: -12px;">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-6">
+                            <small id="passwordHelpInline" class="text-muted">
+                            *ชื่อไม่ควรซ้ำกับชื่อส่วนผสมที่มีอยู่แล้ว</small>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label for="category" class="col-sm-4 col-form-label">ประเภทของส่วนผสม: </label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" style="margin-top: 12px;">
                             {{formIng.Ingredient_category}}
                         </div>
                     </div>
@@ -119,14 +165,6 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    {% if messages %}
-                    <br/>
-                    {% for message in messages %}
-                        <p style="color: red;">เกิดข้อผิดพลาด! กรุณากรอกข้อมูลให้ถูกต้องครบถ้วน</p>
-                    {% endfor %}
-                    {% endif %}
-                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
                     <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -135,5 +173,40 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal -->
+  <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">เพิ่มขนาดและราคาเมนู</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'createSalesize' %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="category" class="col-sm-2 col-form-label">ขนาด: </label>
+                    <div class="col-sm-2">
+                        {{formS.size}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="category" class="col-sm-2 col-form-label">ราคา: </label>
+                    <div class="col-sm-2">
+                        {{formS.price}}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 {% endblock content %}

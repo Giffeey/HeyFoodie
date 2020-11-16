@@ -226,10 +226,10 @@ def editcategory_create(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect("editcategory")
         else:
             messages.error(request, "Error")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect("editcategory")
 
 @login_required
 def editcategory_update(request, pk):
@@ -243,7 +243,7 @@ def editcategory_update(request, pk):
             return redirect("editcategory")
         else:
             messages.error(request, "Error")
-            return redirect("editcategory",pk=pk)
+            return redirect("editcategory")
 
     return render(
         request, "editcategory.html",
@@ -475,14 +475,15 @@ def editingredient_update(request, pk):
     store = get_object_or_404(Store, pk=1)
     ingredient = get_object_or_404(Ingredient, pk=pk)
     if request.method == "POST":
-        form = IngredientForm(request.POST, request.FILES, instance=menu)
+        form = IngredientForm(request.POST, request.FILES, instance=ingredient)
         if form.is_valid():
             form.cleaned_data
             form.save()
             return redirect("editingredient")
         else:
             messages.error(request, "Error")
-            return redirect("editingredient_update", pk=pk)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 
     else:
         form = IngredientForm(instance=ingredient)
@@ -512,34 +513,47 @@ def createIngredient(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return redirect("editmenu_create")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
             messages.error(request, "Error")
-            return redirect("editmenu_create")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-# @login_required
-# def createIngCategory(request):
-#     if request.method == "POST":
-#         form = IngredientCategoryForm(request.POST)
-#         if form.is_valid():
-#             form.cleaned_data
-#             form.save()
-#             return redirect("editingredient_create")
-#         else:
-#             messages.error(request, "Error")
-#             return redirect("editingredient_create")
+@login_required
+def createIngCategory(request):
+    if request.method == "POST":
+        form = IngredientCategoryForm(request.POST)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-# @login_required
-# def createSalesize(request):
-#     if request.method == "POST":
-#         form = SalesizeForm(request.POST)
-#         if form.is_valid():
-#             form.cleaned_data
-#             form.save()
-#             return redirect("editmenu_create")
-#         else:
-#             messages.error(request, "Error")
-#             return redirect("editmenu_create")
+        else:
+            messages.error(request, "Error")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def createSalesize(request):
+    if request.method == "POST":
+        form = SalesizeForm(request.POST)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            messages.error(request, "Error")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def createCategory(request):
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.cleaned_data
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            messages.error(request, "Error")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def cancelOrder(request, pk):
     if request.method == "POST":

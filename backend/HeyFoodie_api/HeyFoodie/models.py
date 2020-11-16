@@ -38,7 +38,7 @@ class Store(models.Model):
 
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
-    category_name = models.CharField(max_length=255)
+    category_name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.category_name
@@ -46,7 +46,7 @@ class Category(models.Model):
 
 class Ingredient_Category(models.Model):
     ingredient_category_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
@@ -54,7 +54,7 @@ class Ingredient_Category(models.Model):
 
 class Ingredient(models.Model):
     ingredient_id = models.AutoField(primary_key=True)
-    ingredient_name = models.CharField(max_length=50)
+    ingredient_name = models.CharField(max_length=50, unique=True)
     Ingredient_category = models.ForeignKey(
         Ingredient_Category, on_delete=models.CASCADE
     )

@@ -2,20 +2,25 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="back">
-                <a href="javascript:history.back()"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                </svg></a>
-            </div>
             <div class="col-6">
                 <h4>จัดการหมวดหมู่อาหาร</h4>
             </div>
-            <div class="col-3" style="margin-left: 180px;">
+            <div class="col-4" style="margin-left: 180px;">
                 <a class="btn btn-warning" type="submit" data-toggle="modal" data-target="#createModal"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg> เพิ่มหมวดหมู่อาหาร </a>
            
             </div>
+        </div>
+        <div>
+          {% if messages %}
+          <br/>
+          {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+              <b>เกิดข้อผิดพลาด!</b> อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง
+          </div>
+          {% endfor %}
+          {% endif %}
         </div>
 
               <div class="row head" style="margin-top: 30px;">
@@ -26,8 +31,12 @@
                     <div class="row">
                         <div class="col-sm-5" style="text-align: center;">{{cat}}</div>
                         <div class="col-sm-1"></div>
-                        <div class="col-sm-2"><a href="" data-toggle="modal" data-target="#editModal{{cat.category_id}}">edit</a></div>
-                        <div class="col-sm-2"><a href="" data-toggle="modal" data-target="#delModal{{cat.category_id}}">delete</a></div>
+                        <div class="col-sm-2"><a href="" data-toggle="modal" data-target="#editModal{{cat.category_id}}">
+                          <img src="/media/Image/icon/edit.png" alt="edit" width="20px" height="20px"></a>
+                        </a></div>
+                        <div class="col-sm-2"><a href="" data-toggle="modal" data-target="#delModal{{cat.category_id}}">
+                          <img src="/media/Image/icon/bin.png" alt="delete" width="20px" height="20px"></a>
+                        </a></div>
                     </div>
                 </div>
 

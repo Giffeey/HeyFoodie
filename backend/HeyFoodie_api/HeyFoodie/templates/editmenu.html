@@ -7,7 +7,7 @@
             </div>
             <div class="col-3">
               <form action="{% url 'editmenu_create' %}">
-                <button class="btn btn-primary" type="submit"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <button class="btn btn-warning" type="submit"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg> เพิ่มเมนู</button>
               </form>
@@ -37,8 +37,12 @@
                   
                     </div>
                     <div class="category col-sm-2" style="text-align: center;">{{menu.category}}</div>
-                    <div class="col-sm-1"><a href="{% url 'editmenu_update' pk=menu.menu_id %}">Edit</a></div>
-                    <div class="col-sm-1"><a href="" data-toggle="modal" data-target="#exampleModal{{menu.menu_id}}">Delete</a></div>
+                    <div class="col-sm-1"><a href="{% url 'editmenu_update' pk=menu.menu_id %}">
+                      <img src="/media/Image/icon/edit.png" alt="edit" width="20px" height="20px"></a>
+                    </a></div>
+                    <div class="col-sm-1"><a href="" data-toggle="modal" data-target="#exampleModal{{menu.menu_id}}">
+                      <img src="/media/Image/icon/bin.png" alt="delete" width="20px" height="20px"></a>
+                    </a></div>
                 </div>
             </div>
 
