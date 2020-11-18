@@ -3,12 +3,12 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.hashers import make_password
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Sum, Count
 from rest_framework.response import Response
 import datetime
 
@@ -79,8 +79,30 @@ from rest_framework import status
 @login_required
 def home(request):
     store = get_object_or_404(Store, pk=1)
-    return render(request, "index.html", {"store": store})
 
+    countOrd = Order.objects.filter(date__gte = datetime.datetime.now().date())
+    countAllOrd = countOrd.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP") | Q(order_status="DONE")).count()
+    countPickOrd = countOrd.filter(order_status="READYTOPICKUP").count()
+    countComOrd = countOrd.filter(order_status="DONE").count()
+    income = Payment.objects.filter(Q(purchase_date__gte = datetime.datetime.now().date()) & Q(status="complete")).aggregate(Sum('amount'))
+    order = Order.objects.order_by('-order_id')[:5]
+    
+    return render(request, "index.html", {"store": store, "order": order, "countOrd": countAllOrd, "income": income, "countPickOrd": countPickOrd, "countComOrd": countComOrd})
+
+def bestsellmenu(request):
+    labels = []
+    data = []
+
+    queryset = Order_detail.objects.values('menu__name').annotate(count_menu=Count('menu')).order_by('-count_menu')
+    queryset = queryset.filter(order__in=Order.objects.filter(date__gte = datetime.datetime.now().date()))
+    for entry in queryset:
+        labels.append(entry['menu__name'])
+        data.append(entry['count_menu'])
+    
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
 
 @login_required
 def editProfile(request):
@@ -206,7 +228,7 @@ def editshop_update(request):
 
     else:
         form = StoreForm(instance=store)
-        return render(request, "editshop_update.html", {"form": form})
+        return render(request, "editshop_update.html", {"form": form, "store": store})
 
 
 @login_required
@@ -555,6 +577,7 @@ def createCategory(request):
             messages.error(request, "Error")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+@login_required
 def cancelOrder(request, pk):
     if request.method == "POST":
         order = get_object_or_404(Order,pk=pk)
@@ -566,6 +589,10 @@ def cancelOrder(request, pk):
         payment.status = "cancel"
         payment.save()
         return redirect("order")
+
+@login_required
+def dashboard(request):
+    return render(request, "dashboard.html") 
 
 class ListCategory(generics.ListCreateAPIView):
     queryset = Category.objects.all()

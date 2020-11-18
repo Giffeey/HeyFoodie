@@ -1,15 +1,185 @@
 {% extends "base.html" %}
 {% block content %}
-                <h2>
-                    Dashboard
-                </h2>
-                    
-                <h2>{% if user.is_authenticated %}
-                        Hi {{ user.username }} !
-                    {% else %}
-                        <p> You are not logged in </p>
-                        <a href="{% url 'login' %}">Log in</a>
-                        {% endif %}
-                </h2>
+    <!--/col-->
+
+        <h1 class="display-5 d-none d-sm-block">
+        {{store.storename}} Dashboard
+        </h1>
+        <p class="lead mt-5"></p>
+        <!-- <p class="lead d-none d-sm-block">ผลการดำเนินการในวันนี้</p> -->
+
+        <div class="alert alert-warning fade collapse" role="alert" id="myAlert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <strong>Holy guacamole!</strong> It's free.. this is an example theme.
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card bg-info text-white h-100">
+                    <div class="card-body bg-info">
+                        <div class="rotate">
+                            <i class="fa fa-list fa-4x"></i>
+                        </div>
+                        <h6 class="text-uppercase">ออเดอร์ในวันนี้</h6>
+                   
+                        <h1 class="display-5">{{countOrd}}</h1>
+                 
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-warning h-100">
+                    <div class="card-body bg-warning">
+                        <div class="rotate">
+                            <i class="fa fa-clock-o fa-4x"></i>
+                        </div>
+                        <h6 class="text-uppercase">ออเดอร์รอส่งมอบ</h6>
+                        <h1 class="display-5">{{countPickOrd}} </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body">
+                        <div class="rotate">
+                            <i class="fa fa-check-circle fa-4x"></i>
+                        </div>
+                        <h6 class="text-uppercase">ออเดอร์เสร็จสิ้นสมบูรณ์</h6>
+                        <h1 class="display-5">{{countComOrd}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-danger h-100">
+                    <div class="card-body bg-danger">
+                        <div class="rotate">
+                            <i class="fa fa-dollar fa-4x"></i>
+                        </div>
+                        <h6 class="text-uppercase">รายได้ในวันนี้</h6>
+                        <h1 class="display-5">
+                            {% if income.amount__sum == None %}
+                                0
+                            {% else %}
+                                {{income.amount__sum}}
+                            {% endif %}
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="lead mt-5"></p>
+        <!--/row-->
+
+        <hr>
+        <p class="lead mt-5">
+            <b>เมนูยอดนิยมวันนี้</b>
+        </p>
+        <div class="row placeholders mb-3 justify-content-center">
+            <div class="col-6 col-sm-2 placeholder text-center">
+                <img src="//placehold.it/200/dddddd/fff?text=1" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>Responsive</h4>
+                <span class="text-muted">Device agnostic</span>
+            </div>
+            <div class="col-6 col-sm-2 placeholder text-center">
+                <img src="//placehold.it/200/e4e4e4/fff?text=2" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>Frontend</h4>
+                <span class="text-muted">UI / UX oriented</span>
+            </div>
+            <div class="col-6 col-sm-2 placeholder text-center">
+                <img src="//placehold.it/200/d6d6d6/fff?text=3" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>HTML5</h4>
+                <span class="text-muted">Standards-based</span>
+            </div>
+            <div class="col-6 col-sm-2 placeholder text-center">
+                <img src="//placehold.it/200/e4e4e4/fff?text=4" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>HTML5</h4>
+                <span class="text-muted">Standards-based</span>
+            </div>
+            <div class="col-6 col-sm-2 placeholder text-center">
+                <img src="//placehold.it/200/e0e0e0/fff?text=5" class="center-block img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>Framework</h4>
+                <span class="text-muted">CSS and JavaScript</span>
+            </div>
+            
+        
+            <div class="container min-vh-100 d-flex flex-column justify-content-center" style="width: 75%">
+                <div class="row my-3">
+                    <!-- <div class="col">
+                        <h4>เมนูขายดีกับจำนวนที่ขายได้</h4>
+                    </div> -->
+                </div>
+                <div class="row my-2">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                {% if countOrd != 0 %}
+                                <canvas id="chBar" data-url="{% url 'bestsellmenu' %}"></canvas>
+                                {% else %}
+                                <div class="text-center">ยังไม่มีออเดอร์เข้ามา</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+     
+        <p class="lead mt-5"></p>
+
+        <a id="features"></a>
+        <hr>
+        <p class="lead mt-5">
+            <b>รายการออเดอร์ล่าสุดของวันนี้</b>
+        </p>
+        <div class="row my-4 justify-content-center">
+            <div class="col-lg-9 col-md-8">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Status</th>
+                                <th>Date & Time</th>
+                                <th>Customer</th>
+                            </tr>
+                        </thead>
+                        {% for order in order %}
+                        <tbody>
+                            <tr>
+                                <td>{{order.order_id}}</td>
+                                {% if order.order_status == "WAITING" %}
+                                <td>ออเดอร์เข้าใหม่</td>
+                                {% elif order.order_status == "COOKING" %}
+                                <td>กำลังปรุงอาหาร</td>
+                                {% elif order.order_status == "READYTOPICKUP" %}
+                                <td>รอส่งมอบอาหาร</td>
+                                {% elif order.order_status == "DONE" %}
+                                <td>ชำระเงินและรับสินค้าแล้ว</td>
+                                {% elif order.order_status == "CANCEL" %}
+                                <td>ยกเลิกออเดอร์</td>
+                                {% endif %}
+                                <td>{{order.date}}</td>
+                                <td>{{order.customer.firstname}} {{order.customer.lastname}}</td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--/row-->
+
+        
+
+        
+          
+
+    <!--/main col-->
+
 
 {% endblock content %}

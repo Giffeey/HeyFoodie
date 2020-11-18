@@ -37,7 +37,6 @@ html, body{
     margin: 20px;
     margin-top: 30px;
     color: #FF6B00;
-    ;
 }
 
 .row .col-2{
@@ -150,4 +149,8 @@ div.text{
 
 .container.btn{
     margin-left: -80px;
+}
+
+canvas{
+    font-family: "Kanit", sans-serif;
 }

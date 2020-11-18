@@ -65,6 +65,8 @@ urlpatterns = [
     path('order/', views.order, name='order'),
     path('order/changeStatus/<int:pk>', views.changeStatus, name='changeStatus'),
     path('order/cancelOrder/<int:pk>', views.cancelOrder, name='cancelOrder'),
+    path('bestsellmenuchart/', views.bestsellmenu, name='bestsellmenu'),
+    
     path('api/', include('HeyFoodie.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login'),
