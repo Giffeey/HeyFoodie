@@ -13,6 +13,7 @@ import plus from "../../img/icon/plus.png"
 import Button from "react-bootstrap/Button"
 import cart from "../../img/icon/cart.png"
 import { navigate } from "@reach/router"
+import {FaBars,FaTimes } from "react-icons/fa"
 
 import {
   Badge,
@@ -158,7 +159,7 @@ export default function Header(props) {
         {props.store?.storename || "Hey!Foodie"}
       </a>
 
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Item className="mt-3">

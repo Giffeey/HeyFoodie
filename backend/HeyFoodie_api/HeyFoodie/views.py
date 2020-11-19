@@ -181,32 +181,37 @@ def change_password(request):
 def order(request):
     store = get_object_or_404(Store, pk=1)
     order = Order.objects.get_queryset().order_by("order_id")
-    order = order.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+    order = order.filter(
+        Q(order_status="COOKING")
+        | Q(order_status="WAITING")
+        | Q(order_status="READYTOPICKUP")
+    )
     orderdetail = Order_detail.objects.all()
     payment = Payment.objects.all()
 
     paginator = Paginator(order, 5)
     page = request.GET.get("page")
     orders = paginator.get_page(page)
-    
+
     return render(
         request,
         "order.html",
         {"orders": orders, "od": orderdetail, "pm": payment, "store": store},
     )
 
+
 @login_required
-def changeStatus(request,pk):
+def changeStatus(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if request.method == "POST":
         if order.order_status == "WAITING":
             order.order_status = "COOKING"
             order.save()
-            return redirect('order')
+            return redirect("order")
         elif order.order_status == "COOKING":
             order.order_status = "READYTOPICKUP"
             order.save()
-            return redirect('order')
+            return redirect("order")
         elif order.order_status == "READYTOPICKUP":
             paymentord = Payment.objects.all().filter(order=pk)
             payment = get_object_or_404(paymentord)
@@ -222,12 +227,13 @@ def changeStatus(request,pk):
 
             order.order_status = "DONE"
             order.save()
-            return redirect('order')
+            return redirect("order")
         else:
             print("complete")
-            return redirect('order')
+            return redirect("order")
 
-        return redirect('order')
+        return redirect("order")
+
 
 @login_required
 def editshop(request):
@@ -257,11 +263,14 @@ def editshop_update(request):
 def editcategory(request):
     store = get_object_or_404(Store, pk=1)
     category = Category.objects.get_queryset().order_by("category_id")
-    paginator = Paginator(category,5)
+    paginator = Paginator(category, 5)
     page = request.GET.get("page")
     cat = paginator.get_page(page)
-    form = CategoryForm()    
-    return render(request, "editcategory.html", {"category": cat, "store": store, "form": form})
+    form = CategoryForm()
+    return render(
+        request, "editcategory.html", {"category": cat, "store": store, "form": form}
+    )
+
 
 @login_required
 def editcategory_create(request):
@@ -274,6 +283,7 @@ def editcategory_create(request):
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editcategory")
+
 
 @login_required
 def editcategory_update(request, pk):
@@ -295,7 +305,13 @@ def editcategory_update(request, pk):
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editcategory")
-    return render(request, "editcategory.html", {"form": form, "store": store},)
+
+    return render(
+        request,
+        "editcategory.html",
+        {"form": form, "store": store},
+    )
+
 
 @login_required
 def editcategory_delete(request, pk):
@@ -314,12 +330,19 @@ def editcategory_delete(request, pk):
 @login_required
 def editingcategory(request):
     store = get_object_or_404(Store, pk=1)
-    category = Ingredient_Category.objects.get_queryset().order_by("ingredient_category_id")
-    paginator = Paginator(category,5)
+    category = Ingredient_Category.objects.get_queryset().order_by(
+        "ingredient_category_id"
+    )
+    paginator = Paginator(category, 5)
     page = request.GET.get("page")
     cat = paginator.get_page(page)
-    form = IngredientCategoryForm()    
-    return render(request, "editingcategory.html", {"ingcategory": cat, "store": store, "form": form})
+    form = IngredientCategoryForm()
+    return render(
+        request,
+        "editingcategory.html",
+        {"ingcategory": cat, "store": store, "form": form},
+    )
+
 
 @login_required
 def editingcategory_create(request):
@@ -332,6 +355,7 @@ def editingcategory_create(request):
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editingcategory")
+
 
 @login_required
 def editingcategory_update(request, pk):
@@ -357,9 +381,11 @@ def editingcategory_update(request, pk):
             return redirect("editingcategory")
 
     return render(
-        request, "editingcategory.html",
+        request,
+        "editingcategory.html",
         {"form": form, "store": store},
     )
+
 
 @login_required
 def editingcategory_delete(request, pk):
@@ -376,15 +402,19 @@ def editingcategory_delete(request, pk):
             return redirect("editingcategory")
 
 
+
 @login_required
 def editsalesize(request):
     store = get_object_or_404(Store, pk=1)
     salesize = SaleSize.objects.get_queryset().order_by("salesize_id")
-    paginator = Paginator(salesize,5)
+    paginator = Paginator(salesize, 5)
     page = request.GET.get("page")
     ss = paginator.get_page(page)
-    form = SalesizeForm()    
-    return render(request, "editsalesize.html", {"salesize": ss, "store": store, "form": form})
+    form = SalesizeForm()
+    return render(
+        request, "editsalesize.html", {"salesize": ss, "store": store, "form": form}
+    )
+
 
 @login_required
 def editsalesize_create(request):
@@ -393,7 +423,7 @@ def editsalesize_create(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -418,7 +448,13 @@ def editsalesize_update(request, pk):
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editsalesize")
-    return render(request, "editsalesize.html",{"form": form, "store": store},)
+
+    return render(
+        request,
+        "editsalesize.html",
+        {"form": form, "store": store},
+    )
+
 
 @login_required
 def editsalesize_delete(request, pk):
@@ -502,7 +538,15 @@ def editmenu_update(request, pk):
         return render(
             request,
             "editmenu_update.html",
-            {"form": form, "menu": menu, "formCg": formCg, "store": store, "formCag": formCag, "formS": formS, "formIng": formIng},
+            {
+                "form": form,
+                "menu": menu,
+                "formCg": formCg,
+                "store": store,
+                "formCag": formCag,
+                "formS": formS,
+                "formIng": formIng,
+            },
         )
 
 @login_required
@@ -518,6 +562,7 @@ def editmenu_delete(request, pk):
         else:
             messages.error(request, "ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
             return redirect("editmenu") 
+
 
 @login_required
 def editingredient(request):
@@ -588,6 +633,7 @@ def editingredient_update(request, pk):
             },
         )
 
+
 @login_required
 def editingredient_delete(request, pk):
     ingredient = get_object_or_404(Ingredient, pk=pk)
@@ -602,6 +648,7 @@ def editingredient_delete(request, pk):
             messages.error(request, "ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
             return redirect("editingredient")
 
+
 @login_required
 def createIngredient(request):
     if request.method == "POST":
@@ -609,7 +656,7 @@ def createIngredient(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -621,7 +668,7 @@ def createIngCategory(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
 
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
@@ -634,7 +681,7 @@ def createSalesize(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -646,7 +693,7 @@ def createCategory(request):
         if form.is_valid():
             form.cleaned_data
             form.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -654,7 +701,7 @@ def createCategory(request):
 @login_required
 def cancelOrder(request, pk):
     if request.method == "POST":
-        order = get_object_or_404(Order,pk=pk)
+        order = get_object_or_404(Order, pk=pk)
         order.order_status = "CANCEL"
         order.save()
 
@@ -664,30 +711,32 @@ def cancelOrder(request, pk):
         payment.save()
         return redirect("order")
 
-@login_required
-def dashboard(request):
-    return render(request, "dashboard.html") 
 
 class ListCategory(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
 
 class DetailCategory(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     lookup_field = "category_id"
     serializer_class = CategorySerializer
 
+
 class ListIngredientCategory(generics.ListCreateAPIView):
     queryset = Ingredient_Category.objects.all()
     serializer_class = IngredientCategorySerializer
+
 
 class DetailIngredientCategory(generics.RetrieveUpdateDestroyAPIView):
     queryset = Ingredient_Category.objects.all()
     serializer_class = IngredientCategorySerializer
 
+
 class ListIngredient(generics.ListCreateAPIView):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
+
 
 class DetailIngredient(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
@@ -695,37 +744,51 @@ class DetailIngredient(generics.RetrieveUpdateDestroyAPIView):
 
     serializer_class = IngredientSerializer
 
+
 class ListMenu(generics.ListCreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+
 
 class DetailMenu(generics.RetrieveUpdateDestroyAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
 
+
 class ListStore(generics.ListCreateAPIView):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
+
 
 class DetailStore(generics.RetrieveUpdateDestroyAPIView):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
 
+
 class ListSalesize(generics.ListCreateAPIView):
     queryset = SaleSize.objects.all()
     serializer_class = SalesizeSerializer
+
 
 class DetailSalesize(generics.RetrieveUpdateDestroyAPIView):
     queryset = SaleSize.objects.all()
     serializer_class = SalesizeSerializer
 
+
 class ListCustomer(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
+
 class ListOrder(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        customer_id = self.request.query_params.get("customer_id")
+        ordersResponse = Order.objects.filter(customer_id=customer_id)
+        return ordersResponse
+
 
 class ListOrderDetail(generics.ListCreateAPIView):
     queryset = Order_detail.objects.all()
@@ -737,31 +800,29 @@ class ListOrderDetail(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         data = request.data
 
-        serializer_sale = self.serializer_sale(data["size"])
-        serializer_menu = self.serializer_menu(data["menu"])
-        serializer_sale.is_valid
-        serializer_menu.is_valid
         customer = Customer()
-        customer.setId(data["order"]["customer"])
+        customer.setId(data["customer"])
         orderResponse = Order.objects.create(
             customer=customer,
-            date=data["order"]["date"],
-            order_status=data["order"]["order_status"],
+            date=data["date"],
+            order_status=data["order_status"],
         )
         orderResponse.save()
 
-        menuModel = Menu()
-        menuModel.setId(serializer_menu.data["menu_id"])
+        menus = data["menus"]
+        for menu in menus:
+            saleSizeModel = SaleSize()
+            saleSizeModel.setId(menu["salesize"]["salesize_id"])
 
-        saleSizeModel = SaleSize()
-        saleSizeModel.setId(serializer_sale.data["salesize_id"])
+            menuModel = Menu()
+            menuModel.setId(menu["menu_id"])
 
-        Order_detail_Response = Order_detail.objects.create(
-            size=saleSizeModel,
-            order=orderResponse,
-            menu=menuModel,
-            quantity=data["quantity"],
-        )
+            Order_detail_Response = Order_detail.objects.create(
+                size=saleSizeModel,
+                order=orderResponse,
+                menu=menuModel,
+                quantity=menu["quantity"],
+            )
 
         Order_detail_Response.save()
 
