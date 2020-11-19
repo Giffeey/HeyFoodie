@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Q, Sum, Count
 from rest_framework.response import Response
-import datetime
+from datetime import datetime, timedelta
 
 from rest_framework import generics, permissions, viewsets
 from .serializers import (
@@ -79,30 +79,52 @@ from rest_framework import status
 @login_required
 def home(request):
     store = get_object_or_404(Store, pk=1)
-
-    countOrd = Order.objects.filter(date__gte = datetime.datetime.now().date())
+    date = datetime.now().date()
+    countOrd = Order.objects.filter(date__gte = datetime.now().date())
     countAllOrd = countOrd.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP") | Q(order_status="DONE")).count()
     countPickOrd = countOrd.filter(order_status="READYTOPICKUP").count()
     countComOrd = countOrd.filter(order_status="DONE").count()
-    income = Payment.objects.filter(Q(purchase_date__gte = datetime.datetime.now().date()) & Q(status="complete")).aggregate(Sum('amount'))
+    income = Payment.objects.filter(Q(purchase_date__gte = datetime.now().date()) & Q(status="complete")).aggregate(Sum('amount'))
     order = Order.objects.order_by('-order_id')[:5]
     
-    return render(request, "index.html", {"store": store, "order": order, "countOrd": countAllOrd, "income": income, "countPickOrd": countPickOrd, "countComOrd": countComOrd})
+    return render(request, "index.html", {"store": store, "order": order, "countOrd": countAllOrd, "income": income, "countPickOrd": countPickOrd, "countComOrd": countComOrd,
+        "date": date})
 
-def bestsellmenu(request):
+def bestsellmenuday(request):
     labels = []
     data = []
 
     queryset = Order_detail.objects.values('menu__name').annotate(count_menu=Count('menu')).order_by('-count_menu')
-    queryset = queryset.filter(order__in=Order.objects.filter(date__gte = datetime.datetime.now().date()))
+    queryset = queryset.filter(order__in=Order.objects.filter(date__gte = datetime.now().date()))
     for entry in queryset:
         labels.append(entry['menu__name'])
         data.append(entry['count_menu'])
     
-    return JsonResponse(data={
-        'labels': labels,
-        'data': data,
-    })
+    return JsonResponse(data={'labels': labels, 'data': data,})
+
+def bestsellmenuweek(request):
+    labels = []
+    data = []
+
+    queryset = Order_detail.objects.values('menu__name').annotate(count_menu=Count('menu')).order_by('-count_menu')
+    queryset = queryset.filter(order__in=Order.objects.filter(date__gte=datetime.today() - timedelta(days=7)))
+    for entry in queryset:
+        labels.append(entry['menu__name'])
+        data.append(entry['count_menu'])
+    
+    return JsonResponse(data={'labels': labels, 'data': data,})
+
+def bestsellmenumonth(request):
+    labels = []
+    data = []
+
+    queryset = Order_detail.objects.values('menu__name').annotate(count_menu=Count('menu')).order_by('-count_menu')
+    queryset = queryset.filter(order__in=Order.objects.filter(date__year=datetime.now().year, date__month= datetime.now().month))
+    for entry in queryset:
+        labels.append(entry['menu__name'])
+        data.append(entry['count_menu'])
+    
+    return JsonResponse(data={'labels': labels, 'data': data,})
 
 @login_required
 def editProfile(request):
@@ -124,7 +146,7 @@ def editProfile_update(request):
             form.save()
             return redirect("editprofile")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editprofile")
 
     else:
@@ -146,7 +168,7 @@ def change_password(request):
             messages.success(request, "Your password was successfully updated!")
             return redirect("editprofile_update")
         else:
-            messages.error(request, "Please correct the error below.")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editprofile_update")
     else:
         form = PasswordChangeForm(request.user)
@@ -190,7 +212,7 @@ def changeStatus(request,pk):
             payment = get_object_or_404(paymentord)
             if payment.method == "CASH":
                 print("change date, status payment")
-                payment.purchase_date = datetime.datetime.now()
+                payment.purchase_date = datetime.now()
                 payment.status = "complete"
                 print(payment.purchase_date)
                 print(payment.status)
@@ -215,6 +237,7 @@ def editshop(request):
 
 
 @login_required
+@permission_required('HeyFoodie.change_store')
 def editshop_update(request):
     store = get_object_or_404(Store, pk=1)
     if request.method == "POST":
@@ -223,9 +246,8 @@ def editshop_update(request):
             form.save()
             return redirect("editshop")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editshop_update")
-
     else:
         form = StoreForm(instance=store)
         return render(request, "editshop_update.html", {"form": form, "store": store})
@@ -250,7 +272,7 @@ def editcategory_create(request):
             form.save()
             return redirect("editcategory")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editcategory")
 
 @login_required
@@ -260,24 +282,34 @@ def editcategory_update(request, pk):
     if request.method == "POST":
         form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editcategory")
+            order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+            ordDetail = Order_detail.objects.filter(order__in = order)
+            ordDetail = ordDetail.filter(menu__in=Menu.objects.filter(category=category)).count()
+            if ordDetail == 0:
+                form.cleaned_data
+                form.save()
+                return redirect("editcategory")
+            else:
+                messages.error(request, "ไม่สามารถแก้ไขข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+                return redirect("editcategory")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editcategory")
-
-    return render(
-        request, "editcategory.html",
-        {"form": form, "store": store},
-    )
+    return render(request, "editcategory.html", {"form": form, "store": store},)
 
 @login_required
 def editcategory_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
-        category.delete()
-        return redirect("editcategory")
+        order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+        ordDetail = Order_detail.objects.filter(order__in = order)
+        ordDetail = ordDetail.filter(menu__in=Menu.objects.filter(category=category)).count()
+        if ordDetail == 0:
+            category.delete()
+            return redirect("editcategory")
+        else:
+            messages.error(request, "ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+            return redirect("editcategory")
         
 @login_required
 def editingcategory(request):
@@ -298,7 +330,7 @@ def editingcategory_create(request):
             form.save()
             return redirect("editingcategory")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editingcategory")
 
 @login_required
@@ -308,11 +340,20 @@ def editingcategory_update(request, pk):
     if request.method == "POST":
         form = IngredientCategoryForm(request.POST, instance=category)
         if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editingcategory")
+            order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+            ordDetail = Order_detail.objects.filter(order__in = order)
+            ordDetail = ordDetail.filter(menu__in=Menu.objects.filter(ingredient__in=Ingredient.objects.filter(Ingredient_category=category))).count()
+            
+            if ordDetail == 0:
+                form.cleaned_data
+                form.save()
+                return redirect("editingcategory")
+            else:
+                messages.error(request, "ไม่สามารถแก้ไขข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+                return redirect("editingcategory")
+
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editingcategory")
 
     return render(
@@ -324,8 +365,16 @@ def editingcategory_update(request, pk):
 def editingcategory_delete(request, pk):
     category = get_object_or_404(Ingredient_Category, pk=pk)
     if request.method == "POST":
-        category.delete()
-        return redirect("editingcategory")
+        order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+        ordDetail = Order_detail.objects.filter(order__in = order)
+        ordDetail = ordDetail.filter(menu__in=Menu.objects.filter(ingredient__in=Ingredient.objects.filter(Ingredient_category=category))).count()
+        if ordDetail == 0:
+            category.delete()
+            return redirect("editingcategory")
+        else:
+            messages.error(request, "ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+            return redirect("editingcategory")
+
 
 @login_required
 def editsalesize(request):
@@ -346,7 +395,7 @@ def editsalesize_create(request):
             form.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
@@ -356,24 +405,34 @@ def editsalesize_update(request, pk):
     if request.method == "POST":
         form = SalesizeForm(request.POST, instance=salesize)
         if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editsalesize")
+            order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+            ordDetail = Order_detail.objects.filter(order__in = order)
+            ordDetail = ordDetail.filter(menu__in=Menu.objects.filter(salesize=salesize)).count()
+            if ordDetail == 0:
+                form.cleaned_data
+                form.save()
+                return redirect("editsalesize")
+            else:
+                messages.error(request, "ไม่สามารถแก้ไขข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+                return redirect("editsalesize")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editsalesize")
-
-    return render(
-        request, "editsalesize.html",
-        {"form": form, "store": store},
-    )
+    return render(request, "editsalesize.html",{"form": form, "store": store},)
 
 @login_required
 def editsalesize_delete(request, pk):
     salesize = get_object_or_404(SaleSize, pk=pk)
     if request.method == "POST":
-        salesize.delete()
-        return redirect("editsalesize")
+        order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+        ordDetail = Order_detail.objects.filter(order__in = order)
+        ordDetail = ordDetail.filter(menu__in=Menu.objects.filter(salesize=salesize)).count()
+        if ordDetail == 0:
+            salesize.delete()
+            return redirect("editsalesize")
+        else:
+            messages.error(request, "ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+            return redirect("editsalesize")   
        
 
 @login_required
@@ -403,25 +462,14 @@ def editmenu_create(request):
             obj.save()
             return redirect("editmenu")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editmenu_create")
     else:
         form = MenuForm()
         formCg = CategoryForm()
         formIng = IngredientForm()
         formS = SalesizeForm()
-        return render(
-            request,
-            "editmenu_create.html",
-            {
-                "form": form,
-                "store": store,
-                "formCg": formCg,
-                "formIng": formIng,
-                "formS": formS,
-            },
-        )
-
+        return render(request,"editmenu_create.html",{"form": form, "store": store, "formCg": formCg, "formIng": formIng, "formS": formS,},)
 
 @login_required
 def editmenu_update(request, pk):
@@ -433,11 +481,18 @@ def editmenu_update(request, pk):
     if request.method == "POST":
         form = MenuForm(request.POST, request.FILES, instance=menu)
         if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editmenu")
+            order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+            ordDetail = Order_detail.objects.filter(order__in = order)
+            ordDetail = ordDetail.filter(menu=menu).count()  
+            if ordDetail == 0:
+                form.cleaned_data
+                form.save()
+                return redirect("editmenu")
+            else:
+                messages.error(request, "ไม่สามารถแก้ไขข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+                return redirect("editmenu_update", pk=pk) 
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editmenu_update",pk=pk)
 
     else:
@@ -450,13 +505,19 @@ def editmenu_update(request, pk):
             {"form": form, "menu": menu, "formCg": formCg, "store": store, "formCag": formCag, "formS": formS, "formIng": formIng},
         )
 
-
 @login_required
 def editmenu_delete(request, pk):
     menu = get_object_or_404(Menu, pk=pk)
     if request.method == "POST":
-        menu.delete()
-        return redirect("editmenu")
+        order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+        ordDetail = Order_detail.objects.filter(order__in = order)
+        ordDetail = ordDetail.filter(menu=menu).count()
+        if ordDetail == 0:
+            menu.delete()
+            return redirect("editmenu")
+        else:
+            messages.error(request, "ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+            return redirect("editmenu") 
 
 @login_required
 def editingredient(request):
@@ -480,7 +541,7 @@ def editingredient_create(request):
             form.save()
             return redirect("editingredient")
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return redirect("editingredient_create")
     else:
         form = IngredientForm()
@@ -499,13 +560,19 @@ def editingredient_update(request, pk):
     if request.method == "POST":
         form = IngredientForm(request.POST, request.FILES, instance=ingredient)
         if form.is_valid():
-            form.cleaned_data
-            form.save()
-            return redirect("editingredient")
+            order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+            ordDetail = Order_detail.objects.filter(order__in = order)
+            ordDetail = ordDetail.filter(menu__in = Menu.objects.filter(ingredient=ingredient)).count()
+            if ordDetail == 0:
+                form.cleaned_data
+                form.save()
+                return redirect("editingredient")
+            else:
+                messages.error(request, "ไม่สามารถแก้ไขข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+                return redirect("editingredient_update", pk=pk)
         else:
-            messages.error(request, "Error")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
+            return redirect("editingredient_update", pk=pk)
 
     else:
         form = IngredientForm(instance=ingredient)
@@ -525,8 +592,15 @@ def editingredient_update(request, pk):
 def editingredient_delete(request, pk):
     ingredient = get_object_or_404(Ingredient, pk=pk)
     if request.method == "POST":
-        ingredient.delete()
-        return redirect("editingredient")
+        order = Order.objects.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP"))
+        ordDetail = Order_detail.objects.filter(order__in = order)
+        ordDetail = ordDetail.filter(menu__in = Menu.objects.filter(ingredient=ingredient)).count()
+        if ordDetail == 0:
+            ingredient.delete()
+            return redirect("editingredient")
+        else:
+            messages.error(request, "ไม่สามารถลบข้อมูลได้ โปรดตรวจสอบว่ามีออเดอร์ค้างอยู่หรือไม่")
+            return redirect("editingredient")
 
 @login_required
 def createIngredient(request):
@@ -537,7 +611,7 @@ def createIngredient(request):
             form.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
@@ -550,7 +624,7 @@ def createIngCategory(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
@@ -562,7 +636,7 @@ def createSalesize(request):
             form.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
@@ -574,7 +648,7 @@ def createCategory(request):
             form.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
-            messages.error(request, "Error")
+            messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
@@ -692,7 +766,6 @@ class ListOrderDetail(generics.ListCreateAPIView):
         Order_detail_Response.save()
 
         return Response("created", status=status.HTTP_201_CREATED)
-
 
 class ListPayment(generics.ListCreateAPIView):
     queryset = Payment.objects.all()

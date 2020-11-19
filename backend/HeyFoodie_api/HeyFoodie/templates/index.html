@@ -6,7 +6,34 @@
         {{store.storename}} Dashboard
         </h1>
         <p class="lead mt-5"></p>
-        <!-- <p class="lead d-none d-sm-block">ผลการดำเนินการในวันนี้</p> -->
+        <p class="lead d-none d-sm-block">{{date.day}} 
+            {% if date.month == 1 %}
+                มกราคม
+            {% elif date.month == 2 %}
+                กุมภาพันธ์
+            {% elif date.month == 3 %}
+                มีนาคม
+            {% elif date.month == 4 %}
+                เมษายน
+            {% elif date.month == 5 %}
+                พฤษภาคม
+            {% elif date.month == 6 %}
+                กรกฎาคม
+            {% elif date.month == 7 %}
+                มิถุนายน
+            {% elif date.month == 8 %}
+                สิงหาคม
+            {% elif date.month == 9 %}
+                กันยายน
+            {% elif date.month == 10 %}
+                ตุลาคม
+            {% elif date.month == 11 %}
+                พฤศจิกายน
+            {% elif date.month == 12 %}
+                ธันวาคม
+            {% endif %}
+
+            {{date.year}}</p>
 
         <div class="alert alert-warning fade collapse" role="alert" id="myAlert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -41,19 +68,19 @@
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6 py-2">
-                <div class="card text-white bg-success h-100">
+                <div class="card text-white bg-primary h-100">
                     <div class="card-body">
                         <div class="rotate">
                             <i class="fa fa-check-circle fa-4x"></i>
                         </div>
-                        <h6 class="text-uppercase">ออเดอร์เสร็จสิ้นสมบูรณ์</h6>
+                        <h6 class="text-uppercase">ออเดอร์เสร็จสมบูรณ์</h6>
                         <h1 class="display-5">{{countComOrd}}</h1>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6 py-2">
-                <div class="card text-white bg-danger h-100">
-                    <div class="card-body bg-danger">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body bg-success">
                         <div class="rotate">
                             <i class="fa fa-dollar fa-4x"></i>
                         </div>
@@ -74,55 +101,76 @@
 
         <hr>
         <p class="lead mt-5">
-            <b>เมนูยอดนิยมวันนี้</b>
+            <b>เมนูยอดนิยม</b>
         </p>
+        <br/>
         <div class="row placeholders mb-3 justify-content-center">
-            <div class="col-6 col-sm-2 placeholder text-center">
-                <img src="//placehold.it/200/dddddd/fff?text=1" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                <h4>Responsive</h4>
-                <span class="text-muted">Device agnostic</span>
-            </div>
-            <div class="col-6 col-sm-2 placeholder text-center">
-                <img src="//placehold.it/200/e4e4e4/fff?text=2" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                <h4>Frontend</h4>
-                <span class="text-muted">UI / UX oriented</span>
-            </div>
-            <div class="col-6 col-sm-2 placeholder text-center">
-                <img src="//placehold.it/200/d6d6d6/fff?text=3" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                <h4>HTML5</h4>
-                <span class="text-muted">Standards-based</span>
-            </div>
-            <div class="col-6 col-sm-2 placeholder text-center">
-                <img src="//placehold.it/200/e4e4e4/fff?text=4" class="mx-auto img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                <h4>HTML5</h4>
-                <span class="text-muted">Standards-based</span>
-            </div>
-            <div class="col-6 col-sm-2 placeholder text-center">
-                <img src="//placehold.it/200/e0e0e0/fff?text=5" class="center-block img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                <h4>Framework</h4>
-                <span class="text-muted">CSS and JavaScript</span>
-            </div>
-            
-        
-            <div class="container min-vh-100 d-flex flex-column justify-content-center" style="width: 75%">
-                <div class="row my-3">
-                    <!-- <div class="col">
-                        <h4>เมนูขายดีกับจำนวนที่ขายได้</h4>
-                    </div> -->
-                </div>
-                <div class="row my-2">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
+            <div class="container min-vh-100 d-flex flex-column" style="width: 80%;">
+                    <div class="card card-default">
+                        <ul id="tabsJustified" class="nav nav-tabs nav-justified">
+                            <li class="nav-item"  role="presentation">
+                                <a class="nav-link active" href="#tab1"  data-toggle="tab">รายวัน</a>
+                            </li>
+                            <li class="nav-item"  role="presentation">
+                                <a class="nav-link" href="#tab2" data-toggle="tab">รายสัปดาห์</a>
+                            </li>
+                            <li class="nav-item"  role="presentation">
+                                <a class="nav-link" href="#tab3" data-toggle="tab">รายเดือน</a>
+                            </li>
+                        </ul>
+                        <!--/tabs-->
+                        <br>
+                        <div id="tabsJustifiedContent" class="tab-content">
+                            <div class="tab-pane active" id="tab1">
                                 {% if countOrd != 0 %}
-                                <canvas id="chBar" data-url="{% url 'bestsellmenu' %}"></canvas>
+                                <div class="row my-2">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <canvas id="chBar" data-url="{% url 'bestsellmenuday' %}"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {% else %}
-                                <div class="text-center">ยังไม่มีออเดอร์เข้ามา</div>
+                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามา</div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                {% if countOrd != 0 %}
+                                <div class="row my-2">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div><canvas id="chBarWeek" data-url="{% url 'bestsellmenuweek' %}"></canvas></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามาในสัปดาห์นี้</div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane" id="tab3">
+                                {% if countOrd != 0 %}
+                                <div class="row my-2">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div><canvas id="chBarMonth" data-url="{% url 'bestsellmenumonth' %}"></canvas></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามาในเดือนนี้</div>
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
-                </div>
+                        <!--/tabs content-->
+                    </div><!--/card-->
+
+              
             </div>
         </div>
         

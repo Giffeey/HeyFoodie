@@ -13,6 +13,16 @@
               </form>
             </div>
         </div>
+        <div>
+          {% if messages %}
+          <br/>
+          {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+              <b>เกิดข้อผิดพลาด!</b> {{message}}
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
 
         <div class="row head" style="margin: 30px;">
             <div class="col-sm-3" style="text-align: center;">รูปภาพ</div>
