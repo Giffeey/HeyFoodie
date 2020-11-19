@@ -27,14 +27,13 @@ export default function CommonPayment(props) {
         security_code: e.target.security_code.value,
       }
     }
-    const orderMenu = cartStore.currentCart.map((item) => {
-      return {
-        order: {
-          date: dayjs().toISOString(),
-          order_status: "WAITING",
-          customer: 1,
-        },
-        menu: {
+
+    const orderMenu = {
+      date: dayjs().toISOString(),
+      order_status: "WAITING",
+      customer: 1,
+      menus: cartStore.currentCart.map((item) => {
+        return {
           menu_id: item.menu_id,
           name: item.name,
           category: {
@@ -55,27 +54,18 @@ export default function CommonPayment(props) {
               ingredient_name: ing.ingredient_name,
             }
           }),
-          salesize: item.salesize.map((ss) => {
-            return {
-              price: ss.price,
-              salesize_id: ss.salesize_id,
-              size: ss.size,
-            }
-          }),
+          salesize: {
+            salesize_id: item.salesize_id,
+            size: item.size,
+            price: item.price,
+          },
+          quantity: item.quantity,
           image: item.image,
-        },
-        ingredient: [],
-        size: {
-          salesize_id: item.salesize_id,
-          size: item.size,
-          price: item.price,
-        },
-        quantity: item.quantity,
-      }
-    })
-    orderMenu.forEach(async (item) => {
-      await orderService.create(item)
-    })
+        }
+      }),
+    }
+    await orderService.create(orderMenu)
+    navigate("/queuepage")
   }
 
   return (
@@ -146,17 +136,16 @@ export default function CommonPayment(props) {
           </div>
           <div className="row justify-content-center">
             <div className="col-3 p-0 text-center">
-              <Button className="btn btn-outline-primary" onClick={() => navigate("/")}>
+              <Button
+                className="btn btn-outline-primary"
+                onClick={() => navigate("/")}
+              >
                 ย้อนกลับ
               </Button>
             </div>
             <div className="col-1 p-0 text-center"></div>
             <div className="col-3 p-0 text-center">
-              <Button
-                type="submit"
-                className="btn btn-outline-primary"
-                onClick={() => navigate("/queuepage")}
-              >
+              <Button type="submit" className="btn btn-outline-primary">
                 ยืนยันการชำระเงิน
               </Button>
             </div>

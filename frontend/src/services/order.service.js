@@ -24,5 +24,8 @@ class orderDataService{
     findByTitle(title) {
         return http.get(`/order?titile=${title}`);
     }
+    findByCustomerId(id) {
+        return http.get(`/order?customer_id=${id}`);
+    }
 }
 export default new orderDataService();
