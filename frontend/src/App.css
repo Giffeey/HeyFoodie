@@ -84,6 +84,7 @@
   width: 100%;
   color: darkorange !important;
   background-color: transparent !important;
+  font-family: "Kanit", sans-serif;
 }
 
 .btn.btn-outline-primary:hover {
