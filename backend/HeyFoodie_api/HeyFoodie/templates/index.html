@@ -105,8 +105,8 @@
         </p>
         <br/>
         <div class="row placeholders mb-3 justify-content-center">
-            <div class="container min-vh-100 d-flex flex-column" style="width: 80%;">
-                    <div class="card card-default">
+            <div class="container d-flex flex-column" style="width: 80%; height: 600px;">
+                    <div class="card card-default card-body">
                         <ul id="tabsJustified" class="nav nav-tabs nav-justified">
                             <li class="nav-item" >
                                 <a class="nav-link active" href="#tab1"  data-toggle="tab">วันนี้</a>
@@ -122,22 +122,32 @@
                         <br>
                         <div id="tabsJustifiedContent" class="tab-content">
                             <div class="tab-pane active" id="tab1">
-                                {% if countOrd != 0 %}
+                                {% if countOrd != 0 %}  
                                 <div class="row my-2">
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-body">
+                                              
                                                 <canvas id="chBar" data-url="{% url 'bestsellmenuday' %}"></canvas>
+                                                
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 {% else %}
-                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามาในวันนี้</div>
+                                    <div class="container">
+                                        <div class="row justify-content-center align-items-center" style="height: 400px;">
+                                            <div class="col text-center justify-content-center">
+                                            <div><img src="/media/Image/icon/sad.png" style="width: 100px; height: 100px;"/></div>
+                                            <br />
+                                            <div>ยังไม่มีออเดอร์เข้ามาในวันนี้</div>
+                                            </div>
+                                        </div>  
+                                    </div>
                                 {% endif %}
                             </div>
                             <div class="tab-pane" id="tab2">
-                                {% if countOrd != 0 %}
+                                {% if countOrdWk != 0 %}
                                 <div class="row my-2">
                                     <div class="col-md-12">
                                         <div class="card">
@@ -148,11 +158,19 @@
                                     </div>
                                 </div>
                                 {% else %}
-                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามาในสัปดาห์นี้</div>
+                                <div class="container">
+                                    <div class="row justify-content-center align-items-center" style="height: 400px;">
+                                        <div class="col text-center justify-content-center">
+                                        <div><img src="/media/Image/icon/sad.png" style="width: 100px; height: 100px;"/></div>
+                                        <br />
+                                        <div>ยังไม่มีออเดอร์เข้ามาในสัปดาห์นี้</div>
+                                        </div>
+                                    </div>  
+                                </div>
                                 {% endif %}
                             </div>
                             <div class="tab-pane" id="tab3">
-                                {% if countOrd != 0 %}
+                                {% if countOrdM != 0 %}
                                 <div class="row my-2">
                                     <div class="col-md-12">
                                         <div class="card">
@@ -163,7 +181,15 @@
                                     </div>
                                 </div>
                                 {% else %}
-                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามาในเดือนนี้</div>
+                                <div class="container">
+                                    <div class="row justify-content-center align-items-center" style="height: 400px;">
+                                        <div class="col text-center justify-content-center">
+                                        <div><img src="/media/Image/icon/sad.png" style="width: 100px; height: 100px;"/></div>
+                                        <br />
+                                        <div>ยังไม่มีออเดอร์เข้ามาในเดือนนี้</div>
+                                        </div>
+                                    </div>  
+                                </div>
                                 {% endif %}
                             </div>
                         </div>

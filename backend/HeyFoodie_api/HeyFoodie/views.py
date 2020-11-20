@@ -80,20 +80,26 @@ from rest_framework import status
 def home(request):
     store = get_object_or_404(Store, pk=1)
     date = datetime.now().date()
+    
+    start_date = datetime(datetime.now().year, datetime.now().month, 1)
+    end_date = datetime(datetime.now().year, datetime.now().month+1 , 1) - timedelta(days=1)
+
     countOrd = Order.objects.filter(date__gte = datetime.now().date())
+    countOrdWk = Order.objects.filter(date__gte=datetime.today() - timedelta(days=datetime.today().weekday()))
+    countOrdM = Order.objects.filter(date__range=(start_date, end_date))
     countAllOrd = countOrd.filter(Q(order_status="COOKING") | Q(order_status="WAITING") | Q(order_status="READYTOPICKUP") | Q(order_status="DONE")).count()
     countPickOrd = countOrd.filter(order_status="READYTOPICKUP").count()
     countComOrd = countOrd.filter(order_status="DONE").count()
     income = Payment.objects.filter(Q(purchase_date__gte = datetime.now().date()) & Q(status="complete")).aggregate(Sum('amount'))
     order = Order.objects.order_by('-order_id')[:5]
     
-    return render(request, "index.html", {"store": store, "order": order, "countOrd": countAllOrd, "income": income, "countPickOrd": countPickOrd, "countComOrd": countComOrd,
+    return render(request, "index.html", {"store": store, "order": order, "countOrd": countAllOrd, "countOrdWk": countOrdWk, "countOrdM": countOrdM, "income": income, "countPickOrd": countPickOrd, "countComOrd": countComOrd,
         "date": date})
 
 def bestsellmenuday(request):
     labels = []
     data = []
-
+    
     queryset = Order_detail.objects.values('menu__name').annotate(count_menu=Count('menu')).order_by('-count_menu')
     queryset = queryset.filter(order__in=Order.objects.filter(date__gte = datetime.now().date()))
     for entry in queryset:
@@ -184,7 +190,9 @@ def change_password(request):
 def order(request):
     store = get_object_or_404(Store, pk=1)
     order = Order.objects.get_queryset().order_by("order_id")
-    order = order.filter(
+    orderToday = order.filter(date__gte=datetime.now().date())
+    countOrdToday = orderToday.count()
+    order = orderToday.filter(
         Q(order_status="COOKING")
         | Q(order_status="WAITING")
         | Q(order_status="READYTOPICKUP")
@@ -199,7 +207,7 @@ def order(request):
     return render(
         request,
         "order.html",
-        {"orders": orders, "od": orderdetail, "pm": payment, "store": store},
+        {"orders": orders, "ordToday": countOrdToday, "od": orderdetail, "pm": payment, "store": store},
     )
 
 
@@ -495,6 +503,9 @@ def editmenu_create(request):
             ingredient = form.cleaned_data.get("ingredient")
             salesize = form.cleaned_data.get("salesize")
             img = form.cleaned_data.get("image")
+            if not img:
+                img = 'Image/defaultmenu.jpg'
+
             obj = Menu.objects.create(name=name, category=category, image=img)
             obj.ingredient.set(ingredient)
             obj.salesize.set(salesize)
@@ -585,8 +596,14 @@ def editingredient_create(request):
     if request.method == "POST":
         form = IngredientForm(request.POST, request.FILES)
         if form.is_valid():
-            form.cleaned_data
-            form.save()
+            ingredient_name = form.cleaned_data.get("ingredient_name")
+            Ingredient_category = form.cleaned_data.get("Ingredient_category")
+            img = form.cleaned_data.get("image")
+            if not img:
+                img = 'Image/defaultmenu.jpg'
+
+            obj = Ingredient.objects.create(ingredient_name=ingredient_name, Ingredient_category=Ingredient_category, image=img)
+            obj.save()
             return redirect("editingredient")
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
