@@ -107,7 +107,7 @@ def bestsellmenuweek(request):
     data = []
 
     queryset = Order_detail.objects.values('menu__name').annotate(count_menu=Count('menu')).order_by('-count_menu')
-    queryset = queryset.filter(order__in=Order.objects.filter(date__gte=datetime.today() - timedelta(days=7)))
+    queryset = queryset.filter(order__in=Order.objects.filter(date__gte=datetime.today() - timedelta(days=datetime.today().weekday())))
     for entry in queryset:
         labels.append(entry['menu__name'])
         data.append(entry['count_menu'])
@@ -118,8 +118,11 @@ def bestsellmenumonth(request):
     labels = []
     data = []
 
+    start_date = datetime(datetime.now().year, datetime.now().month, 1)
+    end_date = datetime(datetime.now().year, datetime.now().month+1 , 1) - timedelta(days=1)
+
     queryset = Order_detail.objects.values('menu__name').annotate(count_menu=Count('menu')).order_by('-count_menu')
-    queryset = queryset.filter(order__in=Order.objects.filter(date__year=datetime.now().year, date__month= datetime.now().month))
+    queryset = queryset.filter(order__in=Order.objects.filter(date__range=(start_date, end_date)))
     for entry in queryset:
         labels.append(entry['menu__name'])
         data.append(entry['count_menu'])

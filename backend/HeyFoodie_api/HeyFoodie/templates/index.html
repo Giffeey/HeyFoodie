@@ -108,14 +108,14 @@
             <div class="container min-vh-100 d-flex flex-column" style="width: 80%;">
                     <div class="card card-default">
                         <ul id="tabsJustified" class="nav nav-tabs nav-justified">
-                            <li class="nav-item"  role="presentation">
-                                <a class="nav-link active" href="#tab1"  data-toggle="tab">รายวัน</a>
+                            <li class="nav-item" >
+                                <a class="nav-link active" href="#tab1"  data-toggle="tab">วันนี้</a>
                             </li>
-                            <li class="nav-item"  role="presentation">
-                                <a class="nav-link" href="#tab2" data-toggle="tab">รายสัปดาห์</a>
+                            <li class="nav-item"  >
+                                <a class="nav-link" href="#tab2" data-toggle="tab">สัปดาห์นี้</a>
                             </li>
-                            <li class="nav-item"  role="presentation">
-                                <a class="nav-link" href="#tab3" data-toggle="tab">รายเดือน</a>
+                            <li class="nav-item" >
+                                <a class="nav-link" href="#tab3" data-toggle="tab">เดือนนี้</a>
                             </li>
                         </ul>
                         <!--/tabs-->
@@ -133,7 +133,7 @@
                                     </div>
                                 </div>
                                 {% else %}
-                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามา</div>
+                                    <div class="text-center">ยังไม่มีออเดอร์เข้ามาในวันนี้</div>
                                 {% endif %}
                             </div>
                             <div class="tab-pane" id="tab2">
@@ -157,7 +157,7 @@
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-body">
-                                                <div><canvas id="chBarMonth" data-url="{% url 'bestsellmenumonth' %}"></canvas></div>
+                                                <canvas id="chBarMonth" data-url="{% url 'bestsellmenumonth' %}"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -228,6 +228,174 @@
           
 
     <!--/main col-->
-
+    <script>
+          $(document).ready(function () {
+          
+          var $bestsellmenu = $("#chBar");
+          $.ajax({
+            url: $bestsellmenu.data("url"),
+            success: function (data) {
+      
+              var ctx = $bestsellmenu[0];
+              Chart.defaults.global.defaultFontFamily = 'Kanit';
+          if(ctx){
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: data.labels,
+                  datasets: [{
+                    label: 'จำนวนครั้งที่สั่ง',
+                    backgroundColor: '#87bed3',
+                    data: data.data
+                  }]          
+                },
+                options: {
+                  responsive: true,
+                  legend: {
+                    position: 'top'
+                  },
+                  title: {
+                    display: true,
+                    text: 'กราฟแสดงเมนูที่ขายได้ในวันนี้',
+                    fontSize: 18
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              fontColor: "black",
+                              fontSize: 18,
+                              stepSize: 1,
+                              beginAtZero: true
+                          }
+                      }],
+                      xAxes: [{
+                          ticks: {
+                              fontColor: "black",
+                              fontSize: 14,
+                              stepSize: 1,
+                              beginAtZero: true
+                          }           
+                      }]
+                  }
+                }
+              });
+              }
+            }
+          });
+          
+        });
+      
+        $(document).ready(function () {
+                
+          var $bestsellmenu = $("#chBarWeek");
+          $.ajax({
+            url: $bestsellmenu.data("url"),
+            success: function (data) {
+      
+              var ctx = $bestsellmenu[0];
+              Chart.defaults.global.defaultFontFamily = 'Kanit';
+          
+              var bsm = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: data.labels,
+                  datasets: [{
+                    label: 'จำนวนครั้งที่สั่ง',
+                    backgroundColor: '#cd8dcd',
+                    data: data.data
+                  }]          
+                },
+                options: {
+                  responsive: true,
+                  legend: {
+                    position: 'top'
+                  },
+                  title: {
+                    display: true,
+                    text: 'กราฟแสดงเมนูที่ขายได้ในสัปดาห์นี้',
+                    fontSize: 18
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              fontColor: "black",
+                              fontSize: 18,
+                              stepSize: 1,
+                              beginAtZero: true
+                          }
+                      }],
+                      xAxes: [{
+                          ticks: {
+                              fontColor: "black",
+                              fontSize: 14,
+                              stepSize: 1,
+                              beginAtZero: true
+                          }           
+                      }]
+                  }
+                }
+              });
+              }
+            
+          });
+          
+        });
+      
+        $(document).ready(function () {
+                
+          var $bestsellmenu = $("#chBarMonth");
+          $.ajax({
+            url: $bestsellmenu.data("url"),
+            success: function (data) {
+      
+              var ctx = $bestsellmenu[0];
+              Chart.defaults.global.defaultFontFamily = 'Kanit';
+      
+              var bsmm = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: data.labels,
+                  datasets: [{
+                    label: 'จำนวนครั้งที่สั่ง',
+                    backgroundColor: '#eb5640',
+                    data: data.data
+                  }]          
+                },
+                options: {
+                  responsive: true,
+                  legend: {
+                    position: 'top'
+                  },
+                  title: {
+                    display: true,
+                    text: 'กราฟแสดงเมนูที่ขายได้ในเดือนนี้',
+                    fontSize: 18
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              fontColor: "black",
+                              fontSize: 18,
+                              stepSize: 1,
+                              beginAtZero: true
+                          }
+                      }],
+                      xAxes: [{
+                          ticks: {
+                              fontColor: "black",
+                              fontSize: 14,
+                              stepSize: 1,
+                              beginAtZero: true
+                          }           
+                      }]
+                  }
+                }
+              });
+              }
+            
+          });
+          
+        });
+    </script>
 
 {% endblock content %}
