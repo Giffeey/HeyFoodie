@@ -130,7 +130,6 @@ class Order_detail(models.Model):
     order_detail_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    ingredient = models.ManyToManyField(Ingredient)
     size = models.ForeignKey(SaleSize, on_delete=models.CASCADE, null=True)
     quantity = models.IntegerField(default=1)
 

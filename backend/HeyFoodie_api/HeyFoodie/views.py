@@ -27,7 +27,7 @@ from .serializers import (
     CustomerSerializer,
     PaymentSerializer,
 )
-from .form import (
+from .forms import (
     ProfileForm,
     MenuForm,
     StoreForm,
@@ -36,6 +36,7 @@ from .form import (
     IngredientCategoryForm,
     SalesizeForm,
 )
+
 from .models import (
     Category,
     Ingredient_Category,
@@ -49,22 +50,19 @@ from .models import (
     Payment,
     User,
 )
-from .models import Customer, SaleSize, Payment, User
+
 from .serializers import (
     MenuSerializer,
     CategorySerializer,
     IngredientCategorySerializer,
     IngredientSerializer,
     StoreSerializer,
-)
-from .serializers import (
     SalesizeSerializer,
     OrderSerializer,
     OrderDetailSerializer,
     CustomerSerializer,
     PaymentSerializer,
 )
-from .form import ProfileForm, MenuForm, StoreForm, CategoryForm, IngredientForm
 
 import json
 import logging

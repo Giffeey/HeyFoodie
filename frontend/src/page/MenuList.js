@@ -10,7 +10,6 @@ function MenuList() {
   const { cartStore } = useContext(storesContext)
   const [menus, setMenus] = useState([])
   const [store, setStore] = useState([])
-  const [owner, setOwner] = useState([])
   const [salesize, setSaleSize] = useState([])
   const [ingr, setIngr] = useState([])
 
@@ -43,13 +42,6 @@ function MenuList() {
 
   useEffect(() => {
     getStore().then((data) => setStore(data))
-  }, [])
-
-  const getOwner = () =>
-    fetch("http://127.0.0.1:8000/api/owner/1").then((res) => res.json())
-
-  useEffect(() => {
-    getOwner().then((data) => setOwner(data))
   }, [])
 
   const handleAddItemToCart = (data) => {
