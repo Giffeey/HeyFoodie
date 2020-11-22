@@ -84,7 +84,7 @@ class StoreSerializer(serializers.HyperlinkedModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = "__all__"
+        exclude = ["image"]
 
 
 class PaymentSerializer(serializers.ModelSerializer):

@@ -1,11 +1,14 @@
 import { observable, action, computed } from "mobx"
-
+import customerDataService from "../services/customer.service"
 export class UserStore {
   @observable user = null
   @observable customer = null
 
-  @action setUser(data) {
+  @action async setUser(data) {
+    const response = await customerDataService.create(data)
+    const customerResponse = response.data[0]
     this.user = data
+    this.customer = { id: customerResponse.pk, ...customerResponse.fields }
   }
 
   @action async signOut() {

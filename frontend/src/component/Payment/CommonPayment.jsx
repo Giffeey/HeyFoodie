@@ -31,7 +31,7 @@ export default function CommonPayment(props) {
     const orderMenu = {
       date: dayjs().toISOString(),
       order_status: "WAITING",
-      customer: 1,
+      customer: userStore.customer.id,
       menus: cartStore.currentCart.map((item) => {
         return {
           menu_id: item.menu_id,

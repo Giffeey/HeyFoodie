@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Router, navigate } from "@reach/router"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -13,12 +13,12 @@ import HistoryPage from "./page/HistoryPage"
 import { storesContext } from "./context"
 export default function App(props) {
   const { userStore } = useContext(storesContext)
+  const [isUpdated, setIsUpdated] = useState(true)
 
-  const storeProfile = (data) => {
-    console.log(data)
-
+  const storeProfile = async (data) => {
     if (data) {
-      userStore.setUser(data)
+      await userStore.setUser(data)
+      setIsUpdated(false)
     }
   }
   return (
@@ -34,26 +34,33 @@ export default function App(props) {
                       {({ loading, profile }) => {
                         if (!loading) {
                           storeProfile(profile)
-                          return (
-                            <>
-                              <Router>
-                                <MainLayout path="/" component={MenuList} />
-                                <MainLayout path="/menu" component={MenuList} />
-                                <MainLayout
-                                  path="/historypage"
-                                  component={HistoryPage}
-                                />
-                                <MainLayout
-                                  path="/paymentpage"
-                                  component={PaymentPage}
-                                />
-                                <MainLayout
-                                  path="/queuepage"
-                                  component={QueuePage}
-                                />
-                              </Router>
-                            </>
-                          )
+                          if (!isUpdated) {
+                            return (
+                              <>
+                                <Router>
+                                  <MainLayout path="/" component={MenuList} />
+                                  <MainLayout
+                                    path="/menu"
+                                    component={MenuList}
+                                  />
+                                  <MainLayout
+                                    path="/historypage"
+                                    component={HistoryPage}
+                                  />
+                                  <MainLayout
+                                    path="/paymentpage"
+                                    component={PaymentPage}
+                                  />
+                                  <MainLayout
+                                    path="/queuepage"
+                                    component={QueuePage}
+                                  />
+                                </Router>
+                              </>
+                            )
+                          } else {
+                            return <></>
+                          }
                         } else {
                           return <></>
                         }

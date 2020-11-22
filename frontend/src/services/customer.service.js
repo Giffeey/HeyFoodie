@@ -1,6 +1,6 @@
 import http from "../http-common"
 
-class orderDataService{
+class customerDataService{
     getAll() {
         return http.get("/customer");
     }
@@ -10,7 +10,7 @@ class orderDataService{
     }
 
     create(data) {
-        return http.post("/customer", data);
+        return http.post("/customer/", data);
     }
 
     update(id, data) {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useContext, useEffect } from "react"
 import Button from "react-bootstrap/Button"
 import { useState } from "react"
 import CommonCard from "../component/Common/CommonCard"
@@ -8,14 +8,16 @@ import orderService from "../services/order.service"
 import dayjs from "dayjs"
 import Accordion from "react-bootstrap/Accordion"
 import { useAccordionToggle } from "react-bootstrap/AccordionToggle"
+import { storesContext } from "../context"
 
 export default function QueuePage() {
   const [order, setOrder] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const { cartStore, userStore } = useContext(storesContext)
 
   const fetchOrder = async () => {
-    const response = await orderService.findByCustomerId(1)
+    const response = await orderService.findByCustomerId(userStore.customer?.id)
     console.log(response.data)
     setOrder(response.data)
   }
