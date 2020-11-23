@@ -58,12 +58,11 @@ class OrderSerializer(serializers.ModelSerializer):
 class OrderDetailSerializer(serializers.ModelSerializer):
     order = OrderSerializer()
     menu = MenuSerializer()
-    ingredient = IngredientSerializer(many=True)
     size = SalesizeSerializer()
 
     class Meta:
         model = Order_detail
-        fields = ("order_detail_id", "order", "menu", "ingredient", "size", "quantity")
+        fields = ("order_detail_id", "order", "menu", "size", "quantity")
 
 
 class StoreSerializer(serializers.HyperlinkedModelSerializer):

@@ -20,6 +20,7 @@ export default function App(props) {
       await userStore.setUser(data)
       setIsUpdated(false)
     }
+    setIsUpdated(false)
   }
   return (
     <div>

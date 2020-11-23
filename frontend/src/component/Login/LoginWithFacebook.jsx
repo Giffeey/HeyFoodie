@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react"
 import FacebookLogin from "react-facebook-login"
-import { FacebookProvider, Status } from "react-facebook"
 import { storesContext } from "../../context"
 
 export default function LoginWithFacebook(props) {
@@ -9,7 +8,6 @@ export default function LoginWithFacebook(props) {
   const responseFacebook = async (response) => {
     if (response) {
       userStore.setUser(response)
-      console.log(userStore.user.email)
     }
   }
 

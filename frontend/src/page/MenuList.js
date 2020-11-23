@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react"
-import Carousel from "react-bootstrap/Carousel"
 import Menu from "../component/Menu/Menu"
 import SlideMenu from "../component/Menu/SlideMenu"
 import { storesContext } from "../context"

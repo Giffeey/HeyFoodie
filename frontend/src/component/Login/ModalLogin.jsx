@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button"
 import { useState } from "react"
 import user from "../../img/icon/user.png"
 import LoginWithFacebook from "./LoginWithFacebook"
-import GoogleBtn from "./googleBtn"
 import { navigate } from "@reach/router"
 
 export default function ModalTest(props) {

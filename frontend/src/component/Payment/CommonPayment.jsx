@@ -13,20 +13,20 @@ import { navigate } from "@reach/router"
 export default function CommonPayment(props) {
   const { cartStore, userStore } = useContext(storesContext)
   const [showForm, setShowForm] = useState(false)
-  const handleShowForm = (boolean) => {
-    setShowForm(boolean)
-  }
+  // const handleShowForm = (boolean) => {
+  //   setShowForm(boolean)
+  // }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (showForm) {
-      const card = {
-        name: e.target.holder_name.value,
-        number: e.target.card_no.value,
-        expiration_month: e.target.expiration_month.value,
-        expiration_year: e.target.expiration_year.value,
-        security_code: e.target.security_code.value,
-      }
-    }
+    // if (showForm) {
+    //   const card = {
+    //     name: e.target.holder_name.value,
+    //     number: e.target.card_no.value,
+    //     expiration_month: e.target.expiration_month.value,
+    //     expiration_year: e.target.expiration_year.value,
+    //     security_code: e.target.security_code.value,
+    //   }
+    // }
 
     const orderMenu = {
       date: dayjs().toISOString(),
@@ -124,14 +124,14 @@ export default function CommonPayment(props) {
               <label className="form-check-label" htmlFor="exampleRadios2">
                 บัตรเครดิต/เดบิต (Debit/Credit Card)
               </label>
-              {showForm === true ? (
+              {/* {showForm === true ? (
                 <>
                   <CreditPaymentForm></CreditPaymentForm>
                   <br />
                 </>
               ) : (
                 ""
-              )}
+              )} */}
             </div>
           </div>
           <div className="row justify-content-center">

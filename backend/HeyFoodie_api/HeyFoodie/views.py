@@ -87,6 +87,12 @@ def home(request):
     )
 
     countOrd = Order.objects.filter(date__gte=datetime.now().date())
+    countOrdNow = countOrd.filter(
+        Q(order_status="COOKING")
+        | Q(order_status="WAITING")
+        | Q(order_status="READYTOPICKUP")
+        | Q(order_status="CANCEL")
+    ).count()
     countOrdWk = Order.objects.filter(
         date__gte=datetime.today() - timedelta(days=datetime.today().weekday())
     )
@@ -111,6 +117,7 @@ def home(request):
             "store": store,
             "order": order,
             "countOrd": countAllOrd,
+            "countOrdNow": countOrdNow,
             "countOrdWk": countOrdWk,
             "countOrdM": countOrdM,
             "income": income,
@@ -131,7 +138,7 @@ def bestsellmenuday(request):
         .order_by("-count_menu")
     )
     queryset = queryset.filter(
-        order__in=Order.objects.filter(date__gte=datetime.now().date())
+        order__in=Order.objects.filter(date__gte=datetime.now().date()).filter(~Q(order_status = "CANCEL"))
     )
     for entry in queryset:
         labels.append(entry["menu__name"])
@@ -149,16 +156,21 @@ def bestsellmenuweek(request):
     labels = []
     data = []
 
+    start = datetime.today() - timedelta(days=datetime.today().weekday())
+    start_date = datetime(start.year, start.month, start.day)
+    end = start_date + timedelta(days=6)
+    end_date = datetime(end.year, end.month, end.day)
+
     queryset = (
         Order_detail.objects.values("menu__name")
         .annotate(count_menu=Count("menu"))
         .order_by("-count_menu")
     )
+
     queryset = queryset.filter(
-        order__in=Order.objects.filter(
-            date__gte=datetime.today() - timedelta(days=datetime.today().weekday())
-        )
+        order__in=Order.objects.filter(date__range=(start_date, end_date)).filter(~Q(order_status = "CANCEL"))
     )
+
     for entry in queryset:
         labels.append(entry["menu__name"])
         data.append(entry["count_menu"])
@@ -176,9 +188,7 @@ def bestsellmenumonth(request):
     data = []
 
     start_date = datetime(datetime.now().year, datetime.now().month, 1)
-    end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(
-        days=1
-    )
+    end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(days=1)
 
     queryset = (
         Order_detail.objects.values("menu__name")
@@ -186,7 +196,7 @@ def bestsellmenumonth(request):
         .order_by("-count_menu")
     )
     queryset = queryset.filter(
-        order__in=Order.objects.filter(date__range=(start_date, end_date))
+        order__in=Order.objects.filter(date__range=(start_date, end_date)).filter(~Q(order_status = "CANCEL"))
     )
     for entry in queryset:
         labels.append(entry["menu__name"])
@@ -1051,9 +1061,8 @@ class ListOrderDetail(generics.ListCreateAPIView):
         payment = Payment.objects.create(
             order=orderResponse,
             amount=currentAmount,
-            method="Cash",
-            status="Watting",
-            purchase_date=data["date"],
+            method="CASH",
+            status="waiting"
         )
         payment.save()
 
