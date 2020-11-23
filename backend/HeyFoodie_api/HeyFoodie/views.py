@@ -87,12 +87,6 @@ def home(request):
     )
 
     countOrd = Order.objects.filter(date__gte=datetime.now().date())
-    countOrdNow = countOrd.filter(
-        Q(order_status="COOKING")
-        | Q(order_status="WAITING")
-        | Q(order_status="READYTOPICKUP")
-        | Q(order_status="CANCEL")
-    ).count()
     countOrdWk = Order.objects.filter(
         date__gte=datetime.today() - timedelta(days=datetime.today().weekday())
     )
@@ -117,7 +111,6 @@ def home(request):
             "store": store,
             "order": order,
             "countOrd": countAllOrd,
-            "countOrdNow": countOrdNow,
             "countOrdWk": countOrdWk,
             "countOrdM": countOrdM,
             "income": income,
@@ -267,6 +260,8 @@ def order(request):
     order = Order.objects.get_queryset().order_by("order_id")
     orderToday = order.filter(date__gte=datetime.now().date())
     countOrdToday = orderToday.count()
+    countOrdNow = orderToday.filter(~Q(order_status="DONE") & ~Q(order_status="CANCEL")).count()
+    print(countOrdNow)
     order = orderToday.filter(
         Q(order_status="COOKING")
         | Q(order_status="WAITING")
@@ -285,6 +280,7 @@ def order(request):
         {
             "orders": orders,
             "ordToday": countOrdToday,
+            "countOrdNow": countOrdNow,
             "od": orderdetail,
             "pm": payment,
             "store": store,
