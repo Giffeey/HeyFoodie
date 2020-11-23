@@ -14,7 +14,7 @@ export class UserStore {
   @action async signOut() {
     window.FB.logout(function (response) {
       console.log("logout")
-      document.location.reload()
+      document.location.href = "/"
     })
 
     // await window.FB.logout()

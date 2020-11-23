@@ -15,11 +15,22 @@ export default function QueuePage() {
   const [showForm, setShowForm] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const { cartStore, userStore } = useContext(storesContext)
-
+  const status = [
+    { key: "CANCEL", value: "0" },
+    { key: "WAITING", value: "25" },
+    { key: "COOKING", value: "50" },
+    { key: "READYTOPICKUP", value: "100" },
+    { key: "DONE", value: "100" },
+  ]
   const fetchOrder = async () => {
     const response = await orderService.findByCustomerId(userStore.customer?.id)
     console.log(response.data)
     setOrder(response.data)
+  }
+
+  const filterStatus = (itemStatus) => {
+    const result = status.filter((item) => item.key === itemStatus)
+    return result[0].value
   }
 
   useEffect(() => {
@@ -28,45 +39,64 @@ export default function QueuePage() {
 
   return (
     <>
-      <OrderAlert></OrderAlert>
-      {order.map((item) => (
-        <div className="card">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <h5>Order ID : {item.order_id}</h5>
-                <div className="progress">
-                  <div
-                    className="progress-bar w-50"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-                <p>Status : {item.order_status}</p>
-                <p>Date : {dayjs(item.date).format("DD/MM/YYYY h:m:s")}</p>
-                <div className="col-3 col-6">
-                  <Accordion defaultActiveKey="0">
-                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                      รายละเอียดคำสั่งซื้อ
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="1">
-                      <p>
-                        <ul>
-                          <div className="p-2">Flex item 1</div>
-                          <div className="p-2">Flex item 2</div>
-                          <div className="p-2">Flex item 3</div>
-                        </ul>
-                      </p>
-                    </Accordion.Collapse>
-                  </Accordion>
+      {order.length != 0 ? (
+        <>
+          <OrderAlert></OrderAlert>
+          {order.map((item) => (
+            <div className="card">
+              <div className="container">
+                <div className="row">
+                  <div className="col-12">
+                    <h5>Order ID : {item.order_id}</h5>
+                    <div className="progress">
+                      <div
+                        className={`progress-bar w-${filterStatus(
+                          item.order_status
+                        )}`}
+                        role="progressbar"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                    <p>Status : {item.order_status}</p>
+                    <p>Date : {dayjs(item.date).format("DD/MM/YYYY h:m:s")}</p>
+                    <div className="col-3 col-6">
+                      <Accordion defaultActiveKey="0">
+                        <Accordion.Toggle
+                          as={Button}
+                          variant="link"
+                          eventKey="1"
+                        >
+                          รายละเอียดคำสั่งซื้อ
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey="1">
+                          <p>
+                            <ul>
+                              <div className="p-2">Flex item 1</div>
+                              <div className="p-2">Flex item 2</div>
+                              <div className="p-2">Flex item 3</div>
+                            </ul>
+                          </p>
+                        </Accordion.Collapse>
+                      </Accordion>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          ))}
+        </>
+      ) : (
+        <>
+          <div className="card">
+            <div className="row justify-content-center">
+              <div className="col-3 p-0 text-center">
+                คุณไม่มีคำสั่งซื้อในขณะนี้
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
-
+        </>
+      )}
       <div className="row justify-content-center">
         <div className="col-3 p-0 text-center">
           <Button

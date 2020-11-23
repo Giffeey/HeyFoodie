@@ -11,7 +11,6 @@ export default function ModalTest(props) {
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  console.log(props.userStore.user)
   return (
     <>
       {props.userStore.user ? (
@@ -47,13 +46,23 @@ export default function ModalTest(props) {
               <div className="col-12 center">
                 <p>คุณสามารถดูสถานะคำสั่งซื้อได้ที่</p>
                 <h6>
-                  <a href="#" onClick={() => navigate("/queuepage")} className="tooltip-test" title="StatusOrder">
+                  <a
+                    href="#"
+                    onClick={() => navigate("/queuepage")}
+                    className="tooltip-test"
+                    title="StatusOrder"
+                  >
                     Status Order
                   </a>
                 </h6>
                 <p>คุณสามารถดูประวัติการซื้อย้อนหลังได้ที่</p>
                 <h6>
-                  <a href="#" onClick={() => navigate("/historypage")} className="tooltip-test" title="History">
+                  <a
+                    href="#"
+                    onClick={() => navigate("/historypage")}
+                    className="tooltip-test"
+                    title="History"
+                  >
                     History
                   </a>
                 </h6>
@@ -66,7 +75,7 @@ export default function ModalTest(props) {
             </>
           ) : (
             <div>
-              <LoginWithFacebook {...props} />
+              <LoginWithFacebook {...props} handleClose={handleClose} />
             </div>
           )}
         </Modal.Body>

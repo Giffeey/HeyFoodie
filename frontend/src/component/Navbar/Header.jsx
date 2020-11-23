@@ -33,6 +33,7 @@ import CartItem from "../Cart/CartItem"
 export default function Header(props) {
   const { cartStore, userStore } = useContext(storesContext)
   const [showCart, setShowCart] = useState(cartStore.currentCart)
+  const { salesizeStore } = useContext(storesContext)
 
   const handleRemoveCartIndex = (index) => {
     let carts = [...cartStore.currentCart]
@@ -156,7 +157,7 @@ export default function Header(props) {
   return (
     <Navbar collapseOnSelect expand="lg" className="food-navbar-expand-lg">
       <a className="navbar-brand" href="#" onClick={() => navigate("/")}>
-        {props.store?.storename || "Hey!Foodie"}
+        {salesizeStore.store?.storename || "Hey!Foodie"}
       </a>
 
       {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
