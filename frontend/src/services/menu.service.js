@@ -20,9 +20,5 @@ class menuDataService{
     delete(id) {
         return http.delete(`/menu/${id}`);
     }
-
-    findByTitle(title) {
-        return http.get(`/menu?titile=${title}`);
-    }
 }
 export default new menuDataService();

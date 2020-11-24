@@ -18,5 +18,6 @@ urlpatterns = [
     path('order/', views.ListOrder.as_view()),
     path('orderd/', views.ListOrderDetail.as_view()),
     path('payment/', views.ListPayment.as_view()),
+    path('history/', views.ListHistory.as_view())
     
 ]

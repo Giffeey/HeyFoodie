@@ -16,13 +16,5 @@ class customerDataService{
     update(id, data) {
         return http.put(`/customer/${id}`, data);
     }
-
-    delete(id) {
-        return http.delete(`/customer/${id}`);
-    }
-
-    findByTitle(title) {
-        return http.get(`/customer?titile=${title}`);
-    }
 }
 export default new customerDataService();

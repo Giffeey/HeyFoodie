@@ -21,8 +21,5 @@ class orderDetailDataService{
         return http.delete(`/orderd/${id}`);
     }
 
-    findByTitle(title) {
-        return http.get(`/orderd?titile=${title}`);
-    }
 }
 export default new orderDetailDataService();
