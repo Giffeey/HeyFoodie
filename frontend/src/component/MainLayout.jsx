@@ -4,10 +4,11 @@ import Footer from "./Footer"
 import Header from "./Navbar/Header"
 
 export default function MainLayout(props) {
-  const { forwardRef, useRef, useImperativeHandle } = React
-  const childRef = useRef()
+  const { salesizeStore } = useContext(storesContext)
   const { component: Child } = props
-
+  useEffect(() => {
+    salesizeStore.fetchStore()
+  }, [])
   return (
     <>
       <Header {...props}></Header>

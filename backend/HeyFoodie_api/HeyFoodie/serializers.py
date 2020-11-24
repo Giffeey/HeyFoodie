@@ -77,6 +77,15 @@ class StoreSerializer(serializers.HyperlinkedModelSerializer):
             "open_time",
             "close_time",
             "open_day",
+            "open_order",
+            "close_order",
+            "open_day",
+            "email",
+            "phone",
+            "fbpage",
+            "lineac",
+            "igac",
+            "address",
         )
 
 

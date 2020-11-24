@@ -7,7 +7,9 @@ export default function LoginWithFacebook(props) {
 
   const responseFacebook = async (response) => {
     if (response) {
-      userStore.setUser(response)
+      console.log(response)
+      await userStore.setUser(response)
+      props.handleClose()
     }
   }
 

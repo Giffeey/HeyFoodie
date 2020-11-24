@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext, useMemo } from "react"
 import place from "../img/icon/place.png"
 import line from "../img/icon/line.png"
 import fb from "../img/icon/fb.png"
@@ -6,20 +6,19 @@ import ig from "../img/icon/ig.png"
 import mail_outline from "../img/icon/mail_outline.png"
 import twitter from "../img/icon/twitter.png"
 import phone from "../img/icon/phone.png"
+import { storesContext } from "../context"
 
 export default function Footer(props) {
-  return (
-    <div>
-      <footer className="footer-foot">
+  const { salesizeStore } = useContext(storesContext)
+  const memoizedValue = useMemo(
+    () => (
+      <div>
+        <footer className="footer-foot">
           <div className="container-fluid text-center text-md-left">
             <div className="row">
               <div className="col-md-5 mt-md-0 mt-3">
-                <h5 className="text-store">Hey Foodie
-                  {/* {props.store?.storename} */}
-                  </h5>
-                <p>Make your food, make your smile
-                  {/* {props.store?.detail} */}
-                  </p>
+                <h5 className="text-store">{salesizeStore.store?.storename}</h5>
+                <p>{salesizeStore.store?.detail}</p>
               </div>
 
               <div className="col-md-3 mb-md-0 mb-3">
@@ -30,9 +29,7 @@ export default function Footer(props) {
                   </li>
                 </ul>
 
-                <p>
-                  437/87-88 Moo 9, Soi 6, Beach Road, Pattaya 20150 Thailand
-                </p>
+                <p>{salesizeStore.store?.address}</p>
               </div>
 
               <div className="col-md-3 mb-md-0 mb-3">
@@ -40,8 +37,7 @@ export default function Footer(props) {
                 <ul className="list-unstyled">
                   <li>
                     <img className="img-footer" src={phone} alt="phone-icon" />
-                    Phone: 091 - 2345678
-                    {/* {props.owner?.phone} */}
+                    {salesizeStore.store?.phone}
                   </li>
                   <li>
                     <img
@@ -49,13 +45,11 @@ export default function Footer(props) {
                       src={mail_outline}
                       alt="mail-icon"
                     />
-                    E-mail: Heyfoodie@store.com
-                    {/* {props.owner?.email} */}
+                    {salesizeStore.store?.email}
                   </li>
                   <li>
                     <img className="img-footer" src={line} alt="line-icon" />
-                    Line: @Heyfoodie
-                    {/* {props.owner?.phone} */}
+                    {salesizeStore.store?.lineac}
                   </li>
                 </ul>
               </div>
@@ -68,7 +62,10 @@ export default function Footer(props) {
             <img className="img-footer" src={twitter} alt="twitter-icon" />
             <img className="img-footer" src={ig} alt="ig-icon" />
           </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    ),
+    [salesizeStore.store]
   )
+  return <>{memoizedValue}</>
 }

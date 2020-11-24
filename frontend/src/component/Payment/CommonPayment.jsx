@@ -8,6 +8,7 @@ import { Form } from "react-bootstrap"
 import dayjs from "dayjs"
 import orderService from "../../services/orderDetail.service"
 import { navigate } from "@reach/router"
+
 // import CreditPaymentSubmit from "./CreditPaymentSubmit"
 
 export default function CommonPayment(props) {
@@ -18,54 +19,48 @@ export default function CommonPayment(props) {
   // }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // if (showForm) {
-    //   const card = {
-    //     name: e.target.holder_name.value,
-    //     number: e.target.card_no.value,
-    //     expiration_month: e.target.expiration_month.value,
-    //     expiration_year: e.target.expiration_year.value,
-    //     security_code: e.target.security_code.value,
-    //   }
-    // }
-
-    const orderMenu = {
-      date: dayjs().toISOString(),
-      order_status: "WAITING",
-      customer: userStore.customer.id,
-      menus: cartStore.currentCart.map((item) => {
-        return {
-          menu_id: item.menu_id,
-          name: item.name,
-          category: {
-            category_id: item.category.category_id,
-            category_name: item.category.category_name,
-          },
-          ingredient: item.ingredient.map((ing) => {
-            return {
-              Ingredient_category: {
-                ingredient_category_id:
-                  ing.Ingredient_category.ingredient_category_id,
-                name: ing.Ingredient_category.name,
-              },
-              ingredient_category_id: ing.ingredient_category_id,
-              name: ing.name,
-              image: ing.image,
-              ingredient_id: ing.ingredient_id,
-              ingredient_name: ing.ingredient_name,
-            }
-          }),
-          salesize: {
-            salesize_id: item.salesize_id,
-            size: item.size,
-            price: item.price,
-          },
-          quantity: item.quantity,
-          image: item.image,
-        }
-      }),
+    if (userStore.customer && userStore.user) {
+      const orderMenu = {
+        date: dayjs().toISOString(),
+        order_status: "WAITING",
+        customer: userStore.customer.id,
+        menus: cartStore.currentCart.map((item) => {
+          return {
+            menu_id: item.menu_id,
+            name: item.name,
+            category: {
+              category_id: item.category.category_id,
+              category_name: item.category.category_name,
+            },
+            ingredient: item.ingredient.map((ing) => {
+              return {
+                Ingredient_category: {
+                  ingredient_category_id:
+                    ing.Ingredient_category.ingredient_category_id,
+                  name: ing.Ingredient_category.name,
+                },
+                ingredient_category_id: ing.ingredient_category_id,
+                name: ing.name,
+                image: ing.image,
+                ingredient_id: ing.ingredient_id,
+                ingredient_name: ing.ingredient_name,
+              }
+            }),
+            salesize: {
+              salesize_id: item.salesize_id,
+              size: item.size,
+              price: item.price,
+            },
+            quantity: item.quantity,
+            image: item.image,
+          }
+        }),
+      }
+      await orderService.create(orderMenu)
+      navigate("/queuepage")
+    } else {
+      alert("กรุณา login ก่อน")
     }
-    await orderService.create(orderMenu)
-    navigate("/queuepage")
   }
 
   return (

@@ -1,13 +1,15 @@
 import { observable, action, computed } from "mobx"
+import storeDataService from "../services/store.service"
 
 export class SalesizeStore {
-  @observable salesize = []
+  @observable store = {}
 
-  @computed get currentSalesize() {
-    return this.salesize
+  @action seStore(data) {
+    this.store = data
   }
 
-  @action setSalesize(data) {
-    this.salesize = data
+  @action async fetchStore() {
+    const response = await storeDataService.get(1)
+    this.seStore(response.data)
   }
 }
