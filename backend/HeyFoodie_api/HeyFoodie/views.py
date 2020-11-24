@@ -51,6 +51,7 @@ from .models import (
     SaleSize,
     Payment,
     User,
+    History
 )
 
 from .serializers import (
@@ -315,6 +316,9 @@ def changeStatus(request, pk):
 
             order.order_status = "DONE"
             order.save()
+            
+            history = History.objects.create(customer=order.customer, payment=payment)
+            history.save()
             return redirect("order")
         else:
             print("complete")
