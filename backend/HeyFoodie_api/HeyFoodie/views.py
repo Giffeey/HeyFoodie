@@ -28,6 +28,7 @@ from .serializers import (
     OrderDetailSerializer,
     CustomerSerializer,
     PaymentSerializer,
+    HistorySerializer
 )
 from .forms import (
     ProfileForm,
@@ -51,6 +52,7 @@ from .models import (
     SaleSize,
     Payment,
     User,
+    History
 )
 
 from .serializers import (
@@ -315,6 +317,9 @@ def changeStatus(request, pk):
 
             order.order_status = "DONE"
             order.save()
+            
+            history = History.objects.create(customer=order.customer, payment=payment)
+            history.save()
             return redirect("order")
         else:
             print("complete")
@@ -1069,6 +1074,15 @@ class ListPayment(generics.ListCreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
+class ListHistory(generics.ListCreateAPIView):
+    queryset = History.objects.all()
+    serializer_class = HistorySerializer
+
+    def get_queryset(self):
+        customer_id = self.request.query_params.get("customer_id")
+        historyResponse = History.objects.filter(customer=customer_id)
+        
+        return historyResponse    
 
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter

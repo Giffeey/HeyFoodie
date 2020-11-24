@@ -21,9 +21,6 @@ class orderDataService{
         return http.delete(`/order/${id}`);
     }
 
-    findByTitle(title) {
-        return http.get(`/order?titile=${title}`);
-    }
     findByCustomerId(id) {
         return http.get(`/order?customer_id=${id}`);
     }

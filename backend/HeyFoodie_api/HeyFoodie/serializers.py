@@ -9,6 +9,7 @@ from .models import (
     Order,
     Order_detail,
     Customer,
+    History
 )
 from .models import SaleSize, Payment
 
@@ -98,4 +99,9 @@ class CustomerSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
+        fields = "__all__"
+
+class HistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = History
         fields = "__all__"

@@ -72,14 +72,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost:8000",
     "http://localhost:8080",
-    "http://mydm.heyfoodie.com:3000",
-    "http://mydm.heyfoodie.com:8000",
 ]
 
 ROOT_URLCONF = "HeyFoodie_api.urls"
