@@ -91,8 +91,8 @@ def home(request):
     countOrd = Order.objects.filter(date__gte=datetime.now().date())
     countOrdWk = Order.objects.filter(
         date__gte=datetime.today() - timedelta(days=datetime.today().weekday())
-    ).count()
-    countOrdM = Order.objects.filter(date__range=(start_date, end_date)).count()
+    )
+    countOrdM = Order.objects.filter(date__range=(start_date, end_date))
     countAllOrd = countOrd.filter(
         Q(order_status="COOKING")
         | Q(order_status="WAITING")
@@ -882,7 +882,6 @@ def createIngredient(request):
 def createIngCategory(request):
     if request.method == "POST":
         form = IngredientCategoryForm(request.POST)
-        print(form)
         if form.is_valid():
             form.cleaned_data
             form.save()
@@ -1083,16 +1082,13 @@ class ListPayment(generics.ListCreateAPIView):
 
 
 class ListHistory(generics.ListCreateAPIView):
-    queryset = History.objects.all()
-    serializer_class = HistorySerializer
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
     def get_queryset(self):
-        print("?")
-        customer_id = self.request.query_params.get("customer_id")
-        customer = Customer
-        customer.setId(customer_id)
-        historyResponse = History.objects.filter(customer=customer)
-        return historyResponse
+        customer_id = self.request.query_params.get("customer")
+        ordersResponse = Order.objects.filter(customer_id=customer_id).order_by("-date")
+        return ordersResponse
 
 
 class FacebookLogin(SocialLoginView):

@@ -4,12 +4,14 @@ import { navigate } from "@reach/router"
 import Button from "react-bootstrap/Button"
 import historyDataService from "../services/history.service"
 import { storesContext } from "../context"
+import dayjs from "dayjs"
 export default function HistoryPage() {
-  const [Histories, setHistories] = useState([])
+  const [histories, setHistories] = useState([])
   const { userStore } = useContext(storesContext)
 
-  useEffect(() => {
-    const response = historyDataService.getAll(userStore.customer.id)
+  useEffect(async () => {
+    const response = await historyDataService.getAll(userStore.customer.id)
+    setHistories(response.data)
   }, [])
 
   return (
@@ -27,12 +29,14 @@ export default function HistoryPage() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
+              {histories.map((item) => (
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{item.order_id}</td>
+                  <td>{dayjs(item.date).format("DD-MM-YYYY HH:mm:ss")}</td>
+                  <td>{item.order_status}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
