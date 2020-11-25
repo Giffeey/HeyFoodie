@@ -59,7 +59,7 @@ export default function QueuePage() {
                       ></div>
                     </div>
                     <p>Status : {item.order_status}</p>
-                    <p>Date : {dayjs(item.date).format("DD/MM/YYYY h:m:s")}</p>
+                    <p>Date : {dayjs(item.date).format("DD/MM/YYYY HH:mm:ss")}</p>
                     <div className="col-3 col-6">
                       <Accordion defaultActiveKey="0">
                         <Accordion.Toggle

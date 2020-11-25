@@ -67,7 +67,7 @@ export default function CommonPayment(props) {
     <>
       <CommonCard>
         <Form onSubmit={handleSubmit} id="checkout">
-          <h5 className="">รายการสั่งซื้อ</h5>
+          <h4 className="">รายการสั่งซื้อ</h4>
           {cartStore.currentCart.length >= 1 ? (
             <div>
               <div>
@@ -76,14 +76,14 @@ export default function CommonPayment(props) {
                   <CheckoutList key={index} menu={menu} />
                 ))}
               </div>
-              <p className="d-flex justify-content-end p-2 bd-highlight">
+              <h5 className="d-flex justify-content-end p-2 bd-highlight">
                 รวม :{" "}
                 {cartStore.currentCart.length != 0 &&
                   cartStore.currentCart
                     .map((item) => item.price * item.quantity)
                     .reduce((totalPrice, price) => price + totalPrice)}{" "}
                 .00 ฿
-              </p>
+              </h5>
             </div>
           ) : (
             <div className="text-center">
@@ -91,7 +91,7 @@ export default function CommonPayment(props) {
             </div>
           )}
           <div>
-            <h5 className="">วิธีการชำระเงิน</h5>
+            <h4 className="">วิธีการชำระเงิน</h4>
             <div className="form-check">
               <input
                 className="form-check-input"
@@ -129,6 +129,7 @@ export default function CommonPayment(props) {
               )} */}
             </div>
           </div>
+          <br/>
           <div className="row justify-content-center">
             <div className="col-3 p-0 text-center">
               <Button
