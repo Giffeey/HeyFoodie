@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "tempus_dominus",
     "multiselectfield",
     "corsheaders",
+    "django_heroku"
     "HeyFoodie",
 ]
 
