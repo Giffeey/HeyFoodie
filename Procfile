@@ -1,1 +1,0 @@
-web: gunicorn backend.HeyFoodie_api.HeyFoodie_api.wsgi --log-file -
