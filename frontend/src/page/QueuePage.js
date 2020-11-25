@@ -5,6 +5,7 @@ import CommonCard from "../component/Common/CommonCard"
 import { navigate } from "@reach/router"
 import OrderAlert from "../component/OrderConfirm/OrderAlert"
 import orderService from "../services/order.service"
+import orderDataService from "../services/orderDetail.service"
 import dayjs from "dayjs"
 import Accordion from "react-bootstrap/Accordion"
 import { useAccordionToggle } from "react-bootstrap/AccordionToggle"
@@ -23,9 +24,17 @@ export default function QueuePage() {
     { key: "DONE", value: "100" },
   ]
   const fetchOrder = async () => {
-    const response = await orderService.findByCustomerId(userStore.customer?.id)
-    console.log(response.data)
-    setOrder(response.data)
+    const responseOrder = await orderService.findByCustomerId(
+      userStore.customer?.id
+    )
+    const responseOrderDetail = await orderDataService.getAll()
+    const data = responseOrder.data.map((order) => {
+      const orderDetails = responseOrderDetail.data.filter(
+        (detail) => detail.order.order_id == order.order_id
+      )
+      return { ...order, orderDetails }
+    })
+    setOrder(data)
   }
 
   const filterStatus = (itemStatus) => {
@@ -59,7 +68,9 @@ export default function QueuePage() {
                       ></div>
                     </div>
                     <p>Status : {item.order_status}</p>
-                    <p>Date : {dayjs(item.date).format("DD/MM/YYYY HH:mm:ss")}</p>
+                    <p>
+                      Date : {dayjs(item.date).format("DD/MM/YYYY HH:mm:ss")}
+                    </p>
                     <div className="col-3 col-6">
                       <Accordion defaultActiveKey="0">
                         <Accordion.Toggle
@@ -72,9 +83,20 @@ export default function QueuePage() {
                         <Accordion.Collapse eventKey="1">
                           <p>
                             <ul>
-                              <div className="p-2">Flex item 1</div>
-                              <div className="p-2">Flex item 2</div>
-                              <div className="p-2">Flex item 3</div>
+                              {item.orderDetails?.map((orderDetail) => (
+                                <div className="d-flex justify-content-between">
+                                  <div className="p-2">
+                                    {orderDetail.menu.name}&nbsp; (
+                                    {orderDetail.size.size})
+                                  </div>
+                                  <div className="p-2">
+                                    x {orderDetail.quantity}
+                                  </div>
+                                  <div className="p-2">
+                                    {orderDetail.size.price}฿
+                                  </div>
+                                </div>
+                              ))}
                             </ul>
                           </p>
                         </Accordion.Collapse>

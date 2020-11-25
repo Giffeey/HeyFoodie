@@ -11,9 +11,11 @@ class CheckoutList extends Component {
             {/* <div><img src={this.props.menu.image} alt='image_menu' height='150px' width='245px'></img></div> */}
             <li className="list-group-item">
               <h5>{this.props.menu.name}</h5>
-              <div>ขนาด : {this.props.menu.size}
+              <div className="d-flex justify-content-between">
+                <div className="p-2">ขนาด : {this.props.menu.size}</div>
+                <div className="p-2">x {this.props.menu.quantity}</div>
+                <div className="p-2">ราคา {this.props.menu.price} ฿</div>
               </div>
-              <div>ราคา {this.props.menu.price} ฿</div>
               <hr />
             </li>
           </ul>

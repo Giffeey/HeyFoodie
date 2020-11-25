@@ -28,7 +28,7 @@ from .serializers import (
     OrderDetailSerializer,
     CustomerSerializer,
     PaymentSerializer,
-    HistorySerializer
+    HistorySerializer,
 )
 from .forms import (
     ProfileForm,
@@ -52,7 +52,7 @@ from .models import (
     SaleSize,
     Payment,
     User,
-    History
+    History,
 )
 
 from .serializers import (
@@ -133,7 +133,9 @@ def bestsellmenuday(request):
         .order_by("-count_menu")
     )
     queryset = queryset.filter(
-        order__in=Order.objects.filter(date__gte=datetime.now().date()).filter(~Q(order_status = "CANCEL"))
+        order__in=Order.objects.filter(date__gte=datetime.now().date()).filter(
+            ~Q(order_status="CANCEL")
+        )
     )
     for entry in queryset:
         labels.append(entry["menu__name"])
@@ -163,7 +165,9 @@ def bestsellmenuweek(request):
     )
 
     queryset = queryset.filter(
-        order__in=Order.objects.filter(date__range=(start_date, end_date)).filter(~Q(order_status = "CANCEL"))
+        order__in=Order.objects.filter(date__range=(start_date, end_date)).filter(
+            ~Q(order_status="CANCEL")
+        )
     )
 
     for entry in queryset:
@@ -183,7 +187,9 @@ def bestsellmenumonth(request):
     data = []
 
     start_date = datetime(datetime.now().year, datetime.now().month, 1)
-    end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(days=1)
+    end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(
+        days=1
+    )
 
     queryset = (
         Order_detail.objects.values("menu__name")
@@ -191,7 +197,9 @@ def bestsellmenumonth(request):
         .order_by("-count_menu")
     )
     queryset = queryset.filter(
-        order__in=Order.objects.filter(date__range=(start_date, end_date)).filter(~Q(order_status = "CANCEL"))
+        order__in=Order.objects.filter(date__range=(start_date, end_date)).filter(
+            ~Q(order_status="CANCEL")
+        )
     )
     for entry in queryset:
         labels.append(entry["menu__name"])
@@ -262,7 +270,9 @@ def order(request):
     order = Order.objects.get_queryset().order_by("order_id")
     orderToday = order.filter(date__gte=datetime.now().date())
     countOrdToday = orderToday.count()
-    countOrdNow = orderToday.filter(~Q(order_status="DONE") & ~Q(order_status="CANCEL")).count()
+    countOrdNow = orderToday.filter(
+        ~Q(order_status="DONE") & ~Q(order_status="CANCEL")
+    ).count()
     print(countOrdNow)
     order = orderToday.filter(
         Q(order_status="COOKING")
@@ -317,7 +327,7 @@ def changeStatus(request, pk):
 
             order.order_status = "DONE"
             order.save()
-            
+
             history = History.objects.create(customer=order.customer, payment=payment)
             history.save()
             return redirect("order")
@@ -1006,7 +1016,6 @@ class ListCustomer(generics.ListCreateAPIView):
         return HttpResponse(response, content_type="text/json-comment-filtered")
 
 
-
 class ListOrder(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -1060,10 +1069,7 @@ class ListOrderDetail(generics.ListCreateAPIView):
         Order_detail_Response.save()
 
         payment = Payment.objects.create(
-            order=orderResponse,
-            amount=currentAmount,
-            method="CASH",
-            status="waiting"
+            order=orderResponse, amount=currentAmount, method="CASH", status="waiting"
         )
         payment.save()
 
@@ -1074,15 +1080,19 @@ class ListPayment(generics.ListCreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
+
 class ListHistory(generics.ListCreateAPIView):
     queryset = History.objects.all()
     serializer_class = HistorySerializer
 
     def get_queryset(self):
+        print("?")
         customer_id = self.request.query_params.get("customer_id")
-        historyResponse = History.objects.filter(customer=customer_id)
-        
-        return historyResponse    
+        customer = Customer
+        customer.setId(customer_id)
+        historyResponse = History.objects.filter(customer=customer)
+        return historyResponse
+
 
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter

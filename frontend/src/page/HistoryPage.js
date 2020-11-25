@@ -1,9 +1,17 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import CommonCard from "../component/Common/CommonCard"
 import { navigate } from "@reach/router"
 import Button from "react-bootstrap/Button"
-
+import historyDataService from "../services/history.service"
+import { storesContext } from "../context"
 export default function HistoryPage() {
+  const [Histories, setHistories] = useState([])
+  const { userStore } = useContext(storesContext)
+
+  useEffect(() => {
+    const response = historyDataService.getAll(userStore.customer.id)
+  }, [])
+
   return (
     <CommonCard>
       <div className="row">
@@ -14,8 +22,8 @@ export default function HistoryPage() {
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Order ID</th>
-                <th scope="col">วันที่</th>
-                <th scope="col">รายละเอียด</th>
+                <th scope="col">วันที่และเวลา</th>
+                <th scope="col">สถานะคำสั่งซื้อ</th>
               </tr>
             </thead>
             <tbody>
@@ -24,18 +32,6 @@ export default function HistoryPage() {
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
               </tr>
             </tbody>
           </table>

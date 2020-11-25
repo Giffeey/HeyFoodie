@@ -13,7 +13,7 @@ import plus from "../../img/icon/plus.png"
 import Button from "react-bootstrap/Button"
 import cart from "../../img/icon/cart.png"
 import { navigate } from "@reach/router"
-import {FaBars,FaTimes } from "react-icons/fa"
+import { FaBars, FaTimes } from "react-icons/fa"
 
 import {
   Badge,
@@ -31,9 +31,11 @@ import Payment from "../../page/PaymentPage"
 import CartItem from "../Cart/CartItem"
 
 export default function Header(props) {
-  const { cartStore, userStore } = useContext(storesContext)
+  const { cartStore, userStore, salesizeStore } = useContext(storesContext)
   const [showCart, setShowCart] = useState(cartStore.currentCart)
-  const { salesizeStore } = useContext(storesContext)
+  const today = new Date()
+  const timeNow =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
 
   const handleRemoveCartIndex = (index) => {
     let carts = [...cartStore.currentCart]
@@ -76,20 +78,23 @@ export default function Header(props) {
 
   const renderShowCart = useMemo(
     () => (
-      <Button
-        className="btn-cart"
-        id="UncontrolledPopover"
-        onClick={() => setShowCart(cartStore.currentCart)}
-        type="button"
-      >
-        <img className="nav-cart" src={cart} alt="img-cart"></img>
-        <span className="badge badge-secondary badge-pill badge-bottom">
-          {showCart.length != 0 &&
-            showCart
-              .map((item) => item.quantity)
-              .reduce((count, quantity) => count + quantity)}
-        </span>
-      </Button>
+      <>
+        {salesizeStore.store?.close_order > timeNow}
+        <Button
+          className="btn-cart"
+          id="UncontrolledPopover"
+          onClick={() => setShowCart(cartStore.currentCart)}
+          type="button"
+        >
+          <img className="nav-cart" src={cart} alt="img-cart"></img>
+          <span className="badge badge-secondary badge-pill badge-bottom">
+            {showCart.length != 0 &&
+              showCart
+                .map((item) => item.quantity)
+                .reduce((count, quantity) => count + quantity)}
+          </span>
+        </Button>
+      </>
     ),
     [showCart]
   )
