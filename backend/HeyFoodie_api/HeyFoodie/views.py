@@ -91,8 +91,8 @@ def home(request):
     countOrd = Order.objects.filter(date__gte=datetime.now().date())
     countOrdWk = Order.objects.filter(
         date__gte=datetime.today() - timedelta(days=datetime.today().weekday())
-    )
-    countOrdM = Order.objects.filter(date__range=(start_date, end_date))
+    ).count()
+    countOrdM = Order.objects.filter(date__range=(start_date, end_date)).count()
     countAllOrd = countOrd.filter(
         Q(order_status="COOKING")
         | Q(order_status="WAITING")
@@ -872,6 +872,7 @@ def createIngredient(request):
 def createIngCategory(request):
     if request.method == "POST":
         form = IngredientCategoryForm(request.POST)
+        print(form)
         if form.is_valid():
             form.cleaned_data
             form.save()
