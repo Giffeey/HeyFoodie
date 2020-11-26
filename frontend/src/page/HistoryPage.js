@@ -9,9 +9,15 @@ export default function HistoryPage() {
   const [histories, setHistories] = useState([])
   const { userStore } = useContext(storesContext)
 
-  useEffect(async () => {
-    const response = await historyDataService.getAll(userStore.customer.id)
-    setHistories(response.data)
+  const fetchHistory = async () => {
+    if (userStore.customer) {
+      const response = await historyDataService.getAll(userStore.customer.id)
+      setHistories(response.data)
+    }
+  }
+
+  useEffect(() => {
+    fetchHistory()
   }, [])
 
   return (
@@ -22,7 +28,6 @@ export default function HistoryPage() {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Order ID</th>
                 <th scope="col">วันที่และเวลา</th>
                 <th scope="col">สถานะคำสั่งซื้อ</th>
@@ -31,7 +36,6 @@ export default function HistoryPage() {
             <tbody>
               {histories.map((item) => (
                 <tr>
-                  <th scope="row">1</th>
                   <td>{item.order_id}</td>
                   <td>{dayjs(item.date).format("DD-MM-YYYY HH:mm:ss")}</td>
                   <td>{item.order_status}</td>

@@ -107,7 +107,6 @@ export default function Header(props) {
             {showCart.map((item, index) => {
               return (
                 <div>
-                  {console.log(cartStore.currentCart)}
                   <p>{item.name}</p>
                   <p>หมวดหมู่ : {item.category?.category_name}</p>
                   <p>ขนาด : {item.size}</p>
@@ -161,7 +160,7 @@ export default function Header(props) {
 
   return (
     <Navbar collapseOnSelect expand="lg" className="food-navbar-expand-lg">
-      <a className="navbar-brand" href="#" onClick={() => navigate("/")}>
+      <a className="navbar-brand" onClick={() => navigate("/")}>
         {salesizeStore.store?.storename || "Hey!Foodie"}
       </a>
 

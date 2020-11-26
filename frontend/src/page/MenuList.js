@@ -4,43 +4,18 @@ import SlideMenu from "../component/Menu/SlideMenu"
 import { storesContext } from "../context"
 import menuDataService from "../services/menu.service"
 
-
 function MenuList() {
   const { cartStore } = useContext(storesContext)
   const [menus, setMenus] = useState([])
-  const [store, setStore] = useState([])
-  const [salesize, setSaleSize] = useState([])
-  const [ingr, setIngr] = useState([])
 
-// use Axios
+  // use Axios
   const fetchMenus = async () => {
     const response = await menuDataService.getAll()
     setMenus(response.data)
   }
-  
+
   useEffect(() => {
     fetchMenus()
-  }, [])
-
-  const getSaleSize = () =>
-    fetch("http://127.0.0.1:8000/api/salesize/").then((res) => res.json())
-
-  useEffect(() => {
-    getSaleSize().then((data) => setSaleSize(data))
-  }, [])
-
-  const getIngr = () =>
-    fetch("http://127.0.0.1:8000/api/ingredient/").then((res) => res.json())
-
-  useEffect(() => {
-    getIngr().then((data) => setIngr(data))
-  }, [])
-
-  const getStore = () =>
-    fetch("http://127.0.0.1:8000/api/store/1").then((res) => res.json())
-
-  useEffect(() => {
-    getStore().then((data) => setStore(data))
   }, [])
 
   const handleAddItemToCart = (data) => {
@@ -78,8 +53,6 @@ function MenuList() {
             key={index}
             handleAddItemToCart={handleAddItemToCart}
             menu={menu}
-            salesize={salesize}
-            ingr={ingr}
           />
         ))}
       </div>

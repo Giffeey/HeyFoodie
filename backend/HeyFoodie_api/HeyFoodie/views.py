@@ -1022,7 +1022,7 @@ class ListOrder(generics.ListCreateAPIView):
 
     def get_queryset(self):
         customer_id = self.request.query_params.get("customer_id")
-        ordersResponse = Order.objects.filter(customer_id=customer_id).exclude(
+        ordersResponse = Order.objects.filter(customer_id=customer_id,date__gte=datetime.now().date()).exclude(
             order_status="DONE"
         )
         return ordersResponse
@@ -1087,7 +1087,7 @@ class ListHistory(generics.ListCreateAPIView):
 
     def get_queryset(self):
         customer_id = self.request.query_params.get("customer")
-        ordersResponse = Order.objects.filter(customer_id=customer_id).order_by("-date")
+        ordersResponse = Order.objects.filter(customer_id=customer_id).order_by("-date").exclude(order_status="WAITING").exclude(order_status="COOKING").exclude(order_status="READYTOPICKUP")
         return ordersResponse
 
 

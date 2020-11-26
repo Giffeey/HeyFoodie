@@ -180,6 +180,7 @@
   font-size: 30px !important;
   margin-left: 50px !important;
   color: white !important;
+  cursor: pointer !important;
 }
 
 .navbar-link {
