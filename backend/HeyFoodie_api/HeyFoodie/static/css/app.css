@@ -2,6 +2,7 @@ html, body{
     height:100%;
     max-width: 100%;
     overflow-x: hidden;
+    font-family: "Kanit", sans-serif;
 }
 
 .navbar {
@@ -15,13 +16,6 @@ html, body{
 
 .navbar-brand {
     margin-left: 20px;
-    color: white !important;
-}
-
-.navbar-brand img{
-    border-radius: 50%;
-    width: 35px;
-    height: 35px
 }
 
 .navbar-nav li{
@@ -61,7 +55,6 @@ html, body{
     padding-top: 40px;
     padding-bottom: 40px;
     position: relative;
-    font-family: "Kanit", sans-serif;
 }
 
 .content h2{
