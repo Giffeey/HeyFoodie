@@ -59,7 +59,7 @@ export default function CommonPayment(props) {
       await orderService.create(orderMenu)
       navigate("/queuepage")
     } else {
-      alert("กรุณา login ก่อน")
+      alert("กรุณา Login ก่อนทำการสั่งซื้อสินค้า")
     }
   }
 

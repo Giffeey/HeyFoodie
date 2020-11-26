@@ -6,9 +6,7 @@ import Header from "./Navbar/Header"
 export default function MainLayout(props) {
   const { salesizeStore } = useContext(storesContext)
   const { component: Child } = props
-  useEffect(() => {
-    salesizeStore.fetchStore()
-  }, [])
+
   return (
     <>
       <Header {...props}></Header>

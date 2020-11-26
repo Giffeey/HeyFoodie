@@ -1,9 +1,19 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import CommonCard from "../component/Common/CommonCard"
 import { navigate } from "@reach/router"
 import Button from "react-bootstrap/Button"
-
+import historyDataService from "../services/history.service"
+import { storesContext } from "../context"
+import dayjs from "dayjs"
 export default function HistoryPage() {
+  const [histories, setHistories] = useState([])
+  const { userStore } = useContext(storesContext)
+
+  useEffect(async () => {
+    const response = await historyDataService.getAll(userStore.customer.id)
+    setHistories(response.data)
+  }, [])
+
   return (
     <CommonCard>
       <div className="row">
@@ -14,29 +24,19 @@ export default function HistoryPage() {
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Order ID</th>
-                <th scope="col">วันที่</th>
-                <th scope="col">รายละเอียด</th>
+                <th scope="col">วันที่และเวลา</th>
+                <th scope="col">สถานะคำสั่งซื้อ</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              {histories.map((item) => (
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{item.order_id}</td>
+                  <td>{dayjs(item.date).format("DD-MM-YYYY HH:mm:ss")}</td>
+                  <td>{item.order_status}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
