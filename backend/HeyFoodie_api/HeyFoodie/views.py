@@ -78,49 +78,52 @@ import logging
 from rest_framework import status
 
 
-@login_required
+def index(request):
+    return render(request, "index.html")
+
+
 def home(request):
-    store = get_object_or_404(Store, pk=1)
-    date = datetime.now().date()
+    if request.user.is_authenticated:
+        store = get_object_or_404(Store, pk=1)
+        date = datetime.now().date()
 
-    start_date = datetime(datetime.now().year, datetime.now().month, 1)
-    end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(
-        days=1
-    )
+        start_date = datetime(datetime.now().year, datetime.now().month, 1)
+        end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(days=1)
 
-    countOrd = Order.objects.filter(date__gte=datetime.now().date())
-    countOrdWk = Order.objects.filter(
-        date__gte=datetime.today() - timedelta(days=datetime.today().weekday())
-    )
-    countOrdM = Order.objects.filter(date__range=(start_date, end_date))
-    countAllOrd = countOrd.filter(
-        Q(order_status="COOKING")
-        | Q(order_status="WAITING")
-        | Q(order_status="READYTOPICKUP")
-        | Q(order_status="DONE")
-    ).count()
-    countPickOrd = countOrd.filter(order_status="READYTOPICKUP").count()
-    countComOrd = countOrd.filter(order_status="DONE").count()
-    income = Payment.objects.filter(
-        Q(purchase_date__gte=datetime.now().date()) & Q(status="complete")
-    ).aggregate(Sum("amount"))
-    order = Order.objects.order_by("-order_id")[:5]
+        countOrd = Order.objects.filter(date__gte=datetime.now().date())
+        countOrdWk = Order.objects.filter(date__gte=datetime.today() - timedelta(days=datetime.today().weekday())).count()
+        countOrdM = Order.objects.filter(date__range=(start_date, end_date)).count()
+        countAllOrd = countOrd.filter(
+            Q(order_status="COOKING")
+            | Q(order_status="WAITING")
+            | Q(order_status="READYTOPICKUP")
+            | Q(order_status="DONE")
+        ).count()
+        countPickOrd = countOrd.filter(order_status="READYTOPICKUP").count()
+        countComOrd = countOrd.filter(order_status="DONE").count()
+        income = Payment.objects.filter(
+            Q(purchase_date__gte=datetime.now().date()) & Q(status="complete")
+        ).aggregate(Sum("amount"))
+        order = Order.objects.order_by("-order_id")[:5]
 
-    return render(
-        request,
-        "index.html",
-        {
-            "store": store,
-            "order": order,
-            "countOrd": countAllOrd,
-            "countOrdWk": countOrdWk,
-            "countOrdM": countOrdM,
-            "income": income,
-            "countPickOrd": countPickOrd,
-            "countComOrd": countComOrd,
-            "date": date,
-        },
-    )
+        return render(
+            request,
+            "home.html",
+            {
+                "store": store,
+                "order": order,
+                "countOrd": countAllOrd,
+                "countOrdWk": countOrdWk,
+                "countOrdM": countOrdM,
+                "income": income,
+                "countPickOrd": countPickOrd,
+                "countComOrd": countComOrd,
+                "date": date,
+            },
+        )
+        
+    else:
+        return render(request, "index.html")
 
 
 def bestsellmenuday(request):
@@ -212,6 +215,20 @@ def bestsellmenumonth(request):
         }
     )
 
+
+def contact(request):
+    if request.user.is_authenticated:
+        store = get_object_or_404(Store, pk=1)
+        return render(request, "contact.html", {"store": store})
+    else:
+        return render(request, "contact_hf.html")
+
+def ability(request):
+    if request.user.is_authenticated:
+        store = get_object_or_404(Store, pk=1)
+        return render(request, "ability.html", {"store": store})
+    else:
+        return render(request, "ability_hf.html")
 
 @login_required
 def editProfile(request):
@@ -366,12 +383,13 @@ def editshop_update(request):
 def editcategory(request):
     store = get_object_or_404(Store, pk=1)
     category = Category.objects.get_queryset().order_by("category_id")
+    countCat = category.count()
     paginator = Paginator(category, 5)
     page = request.GET.get("page")
     cat = paginator.get_page(page)
     form = CategoryForm()
     return render(
-        request, "editcategory.html", {"category": cat, "store": store, "form": form}
+        request, "editcategory.html", {"category": cat, "store": store, "form": form, "countCat": countCat}
     )
 
 
@@ -451,9 +469,8 @@ def editcategory_delete(request, pk):
 @login_required
 def editingcategory(request):
     store = get_object_or_404(Store, pk=1)
-    category = Ingredient_Category.objects.get_queryset().order_by(
-        "ingredient_category_id"
-    )
+    category = Ingredient_Category.objects.get_queryset().order_by("ingredient_category_id")
+    countIngCat = category.count()
     paginator = Paginator(category, 5)
     page = request.GET.get("page")
     cat = paginator.get_page(page)
@@ -461,7 +478,7 @@ def editingcategory(request):
     return render(
         request,
         "editingcategory.html",
-        {"ingcategory": cat, "store": store, "form": form},
+        {"ingcategory": cat, "store": store, "form": form, "countIngCat": countIngCat},
     )
 
 
@@ -550,12 +567,13 @@ def editingcategory_delete(request, pk):
 def editsalesize(request):
     store = get_object_or_404(Store, pk=1)
     salesize = SaleSize.objects.get_queryset().order_by("salesize_id")
+    countSalesize = salesize.count()
     paginator = Paginator(salesize, 5)
     page = request.GET.get("page")
     ss = paginator.get_page(page)
     form = SalesizeForm()
     return render(
-        request, "editsalesize.html", {"salesize": ss, "store": store, "form": form}
+        request, "editsalesize.html", {"salesize": ss, "store": store, "form": form, "countSalesize": countSalesize}
     )
 
 
@@ -635,11 +653,12 @@ def editsalesize_delete(request, pk):
 @login_required
 def editmenu(request):
     menus = Menu.objects.get_queryset().order_by("menu_id")
+    countMenu = menus.count()
     store = get_object_or_404(Store, pk=1)
     paginator = Paginator(menus, 5)
     page = request.GET.get("page")
     menu = paginator.get_page(page)
-    return render(request, "editmenu.html", {"menu": menu, "store": store})
+    return render(request, "editmenu.html", {"menu": menu, "store": store, "countMenu": countMenu})
 
 
 @login_required
@@ -757,11 +776,12 @@ def editmenu_delete(request, pk):
 def editingredient(request):
     store = get_object_or_404(Store, pk=1)
     ingredient = Ingredient.objects.get_queryset().order_by("ingredient_id")
+    countIng = ingredient.count()
     paginator = Paginator(ingredient, 5)
     page = request.GET.get("page")
     ingredients = paginator.get_page(page)
     return render(
-        request, "editingredient.html", {"ingredients": ingredients, "store": store}
+        request, "editingredient.html", {"ingredients": ingredients, "store": store, "countIng": countIng}
     )
 
 

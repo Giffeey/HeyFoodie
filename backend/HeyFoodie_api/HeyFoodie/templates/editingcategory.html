@@ -2,14 +2,16 @@
 {% block content %}
     <div class="container">
         <div class="row justify-content-between">
-            <div class="col-6">
+            <div class="col-4">
                 <h4>จัดการหมวดหมู่ส่วนผสม</h4>
             </div>
-            <div class="col-4" style="margin-left: 160px;">
+            {% if countIngCat != 0 %}
+            <div class="col-3">
                 <a class="btn btn-outline-warning" type="submit" data-toggle="modal" data-target="#createModal"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg> เพิ่มหมวดหมู่ส่วนผสม </a>
             </div>
+            {% endif %}
         </div>
         <div>
           {% if messages %}
@@ -38,6 +40,12 @@
                       <div class="col-sm-5">ชื่อหมวดหมู่ส่วนผสม:</div>
                       <div class="col-sm-3">{{form.name}}</div>
                     </div>
+                    <div class="form-group row">
+                      <div class="col-sm-5"></div>
+                      <div class="col-sm-5">
+                          <small id="passwordHelpInline" class="text-muted">*ชื่อไม่ควรซ้ำกับชื่อหมวดหมู่ส่วนผสมที่มีอยู่แล้ว</small>
+                      </div>
+                  </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
@@ -48,14 +56,14 @@
           </div>
         </div>
 
-        {% if ingcategory != NULL %}
+        {% if countIngCat != 0 %}
 
             <div class="row head" style="margin-top: 30px;">
-                <div class="col-sm-4" style="text-align: center; margin-left: 160px">รายการหมวดหมู่ส่วนผสม</div>
+                <div class="col-sm-5" style="text-align: center; margin-left: 150px">รายการหมวดหมู่ส่วนผสม</div>
             </div>
 
                 {% for cat in ingcategory %}
-                <div class="card ingcategory" style="margin: 30px; width: 600px; margin-left: 200px;">
+                <div class="card ingcategory" style="margin: 30px; width: 600px; margin-left: 230px;">
                     <div class="row">
                         <div class="col-sm-5" style="text-align: center;">{{cat}}</div>
                         <div class="col-sm-1"></div>
@@ -80,6 +88,12 @@
                               <div class="col-sm-5">ชื่อหมวดหมู่ส่วนผสม:</div>
                               <div class="col-sm-3">{{form.name}}</div>
                             </div>
+                            <div class="form-group row">
+                              <div class="col-sm-5"></div>
+                              <div class="col-sm-5">
+                                  <small id="passwordHelpInline" class="text-muted">*ชื่อไม่ควรซ้ำกับชื่อหมวดหมู่ส่วนผสมที่มีอยู่แล้ว</small>
+                              </div>
+                          </div>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
@@ -155,9 +169,13 @@
         <div class="container">
           <div class="row justify-content-center align-items-center" style="height: 400px;">
               <div class="col text-center justify-content-center">
-              <div><img src="/media/Image/icon/sad.png" style="width: 100px; height: 100px;"/></div>
+              <div><h3 class="text-secondary">คุณยังไม่มีหมวดหมู่ส่วนผสม</h3></div>
               <br />
-              <div>ยังไม่มีข้อมูล กรุณาเพิ่มที่ปุ่มขวาบน</div>
+              <a class="btn btn-outline-warning" type="submit" data-toggle="modal" data-target="#createModal"> 
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg> เพิ่มหมวดหมู่ส่วนผสม 
+              </a>
               </div>
           </div>  
         </div>
