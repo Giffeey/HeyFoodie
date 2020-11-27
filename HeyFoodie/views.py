@@ -79,8 +79,6 @@ from rest_auth.registration.views import SocialLoginView
 import logging
 from rest_framework import status
 
-frontindex = never_cache(TemplateView.as_view(template_name='index.html'))
-
 def index(request):
     if request.user.is_authenticated:
         return redirect("home")
