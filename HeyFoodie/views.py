@@ -126,7 +126,7 @@ def home(request):
         )
         
     else:
-        return render(request, "index.html")
+        return render(request, "home_hf.html")
 
 
 def bestsellmenuday(request):

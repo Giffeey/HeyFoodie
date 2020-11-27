@@ -86,10 +86,7 @@ ROOT_URLCONF = "HeyFoodie_api.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(BASE_DIR, "HeyFoodie/templates"),
-            os.path.join(BASE_DIR, "public"),
-        ],
+        "DIRS": [os.path.join(BASE_DIR, "HeyFoodie/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
