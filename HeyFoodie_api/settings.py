@@ -62,10 +62,10 @@ REST_FRAMEWORK = {
 
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -81,6 +81,11 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
     "https://heyfoodie.herokuapp.com",
     "https://heypizza.herokuapp.com",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://heyfoodie.herokuapp.com",
+    "https://heypizza.herokuapp.com"
 ]
 
 ROOT_URLCONF = "HeyFoodie_api.urls"
