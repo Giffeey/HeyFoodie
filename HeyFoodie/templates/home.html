@@ -33,7 +33,8 @@
                 ธันวาคม
             {% endif %}
 
-            {{date.year}}</p>
+            {{date.year}}
+            {{time}}</p>
 
 
         <div class="row mb-3">
@@ -189,69 +190,10 @@
                         </div>
                         <!--/tabs content-->
                     </div><!--/card-->
-
-              
             </div>
         </div>
         
-
-
-     
         <p class="lead mt-5"></p>
-
-        <a id="features"></a>
-        <hr>
-        <p class="lead mt-5">
-            <b>รายการออเดอร์ล่าสุดของวันนี้</b>
-        </p>
-        <div class="row my-4 justify-content-center">
-            <div class="col-lg-9 col-md-8">
-                {% if countOrd != 0 %}
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead class="thead-inverse">
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Status</th>
-                                <th>Date & Time</th>
-                                <th>Customer</th>
-                            </tr>
-                        </thead>
-                        {% for order in order %}
-                        <tbody>
-                            <tr>
-                                <td>{{order.order_id}}</td>
-                                {% if order.order_status == "WAITING" %}
-                                <td>ออเดอร์เข้าใหม่</td>
-                                {% elif order.order_status == "COOKING" %}
-                                <td>กำลังปรุงอาหาร</td>
-                                {% elif order.order_status == "READYTOPICKUP" %}
-                                <td>รอส่งมอบอาหาร</td>
-                                {% elif order.order_status == "DONE" %}
-                                <td>ชำระเงินและรับสินค้าแล้ว</td>
-                                {% elif order.order_status == "CANCEL" %}
-                                <td>ยกเลิกออเดอร์</td>
-                                {% endif %}
-                                <td>{{order.date}}</td>
-                                <td>{{order.customer.firstname}} {{order.customer.lastname}}</td>
-                            </tr>
-                        </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
-                {% else %}
-                <div class="container">
-                    <div class="row justify-content-center align-items-center" style="height: 400px;">
-                        <div class="col text-center justify-content-center">
-                        <div><img src="/media/Image/icon/sad.png" style="width: 100px; height: 100px;"/></div>
-                        <br />
-                        <div>ยังไม่มีออเดอร์เข้ามาในวันนี้</div>
-                        </div>
-                    </div>  
-                </div>
-                {% endif %}
-            </div>
-        </div>
         <!--/row-->    
 
     <!--/main col-->

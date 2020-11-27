@@ -79,14 +79,17 @@ from rest_framework import status
 
 
 def index(request):
-    return render(request, "index.html")
+    if request.user.is_authenticated:
+        return render(request, "home.html")
+    else:
+        return render(request, "index.html")
 
 
 def home(request):
     if request.user.is_authenticated:
         store = get_object_or_404(Store, pk=1)
         date = datetime.now().date()
-
+        time = datetime.now().time()
         start_date = datetime(datetime.now().year, datetime.now().month, 1)
         end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(days=1)
 
@@ -104,14 +107,12 @@ def home(request):
         income = Payment.objects.filter(
             Q(purchase_date__gte=datetime.now().date()) & Q(status="complete")
         ).aggregate(Sum("amount"))
-        order = Order.objects.order_by("-order_id")[:5]
 
         return render(
             request,
             "home.html",
             {
                 "store": store,
-                "order": order,
                 "countOrd": countAllOrd,
                 "countOrdWk": countOrdWk,
                 "countOrdM": countOrdM,
@@ -119,6 +120,7 @@ def home(request):
                 "countPickOrd": countPickOrd,
                 "countComOrd": countComOrd,
                 "date": date,
+                "time": time,
             },
         )
         
@@ -215,6 +217,23 @@ def bestsellmenumonth(request):
         }
     )
 
+@login_required
+def history(request):
+    store = get_object_or_404(Store, pk=1)
+    order = Order.objects.get_queryset().order_by("-order_id")
+    countOrd = order.count()
+    paginator = Paginator(order, 10)
+    page = request.GET.get("page")
+    orders = paginator.get_page(page)
+    return render(
+        request,
+        "history.html",
+        {
+            "orders": orders,
+            "countOrd": countOrd,
+            "store": store,
+        },
+    )
 
 def contact(request):
     if request.user.is_authenticated:

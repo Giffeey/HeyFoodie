@@ -26,6 +26,12 @@
                 </div>
             </div>
             <div class="order row"  style="margin-top: 10px;">
+              <div class="col"></div>
+              <div class="col">
+              {{order.customer}}
+              </div>
+          </div>
+            <div class="order row"  style="margin-top: 10px;">
                 <div class="status col">
                     {% if order.order_status == 'WAITING' %}
                     <span id="new" style="color: #007AFF;">NEW ORDER</span>

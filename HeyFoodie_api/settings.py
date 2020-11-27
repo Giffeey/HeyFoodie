@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "tempus_dominus",
     "multiselectfield",
     "corsheaders",
-    # "django_heroku",
+    "django_heroku",
     "HeyFoodie",
 ]
 
@@ -173,18 +173,6 @@ SITE_ID = 1
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": [
-            "profile",
-            "email",
-        ],
-        "AUTH_PARAMS": {
-            "access_type": "online",
-        },
-    }
-}
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -205,5 +193,5 @@ import dj_database_url
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
-# import django_heroku
-# django_heroku.settings(locals())
+import django_heroku
+django_heroku.settings(locals())

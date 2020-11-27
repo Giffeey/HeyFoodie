@@ -31,6 +31,8 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('contact/', views.contact, name='contact'),
     path('ability/', views.ability, name='ability'),
+
+    path('history/', views.history, name='history'),
     path('editprofile/', views.editProfile, name='editprofile'),
     path('editprofile/update/', views.editProfile_update, name='editprofile_update'),
     url(r'^password/$', views.change_password, name='change_password'),
