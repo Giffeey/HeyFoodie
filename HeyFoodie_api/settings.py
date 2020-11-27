@@ -79,8 +79,8 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost:8000",
     "http://localhost:8080",
-    "https://heyfoodie.herokuapp.com/",
-    "https://heypizza.herokuapp.com/",
+    "https://heyfoodie.herokuapp.com",
+    "https://heypizza.herokuapp.com",
 ]
 
 ROOT_URLCONF = "HeyFoodie_api.urls"
