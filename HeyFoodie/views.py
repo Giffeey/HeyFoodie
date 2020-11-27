@@ -13,6 +13,8 @@ from rest_framework.response import Response
 from datetime import datetime, timedelta
 from decimal import Decimal
 from django.core import serializers
+from django.views.decorators.cache import never_cache
+from django.views.generic import TemplateView
 
 from rest_framework import generics, permissions, viewsets
 from .serializers import (
@@ -77,12 +79,13 @@ from rest_auth.registration.views import SocialLoginView
 import logging
 from rest_framework import status
 
+frontindex = never_cache(TemplateView.as_view(template_name='index.html'))
 
 def index(request):
     if request.user.is_authenticated:
-        return render(request, "home.html")
+        return redirect("home")
     else:
-        return render(request, "index.html")
+        return render(request, "home_hf.html")
 
 
 def home(request):
@@ -1136,3 +1139,5 @@ class FacebookLogin(SocialLoginView):
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
+
+
