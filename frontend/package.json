@@ -57,5 +57,6 @@
   "engines": {
     "node": "12.16.0",
     "yarn": "1.22.5"
-  }
+  },
+  "proxy": "https://heyfoodie.herokuapp.com"
 }
