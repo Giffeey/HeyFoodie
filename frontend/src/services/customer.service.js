@@ -2,11 +2,11 @@ import http from "../http-common"
 
 class customerDataService{
     getAll() {
-        return http.get("/customer");
+        return http.get("/api/customer");
     }
 
     get(id) {
-        return http.get(`/customer/${id}`);
+        return http.get(`/api/customer/${id}`);
     }
 
     create(data) {

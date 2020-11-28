@@ -59,5 +59,12 @@
     "node": "12.16.0",
     "yarn": "1.22.5"
   },
-  "proxy": "https://heyfoodie.herokuapp.com"
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8000",
+      "pathRewrite": {
+        "^/api": "/"
+      }
+    }
+  }
 }
