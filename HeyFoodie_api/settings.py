@@ -89,7 +89,7 @@ CORS_ORIGIN_WHITELIST = [
 #     "https://heypizza.herokuapp.com"
 # ]
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "HeyFoodie_api.urls"
 
