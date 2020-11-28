@@ -58,7 +58,5 @@
   "engines": {
     "node": "12.16.0",
     "yarn": "1.22.5"
-  },
-  "homepage": "https://heypizza.herokuapp.com",
-  "proxy": "https://heyfoodie.herokuapp.com"
+  }
 }
