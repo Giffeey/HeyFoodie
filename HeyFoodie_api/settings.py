@@ -25,7 +25,7 @@ SECRET_KEY = "v)u0(e)0$6cd7f1-p!owdu@o75y*g@=x(0pbsayrz&wi$$_otf"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://heypizza.herokuapp.com', 'https://heyfoodie.herokuapp.com', '.localhost']
 
 
 # Application definition
@@ -82,29 +82,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
     "https://heyfoodie.herokuapp.com",
     "https://heypizza.herokuapp.com",
-]
-
-CORS_URLS_REGEX = r'^/api/.*$'
-
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
-
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
 ]
 
 # CORS_ALLOWED_ORIGINS = [
