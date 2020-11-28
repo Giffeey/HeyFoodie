@@ -74,6 +74,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
@@ -83,10 +84,12 @@ CORS_ORIGIN_WHITELIST = [
     "https://heypizza.herokuapp.com",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://heyfoodie.herokuapp.com",
-    "https://heypizza.herokuapp.com"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://heyfoodie.herokuapp.com",
+#     "https://heypizza.herokuapp.com"
+# ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "HeyFoodie_api.urls"
 
@@ -177,8 +180,6 @@ LOGIN_REDIRECT_URL = "/home/"
 LOGOUT_REDIRECT_URL = "/accounts/login"
 
 SITE_ID = 1
-
-CORS_ORIGIN_ALLOW_ALL = True
 
 LOGGING = {
     "version": 1,
