@@ -94,8 +94,12 @@ def home(request):
         start_date = datetime(datetime.now().year, datetime.now().month, 1)
         end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(days=1)
 
+        date_week = datetime.today() - timedelta(days=datetime.today().weekday())
+        start_week = datetime(date_week.year, date_week.month, date_week.day)
+
         countOrd = Order.objects.filter(date__gte=datetime.now().date())
-        countOrdWk = Order.objects.filter(date__gte=datetime.today() - timedelta(days=datetime.today().weekday())).count()
+        countOrdWk = Order.objects.filter(date__gte=start_week).count()
+
         countOrdM = Order.objects.filter(date__range=(start_date, end_date)).count()
         countAllOrd = countOrd.filter(
             Q(order_status="COOKING")
@@ -162,7 +166,10 @@ def bestsellmenuweek(request):
     date = datetime.today()
     start_week = date - timedelta(date.weekday())
     end_week = start_week + timedelta(7)
-   
+    
+    s_week = datetime(start_week.year, start_week.month, start_week.day)
+    e_week = datetime(end_week.year, end_week.month, end_week.day)
+    
     queryset = (
         Order_detail.objects.values("menu__name")
         .annotate(count_menu=Count("menu"))
@@ -170,7 +177,7 @@ def bestsellmenuweek(request):
     )
 
     queryset = queryset.filter(
-        order__in=Order.objects.filter(date__range=[start_week, end_week]).filter(
+        order__in=Order.objects.filter(date__range=[s_week, e_week]).filter(
             ~Q(order_status="CANCEL")
         )
     )
