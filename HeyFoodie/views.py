@@ -78,6 +78,7 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
 import logging
 from rest_framework import status
+import calendar
 
 def index(request):
     if request.user.is_authenticated:
@@ -91,9 +92,12 @@ def home(request):
         store = get_object_or_404(Store, pk=1)
         date = datetime.now().date()
         time = datetime.now().time()
-        start_date = datetime(datetime.now().year, datetime.now().month, 1)
-        end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(days=1)
 
+        e_date = calendar.monthrange(datetime.now().year, datetime.now().month)[1]
+
+        start_date = datetime(datetime.now().year, datetime.now().month, 1)
+        end_date = datetime(datetime.now().year, datetime.now().month, e_date) + timedelta(days=1)
+        
         date_week = datetime.today() - timedelta(days=datetime.today().weekday())
         start_week = datetime(date_week.year, date_week.month, date_week.day)
 
@@ -198,10 +202,10 @@ def bestsellmenumonth(request):
     labels = []
     data = []
 
+    e_date = calendar.monthrange(datetime.now().year, datetime.now().month)[1]
+
     start_date = datetime(datetime.now().year, datetime.now().month, 1)
-    end_date = datetime(datetime.now().year, datetime.now().month + 1, 1) - timedelta(
-        days=1
-    )
+    end_date = datetime(datetime.now().year, datetime.now().month, e_date) + timedelta(days=1)
 
     queryset = (
         Order_detail.objects.values("menu__name")
@@ -316,7 +320,7 @@ def order(request):
     countOrdNow = orderToday.filter(
         ~Q(order_status="DONE") & ~Q(order_status="CANCEL")
     ).count()
-    print(countOrdNow)
+
     order = orderToday.filter(
         Q(order_status="COOKING")
         | Q(order_status="WAITING")
