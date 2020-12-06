@@ -38,7 +38,7 @@
         {% for menu in menu %}
             <div class="card menu" style="margin: 30px;">
                 <div class="row">
-                    <div class="menu_pic col-sm-2" style="text-align: center;"><img src="https://heyfoodiebk.s3.amazonaws.com/{{menu.image}}}" width="80px" height="50px"></div>
+                    <div class="menu_pic col-sm-2" style="text-align: center;"><img src="https://heyfoodiebk.s3.amazonaws.com/{{menu.image}}" width="80px" height="50px"></div>
                     <div class="name col-sm-2" style="text-align: center;">{{menu.name}}</div>
                     <div class="salesize col-sm-3" style="text-align: center;">
                       {% for tag in menu.salesize.all %}
