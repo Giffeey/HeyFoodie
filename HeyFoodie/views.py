@@ -918,10 +918,20 @@ def editingredient_delete(request, pk):
 @login_required
 def createIngredient(request):
     if request.method == "POST":
-        form = IngredientForm(request.POST)
+        form = IngredientForm(request.POST, request.FILES)
         if form.is_valid():
-            form.cleaned_data
-            form.save()
+            ingredient_name = form.cleaned_data.get("ingredient_name")
+            Ingredient_category = form.cleaned_data.get("Ingredient_category")
+            img = form.cleaned_data.get("image")
+            if not img:
+                img = "Image/defaultmenu.jpg"
+
+            obj = Ingredient.objects.create(
+                ingredient_name=ingredient_name,
+                Ingredient_category=Ingredient_category,
+                image=img,
+            )
+            obj.save()
             return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
         else:
             messages.error(request, "อาจมีการกรอกข้อมูลซ้ำ กรุณากรอกข้อมูลให้ถูกต้อง")
